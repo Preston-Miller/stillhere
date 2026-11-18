@@ -116,7 +116,21 @@ def unverified_numbers(answer,sources):
   if missing:flags.append({'line':i,'numbers':missing})
  return flags
 
+# Only this app's own page may talk to the server. The Host check stops DNS rebinding (a website whose name
+# re-points to 127.0.0.1 and then reads everything); the Origin check stops other sites' pages from sending
+# writes (delete a model, start a download) even though they can't read the answer.
+LOCAL_HOSTS={f'127.0.0.1:{PORT}',f'localhost:{PORT}'}
+LOCAL_ORIGINS={'http://'+h for h in LOCAL_HOSTS}
+
 class Handler(BaseHTTPRequestHandler):
+ def refused(self,write):
+  origin=self.headers.get('Origin')
+  ok=self.headers.get('Host','').lower() in LOCAL_HOSTS and (origin is None or origin in LOCAL_ORIGINS)
+  if ok and write and origin is None and self.headers.get('Sec-Fetch-Site') not in (None,'same-origin','none'):ok=False
+  if ok:return False
+  self.close_connection=True   # don't read an upload body from a refused request
+  self.send(403,{'error':'forbidden'});return True
+
  def log_message(self,fmt,*args):sys.stderr.write('  '+fmt%args+'\n')
 
  def send(self,code,body,ctype='application/json'):
@@ -149,6 +163,7 @@ class Handler(BaseHTTPRequestHandler):
   except (BrokenPipeError,ConnectionResetError):pass   # player skipped ahead or closed
 
  def do_GET(self):
+  if self.refused(False):return
   path=unquote(urlparse(self.path).path)
   if path=='/':path='/index.html'
   if path=='/api/health':
@@ -207,6 +222,7 @@ class Handler(BaseHTTPRequestHandler):
   self.send(404,{'error':'not found'})
 
  def do_PUT(self):
+  if self.refused(True):return
   path=urlparse(self.path).path
   if path=='/api/pins':
    try:pins=clean_pins(json.loads(self.rfile.read(int(self.headers.get('Content-Length',0)))))
@@ -229,6 +245,7 @@ class Handler(BaseHTTPRequestHandler):
   self.send(200,{'ok':True})
 
  def do_DELETE(self):
+  if self.refused(True):return
   path=urlparse(self.path).path
   m=STATE.match(path)
   if m and not m.group(2):MAPS.remove(m.group(1));return self.send(200,{'ok':True})
@@ -257,6 +274,7 @@ class Handler(BaseHTTPRequestHandler):
    traceback.print_exc();emit({'type':'error','message':f'Could not add {name}: '+(str(e) if isinstance(e,(RuntimeError,OSError)) else type(e).__name__)})
 
  def do_POST(self):
+  if self.refused(True):return
   m=STATE.match(urlparse(self.path).path)
   if m and m.group(2):MAPS.install(m.group(1));return self.send(202,{'ok':True})
   if urlparse(self.path).path in ('/api/setup/start','/api/models/use','/api/models/remove'):

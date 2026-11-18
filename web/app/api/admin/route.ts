@@ -16,6 +16,9 @@ function authorized(request: NextRequest): boolean {
   return a.length === b.length && timingSafeEqual(a, b);
 }
 
+// Quote every field, and defuse cells that Excel/Sheets would run as a formula (=, +, -, @, tab, CR).
+const csvCell = (v: string) => `"${(/^[=+\-@\t\r]/.test(v) ? "'" + v : v).replace(/"/g, '""')}"`;
+
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 
 export async function GET(request: NextRequest) {
@@ -29,7 +32,7 @@ export async function GET(request: NextRequest) {
   const [signups, clicks] = await Promise.all([getSignups(), getClicks()]);
 
   if (request.nextUrl.searchParams.get("format") === "csv") {
-    const csv = ["email,joined,source", ...signups.map((r) => `${r.email},${r.joined},${r.source}`)].join("\n");
+    const csv = ["email,joined,source", ...signups.map((r) => [r.email, r.joined, r.source].map(csvCell).join(","))].join("\n");
     return new Response(csv, {
       headers: {
         "Content-Type": "text/csv; charset=utf-8",

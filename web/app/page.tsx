@@ -78,10 +78,7 @@ function PriceLine({ dark = false, left = false }: { dark?: boolean; left?: bool
       className={`space-y-1 text-sm ${left ? "text-center md:text-left" : "text-center"} ${dark ? "text-bg/80" : "text-muted"}`}
     >
       <p>
-        <span className={`font-semibold ${dark ? "text-bg" : "text-fg"}`}>{PRICE_DISPLAY}</span> · One-time purchase ·{" "}
-        <a href="#requirements" className="underline decoration-dotted underline-offset-4 hover:opacity-80">
-          For Mac
-        </a>{" "}
+        <span className={`font-semibold ${dark ? "text-bg" : "text-fg"}`}>{PRICE_DISPLAY}</span> · One-time purchase {" "}
         · 30-day money-back guarantee
       </p>
     </div>
@@ -151,7 +148,7 @@ export default function Home() {
                 </span>
               </h1>
               <p className="mt-4 flex items-center gap-2.5 font-brand text-2xl font-light tracking-[0.12em] sm:gap-3 sm:text-3xl">
-                AI. Maps. Even offline.
+                Answers. Even offline.
                 <NoWifiIcon className="h-[0.95em] w-auto shrink-0" />
               </p>
               <div className="mt-8 flex flex-col items-center gap-4 md:items-start">

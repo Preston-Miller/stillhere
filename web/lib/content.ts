@@ -1,6 +1,6 @@
 // Product copy. Edit here, not in the page.
 
-export const PRICE_DISPLAY = "$49.99"; // must match the Stripe Price (STRIPE_PRICE_ID)
+export const PRICE_DISPLAY = "$19.99"; // must match the Stripe Price (STRIPE_PRICE_ID)
 
 // Shown in the footer, install help and download page. Also set it in Stripe → Settings → Public details.
 export const SUPPORT_EMAIL = "stillhere.ai.help@gmail.com";
