@@ -15,13 +15,13 @@ export const HERO_POINTS = [
 export const COMPATIBILITY: { name: string; items: string[] }[] = [
   {
     name: "Mac",
-    items: ["Apple Silicon (M1 or newer)", "macOS 14 Sonoma or later", "16 GB memory", "About 15 GB free space"],
+    items: ["Apple Silicon (M1 or newer)", "macOS 14 Sonoma or later", "8 GB memory (16 GB recommended)", "About 15 GB free space"],
   },
   {
     name: "Windows",
     items: [
       "Windows 10 or 11, 64-bit",
-      "16 GB memory",
+      "8 GB memory (16 GB recommended)",
       "NVIDIA graphics card recommended (without one, answers take a few minutes)",
       "About 15 GB free space",
     ],
@@ -29,7 +29,7 @@ export const COMPATIBILITY: { name: string; items: string[] }[] = [
 ];
 // One-line version for the Checkout page and FAQ.
 export const REQUIREMENTS_SHORT =
-  "a Mac with Apple Silicon (M1 or newer) and macOS 14 or later, or a 64-bit Windows 10 or 11 PC; 16 GB of memory either way";
+  "a Mac with Apple Silicon (M1 or newer) and macOS 14 or later, or a 64-bit Windows 10 or 11 PC; at least 8 GB of memory (16 GB recommended)";
 
 // Questions the library answers. Since 2026-11-17 the library is only the CDC, FEMA, FDA, NWS, USFA and NPS
 // sources in ../reference-sources/library-keep.json; check a question against those before adding it here.
@@ -90,7 +90,7 @@ export const REVIEW_TOPICS: string[] = [];
 
 export const INCLUDED = [
   "The stillhere app for Mac or Windows",
-  "Its AI model, downloaded once when you first open it (about 7 GB)",
+  "Its AI model, downloaded once when you first open it (3 to 7 GB, sized to your computer)",
   "The saved library of emergency and survival guides",
   "Offline street maps for any U.S. states you choose, at no extra cost",
   "Help by email",
@@ -104,11 +104,11 @@ export const FAQ: [string, string][] = [
   ],
   [
     "Will it run on my computer?",
-    "On a Mac: Apple Silicon (M1 or newer), macOS 14 Sonoma or later, and at least 16 GB of memory. On Windows: a 64-bit Windows 10 or 11 PC with at least 16 GB of memory. A Windows PC with an NVIDIA graphics card answers in seconds; without one, answers take a few minutes. Linux isn't supported yet. Plan on about 15 GB of free space: the app and its AI take about 8 GB, and offline maps add more depending on which states you pick (about 0.3 GB for a state like Utah, more for big states).",
+    "On a Mac: Apple Silicon (M1 or newer), macOS 14 Sonoma or later, and at least 8 GB of memory. On Windows: a 64-bit Windows 10 or 11 PC with at least 8 GB of memory. With 8 GB it uses a smaller AI; 16 GB or more runs the larger one, which gives better answers. A Windows PC with an NVIDIA graphics card answers in seconds; without one, answers take a few minutes. Linux isn't supported yet. Plan on about 15 GB of free space: the app and its AI take 4 to 8 GB, and offline maps add more depending on which states you pick (about 0.3 GB for a state like Utah, more for big states).",
   ],
   [
     "How long does setup take?",
-    "The first time you open it, it downloads its AI, about 7 GB. That's roughly 10 to 15 minutes on a fast home connection and about an hour on a slow one, plus any map states you add. Do it while you have internet. After that it works with no connection.",
+    "The first time you open it, it downloads its AI, 3 to 7 GB depending on your computer. That's roughly 5 to 15 minutes on a fast home connection and about an hour on a slow one, plus any map states you add. Do it while you have internet. After that it works with no connection.",
   ],
   [
     "Where do the answers come from?",

@@ -152,7 +152,7 @@ export default function InstallPage() {
           </p>
           <p>
             <Key>Requirements:</Key> a Mac with Apple silicon (M1 or newer) and macOS 14 or later, or a 64-bit
-            Windows 10 or 11 PC. Either way, 16 GB of memory and about 15 GB of free space.
+            Windows 10 or 11 PC. Either way, at least 8 GB of memory (16 GB recommended) and about 15 GB of free space.
           </p>
         </div>
       </main>
