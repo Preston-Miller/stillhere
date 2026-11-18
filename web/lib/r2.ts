@@ -23,9 +23,17 @@ function r2(): S3Client {
   return client;
 }
 
-/** Short-lived signed URL for the product bundle. */
-export async function signedDownloadUrl(expiresInSeconds = 60 * 60): Promise<string> {
-  const key = required("R2_OBJECT_KEY");
+export type Platform = "mac" | "windows";
+
+/** The installer's key in the bucket. R2_OBJECT_KEY is the Mac DMG; the Windows installer sits next to it. */
+function objectKey(platform: Platform): string {
+  if (platform === "windows") return process.env.R2_OBJECT_KEY_WINDOWS || "releases/Stillhere-Setup-0.1.0.exe";
+  return required("R2_OBJECT_KEY");
+}
+
+/** Short-lived signed URL for the installer. */
+export async function signedDownloadUrl(platform: Platform = "mac", expiresInSeconds = 60 * 60): Promise<string> {
+  const key = objectKey(platform);
   const filename = key.split("/").pop() ?? "Stillhere.dmg";
   const cmd = new GetObjectCommand({
     Bucket: required("R2_BUCKET"),

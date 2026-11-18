@@ -67,8 +67,8 @@ function ThumbMaps() {
 }
 
 const HERO_THREE = [
-  { title: "AI", body: "Ask questions in plain words. It runs on your Mac, with no cloud or account.", href: "#features", Thumb: ThumbAI },
-  { title: "Emergency guides", body: "CDC, FEMA and other public guides, saved on your Mac with sources.", href: "#guides", Thumb: ThumbGuides },
+  { title: "AI", body: "Ask questions in plain words. It runs on your computer, with no cloud or account.", href: "#features", Thumb: ThumbAI },
+  { title: "Emergency guides", body: "CDC, FEMA and other public guides, saved on your computer with sources.", href: "#guides", Thumb: ThumbGuides },
   { title: "Maps", body: "Street maps for any U.S. state you pick. Search them with no signal.", href: "#features", Thumb: ThumbMaps },
 ];
 
@@ -149,7 +149,6 @@ export default function Home() {
               </h1>
               <p className="mt-4 flex items-center gap-2.5 font-brand text-2xl font-light tracking-[0.12em] sm:gap-3 sm:text-3xl">
                 Answers. Even offline.
-                <NoWifiIcon className="h-[0.95em] w-auto shrink-0" />
               </p>
               <div className="mt-8 flex flex-col items-center gap-4 md:items-start">
                 <BuyButton>Get stillhere</BuyButton>
@@ -205,7 +204,7 @@ export default function Home() {
               Everything works offline.
             </SectionTitle>
             <div className="grid divide-y divide-line border-y border-line md:grid-cols-3 md:divide-x md:divide-y-0">
-              <Feature title="AI" tagline="Ask in plain words." stat="On your Mac" caption="no cloud, no account">
+              <Feature title="AI" tagline="Ask in plain words." stat="On your computer" caption="no cloud, no account">
                 <div className="space-y-3 p-4 text-sm">
                   <p className="font-mono text-xs text-muted">
                     <span className="text-amber">&gt;</span> can i drink rainwater off my roof?
@@ -259,7 +258,7 @@ export default function Home() {
         {/* Topic cards */}
         <section id="guides" className="scroll-mt-4 border-t border-line">
           <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-            <SectionTitle sub="Answers come from guides saved on your Mac, with a link to the source. It can still be wrong, so check it.">
+            <SectionTitle sub="Answers come from guides saved on your computer, with a link to the source. It can still be wrong, so check it.">
               What it can help with
             </SectionTitle>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -314,17 +313,24 @@ export default function Home() {
               ))}
             </ul>
             <div id="requirements" className="mt-10 scroll-mt-4 rounded-xl border border-line bg-panel p-5">
-              <h3 className="font-brand text-lg font-semibold">What your Mac needs</h3>
-              <ul className="mt-3 grid gap-x-8 gap-y-2 text-sm text-fg/85 sm:grid-cols-2">
-                {COMPATIBILITY.map((c) => (
-                  <li key={c} className="flex gap-2">
-                    <span className="text-muted" aria-hidden>
-                      •
-                    </span>
-                    {c}
-                  </li>
+              <h3 className="font-brand text-lg font-semibold">What your computer needs</h3>
+              <div className="mt-3 grid gap-x-8 gap-y-4 text-sm text-fg/85 sm:grid-cols-2">
+                {COMPATIBILITY.map((os) => (
+                  <div key={os.name}>
+                    <p className="label mb-2">{os.name}</p>
+                    <ul className="space-y-2">
+                      {os.items.map((c) => (
+                        <li key={c} className="flex gap-2">
+                          <span className="text-muted" aria-hidden>
+                            •
+                          </span>
+                          {c}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
           </div>
         </section>

@@ -11,14 +11,25 @@ export const HERO_POINTS = [
   { text: "Offline, searchable maps", href: "#maps" },
 ];
 
-// Shown next to every price button.
-export const COMPATIBILITY = [
-  "Mac with Apple Silicon (M1 or newer)",
-  "macOS 14 Sonoma or later",
-  "16 GB memory",
-  "About 15 GB free space",
-  "Not yet on Windows or Linux",
+// "What your computer needs" on the homepage. Keep in sync with the FAQ, /install and the Checkout text.
+export const COMPATIBILITY: { name: string; items: string[] }[] = [
+  {
+    name: "Mac",
+    items: ["Apple Silicon (M1 or newer)", "macOS 14 Sonoma or later", "16 GB memory", "About 15 GB free space"],
+  },
+  {
+    name: "Windows",
+    items: [
+      "Windows 10 or 11, 64-bit",
+      "16 GB memory",
+      "NVIDIA graphics card recommended (without one, answers take a few minutes)",
+      "About 15 GB free space",
+    ],
+  },
 ];
+// One-line version for the Checkout page and FAQ.
+export const REQUIREMENTS_SHORT =
+  "a Mac with Apple Silicon (M1 or newer) and macOS 14 or later, or a 64-bit Windows 10 or 11 PC; 16 GB of memory either way";
 
 // Questions the library answers. Since 2026-11-17 the library is only the CDC, FEMA, FDA, NWS, USFA and NPS
 // sources in ../reference-sources/library-keep.json; check a question against those before adding it here.
@@ -78,7 +89,7 @@ export const TOPIC_CARDS: { title: string; blurb: string; examples: string[] }[]
 export const REVIEW_TOPICS: string[] = [];
 
 export const INCLUDED = [
-  "The stillhere app for your Mac",
+  "The stillhere app for Mac or Windows",
   "Its AI model, downloaded once when you first open it (about 7 GB)",
   "The saved library of emergency and survival guides",
   "Offline street maps for any U.S. states you choose, at no extra cost",
@@ -89,11 +100,11 @@ export const INCLUDED = [
 export const FAQ: [string, string][] = [
   [
     "Does it really work with no internet?",
-    "Yes, once it's set up. The AI, the guides and your maps are all saved on your Mac, so it works with no Wi-Fi or cell signal. It still needs power: it runs as long as your laptop has battery or you have backup power.",
+    "Yes, once it's set up. The AI, the guides and your maps are all saved on your computer, so it works with no Wi-Fi or cell signal. It still needs power: it runs as long as your laptop has battery or you have backup power.",
   ],
   [
     "Will it run on my computer?",
-    "It needs a Mac with Apple Silicon (M1 or newer), macOS 14 Sonoma or later, and at least 16 GB of memory. Windows and Linux aren't supported yet. Plan on about 15 GB of free space: the app and its AI take about 8 GB, and offline maps add more depending on which states you pick (about 0.3 GB for a state like Utah, more for big states).",
+    "On a Mac: Apple Silicon (M1 or newer), macOS 14 Sonoma or later, and at least 16 GB of memory. On Windows: a 64-bit Windows 10 or 11 PC with at least 16 GB of memory. A Windows PC with an NVIDIA graphics card answers in seconds; without one, answers take a few minutes. Linux isn't supported yet. Plan on about 15 GB of free space: the app and its AI take about 8 GB, and offline maps add more depending on which states you pick (about 0.3 GB for a state like Utah, more for big states).",
   ],
   [
     "How long does setup take?",
@@ -101,7 +112,7 @@ export const FAQ: [string, string][] = [
   ],
   [
     "Where do the answers come from?",
-    "It searches a library of public emergency and survival guides saved on your Mac, such as CDC and FEMA material, and shows which guide each part of the answer came from. Anything it adds from its own training is marked separately, so you can tell the difference.",
+    "It searches a library of public emergency and survival guides saved on your computer, such as CDC and FEMA material, and shows which guide each part of the answer came from. Anything it adds from its own training is marked separately, so you can tell the difference.",
   ],
   [
     "Can it be wrong?",
@@ -109,7 +120,7 @@ export const FAQ: [string, string][] = [
   ],
   [
     "What about updates and refunds?",
-    "Updates to stillhere are free: download the newest version from your purchase page any time. If it isn't right for you, email us within 30 days of buying and we'll refund you in full, no questions asked. Please still check the requirements above first: a Mac with Apple Silicon (M1 or newer), macOS 14 or later, and 16 GB of memory.",
+    "Updates to stillhere are free: download the newest version from your purchase page any time. If it isn't right for you, email us within 30 days of buying and we'll refund you in full, no questions asked. Please still check the requirements above first.",
   ],
   [
     "Can it replace a doctor?",

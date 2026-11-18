@@ -1,4 +1,5 @@
 import { siteUrl, stripe } from "@/lib/stripe";
+import { REQUIREMENTS_SHORT } from "@/lib/content";
 
 export async function POST() {
   const price = process.env.STRIPE_PRICE_ID;
@@ -16,7 +17,7 @@ export async function POST() {
       custom_text: {
         submit: {
           message:
-            "stillhere needs a Mac with Apple Silicon (M1 or newer), macOS 14 or later, and 16 GB of memory. Not happy with it? Email us within 30 days for a full refund.",
+            `stillhere needs ${REQUIREMENTS_SHORT}. Not happy with it? Email us within 30 days for a full refund.`,
         },
       },
       customer_creation: "always",

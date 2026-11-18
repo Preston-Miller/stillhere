@@ -7,7 +7,8 @@ export async function GET(request: NextRequest) {
   if (!session) return new Response("No paid purchase found for this link.", { status: 403 });
 
   try {
-    const url = await signedDownloadUrl();
+    const platform = request.nextUrl.searchParams.get("os") === "windows" ? "windows" : "mac";
+    const url = await signedDownloadUrl(platform);
     return new Response(null, {
       status: 302,
       headers: { Location: url, "Cache-Control": "no-store" },
