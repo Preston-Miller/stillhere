@@ -46,6 +46,11 @@ if (-not (Test-Path $Zip)) {
 }
 Expand-Archive -Force $Zip "$App\ollama"
 if (-not (Test-Path "$App\ollama\ollama.exe")) { throw "ollama.exe missing from the Ollama download" }
+# Ollama ships two NVIDIA builds (~1.1 GB + ~0.9 GB). Keep CUDA 12 only: it covers older cards and older drivers too
+# (CUDA 13 needs a 2025+ driver and drops pre-Turing cards). Ollama falls back to CUDA 12 on its own.
+if ((Test-Path "$App\ollama\lib\ollama\cuda_v12") -and (Test-Path "$App\ollama\lib\ollama\cuda_v13")) {
+  Remove-Item -Recurse -Force "$App\ollama\lib\ollama\cuda_v13"
+}
 Write-Host "  Ollama folder sizes (MB):"
 Get-ChildItem "$App\ollama\lib\ollama" -Directory -ErrorAction SilentlyContinue | ForEach-Object {
   $mb = [math]::Round((Get-ChildItem $_.FullName -Recurse -File | Measure-Object Length -Sum).Sum / 1MB)

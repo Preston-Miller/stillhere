@@ -67,6 +67,12 @@ def gpu_vram_gb():
   except (OSError,ValueError,subprocess.SubprocessError):_vram.append(0)
  return _vram[0]
 
+def cpu_only():
+ """True when the AI has no graphics card to run on (a Windows PC without NVIDIA). Answers then use a shorter
+ prompt, because reading the excerpts is most of the wait on a processor. STILLHERE_LIGHT=1 forces it for testing."""
+ if os.environ.get('STILLHERE_LIGHT')=='1':return True
+ return gpu_vram_gb()==0
+
 def recommended(ram,vram=None):
  """The tier to suggest. Large only when there's plenty to spare, since it's much slower.
  On Windows the graphics card decides: without an NVIDIA card the AI runs on the processor, where only Small is quick."""

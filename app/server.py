@@ -296,14 +296,16 @@ class Handler(BaseHTTPRequestHandler):
   def emit(obj):self.wfile.write((json.dumps(obj)+'\n').encode());self.wfile.flush()
   c=None
   try:
-   hits=LIB.search(retrieval_query(messages))
+   light=models.cpu_only()
+   # No graphics card: half the excerpts, and only the top one widened to its full page. Roughly halves the wait.
+   hits=LIB.search(retrieval_query(messages),limit=4,widen=1) if light else LIB.search(retrieval_query(messages))
    sources=[{'n':i,'id':h['id'],'kind':h['kind'],'title':h['title'],'path':h['path'],'page':h['page'],'url':h['url'],'text':h['text'],'cosine':h['cosine'],'year':h.get('year'),'dated':h.get('dated'),'mine':h['path'].startswith(USER_PREFIX)} for i,h in enumerate(hits,1)]
    emit({'type':'sources','sources':sources})
    evidence='\n\n'.join(f"[{s['n']}] {s['title']}"+(f", page {s['page']}" if s['page'] else '')+dated(s)+(" (a document the user added)" if s['mine'] else '')+'\n'+s['text'] for s in sources)
    system=SYSTEM+'\n\nLIBRARY EXCERPTS:\n\n'+(evidence or NO_SOURCES)
    history=[{'role':m['role'],'content':strip_citations(m['content']) if m['role']=='assistant' else m['content']} for m in messages]
    payload={'model':models.current(),'messages':[{'role':'system','content':system}]+history,'stream':True,'think':False,
-            'options':{'temperature':0.3,'presence_penalty':0,'repeat_penalty':1,'num_ctx':16384,'num_predict':1200}}
+            'options':{'temperature':0.3,'presence_penalty':0,'repeat_penalty':1,'num_ctx':8192 if light else 16384,'num_predict':1200}}
    c=http.client.HTTPConnection(*OLLAMA,timeout=600)
    c.request('POST','/api/chat',json.dumps(payload),{'Content-Type':'application/json'})
    r=c.getresponse()
