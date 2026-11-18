@@ -224,6 +224,19 @@ button{font:inherit;cursor:pointer}
 .setupbtns button{border-radius:999px;padding:10px 20px;font-size:15px;font-weight:600;border:1px solid var(--line);background:none;color:var(--ink)}
 .setupbtns button.primary{background:var(--ink);color:var(--panel);border-color:var(--ink)}
 .setupbtns .err{color:var(--warn)}
+.setuppick{display:grid;gap:10px;margin:20px 0 4px;text-align:left}
+.tier{display:block;width:100%;text-align:left;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--panel);color:var(--ink);font:inherit;cursor:pointer}
+.tier:hover{border-color:var(--muted)}
+.tier.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.tierhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.tierhead b{font-size:16px}
+.tiersize{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.tierblurb{display:block;font-size:14px;color:var(--muted);margin-top:3px}
+.tiermeta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px;color:var(--muted);margin-top:7px}
+.tiermeta .err{color:var(--warn)}
+.tiertag{border-radius:999px;padding:1px 8px;background:var(--doc-bg);color:var(--doc);font-weight:600}
+.setupbtns button:disabled{opacity:.5;cursor:default}
+.side-foot.status{cursor:pointer}.side-foot.status:hover{color:var(--ink)}
 .dlgwrap{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.4);animation:fadein .12s ease-out}
 .dlg{width:min(420px,100%);background:var(--panel);color:var(--ink);border-radius:14px;padding:20px 20px 16px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
 .dlg h2{font-size:16px;margin:0 0 6px;font-weight:600}
@@ -357,7 +370,7 @@ button{font:inherit;cursor:pointer}
  <button class="navitem" data-view="videos"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="4" width="15" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 7.5v5l4-2.5z" fill="currentColor"/></svg>Videos</button>
  <div class="side-label">Chats <span class="hint">saved on this computer</span></div>
  <div class="hlist" id="historyList"></div>
- <div class="side-foot status"><span class="dot" id="dot"></span><span id="statusText">checking…</span></div>
+ <div class="side-foot status" id="statusBtn" role="button" tabindex="0" title="Change the AI model"><span class="dot" id="dot"></span><span id="statusText">checking…</span></div>
 </aside>
 <div class="side-scrim" data-side></div>
 <div class="app">
@@ -472,6 +485,7 @@ button{font:inherit;cursor:pointer}
   <div class="setuplogo"><svg class="logo" viewBox="0 0 330 165" aria-hidden="true"><path d="M18 138 L165 20 L312 138" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/><circle cx="165" cy="128" r="36" fill="#f4a12c"/></svg></div>
   <h2 id="setupTitle">Welcome to Stillhere</h2>
   <p id="setupText"></p>
+  <div class="setuppick" id="setupPick" hidden></div>
   <div class="setupbar" id="setupBar" hidden><i id="setupFill"></i></div>
   <p class="setupnum" id="setupNum"></p>
   <div class="setupbtns" id="setupBtns"></div>
@@ -995,16 +1009,51 @@ $('#addVideos').onchange=e=>{addVideos(e.target.files);e.target.value=''};
  v.addEventListener('dragleave',()=>{if(--depth<=0){depth=0;cover.hidden=true}});
  v.addEventListener('drop',e=>{e.preventDefault();depth=0;cover.hidden=true;addVideos(e.dataTransfer.files)});}
 
-// ---- First run: download the AI before anything else works ----
+// ---- AI setup: pick a model size and download it (first run), or switch sizes later (click the status line) ----
 const gbs=b=>(b/1e9).toFixed(1)+' GB';
-let setupTimer=0,setupRate=null;
+const EMBED='qwen3-embedding:0.6b',EMBED_BYTES=639e6;
+let setupTimer=0,setupRate=null,setupMode='first',pick=null,lastSetup=null;
+function tierBytes(st,t){return (t.installed?0:t.bytes)+(st.missing.includes(EMBED)?EMBED_BYTES:0)}
+function paintPicker(st){
+ const box=$('#setupPick');box.hidden=false;
+ if(!pick||!st.tiers.some(t=>t.id===pick))pick=(st.tiers.find(t=>t.current&&(st.chosen||t.installed))||{}).id||st.recommended;
+ box.innerHTML=st.tiers.map(t=>{
+  const low=st.ram_gb&&st.ram_gb<t.ram_gb;
+  const tags=[];
+  if(t.current&&t.installed)tags.push('In use');
+  if(t.id===st.recommended)tags.push('Recommended for this computer');
+  return `<button class="tier${t.id===pick?' on':''}" data-tier="${t.id}" aria-pressed="${t.id===pick}">`+
+   `<span class="tierhead"><b>${esc(t.name)}</b><span class="tiersize">${t.installed?'Downloaded':gbs(t.bytes)}</span></span>`+
+   `<span class="tierblurb">${esc(t.blurb)}</span>`+
+   `<span class="tiermeta">${low?`<span class="err">Needs ${t.ram_gb} GB of memory. This computer has ${st.ram_gb} GB.</span>`:`Needs ${t.ram_gb} GB of memory or more.`}`+
+   tags.map(x=>`<span class="tiertag">${x}</span>`).join('')+`</span></button>`;
+ }).join('');
+ box.querySelectorAll('.tier').forEach(b=>b.onclick=()=>{pick=b.dataset.tier;paintSetup(lastSetup)});
+ const t=st.tiers.find(x=>x.id===pick),btns=$('#setupBtns');
+ if(setupMode==='first'){
+  btns.innerHTML=`<button class="primary" id="setupGo">Download ${esc(t.name)} (${gbs(tierBytes(st,t))})</button>`;
+  $('#setupGo').onclick=()=>startSetup(pick);return;
+ }
+ let main;
+ if(t.current&&t.installed)main=`<button class="primary" disabled>In use</button>`;
+ else if(t.installed)main=`<button class="primary" id="setupUse">Use ${esc(t.name)}</button>`;
+ else main=`<button class="primary" id="setupGo">Download ${esc(t.name)} (${gbs(tierBytes(st,t))})</button>`;
+ btns.innerHTML=`<button id="setupClose">Close</button>`+(t.installed&&!t.current?`<button id="setupRemove">Remove</button>`:'')+main;
+ $('#setupClose').onclick=closeSetup;
+ if($('#setupGo'))$('#setupGo').onclick=()=>startSetup(pick);
+ if($('#setupUse'))$('#setupUse').onclick=()=>modelAction('use',pick);
+ if($('#setupRemove'))$('#setupRemove').onclick=()=>{if(confirm(`Remove the ${t.name} AI from this computer? That frees ${gbs(t.bytes)}. You can download it again later.`))modelAction('remove',pick)};
+}
 function paintSetup(st){
- const box=$('#setup'),btns=$('#setupBtns'),bar=$('#setupBar');
+ lastSetup=st;
+ const btns=$('#setupBtns'),bar=$('#setupBar');
  const say=(title,text,num='')=>{$('#setupTitle').textContent=title;$('#setupText').textContent=text;$('#setupNum').textContent=num};
- bar.hidden=true;btns.innerHTML='';
+ bar.hidden=true;btns.innerHTML='';$('#setupPick').hidden=true;
+ const closeBtn=()=>{if(setupMode==='switch'){btns.insertAdjacentHTML('afterbegin','<button id="setupClose">Close</button>');$('#setupClose').onclick=closeSetup}};
+ const name=m=>(st.tiers.find(t=>t.model===m)||{}).name||'the AI';
  if(!st.ollama){
-  say("Stillhere's AI isn't running","Quit Stillhere and open it again. If this keeps happening, restart your Mac.");
-  btns.innerHTML='<button class="primary" id="setupRetry">Check again</button>';$('#setupRetry').onclick=checkSetup;return;
+  say("Stillhere's AI isn't running","Quit Stillhere and open it again. If this keeps happening, restart your computer.");
+  btns.innerHTML='<button class="primary" id="setupRetry">Check again</button>';$('#setupRetry').onclick=checkSetup;closeBtn();return;
  }
  if(st.state==='running'){
   bar.hidden=false;const pct=st.total?Math.min(100,100*st.done/st.total):0;$('#setupFill').style.width=pct.toFixed(1)+'%';
@@ -1014,20 +1063,34 @@ function paintSetup(st){
   setupRate={done:st.done,t:now,speed:setupRate?.speed};
   const left=setupRate.speed?(st.total-st.done)/setupRate.speed:null;
   const eta=left==null?'':left<90?' · less than 2 minutes left':` · about ${Math.round(left/60)} minutes left`;
-  say('Downloading the AI…','Keep Stillhere open and stay connected. You only do this once.',st.done?`${gbs(st.done)} of ${gbs(st.total)}${eta}`:'Starting…');
-  return;
+  const num=st.done?`${gbs(st.done)} of ${gbs(st.total)}${eta}`:'Starting…';
+  if(setupMode==='switch')say(`Downloading ${name(st.target)}…`,'Keep using Stillhere while it downloads. It switches over when it’s done.',num);
+  else say('Downloading the AI…','Keep Stillhere open and stay connected. You only do this once.',num);
+  closeBtn();return;
  }
  if(st.state==='error'){
   say('The download stopped',st.error||'Check your internet connection and try again.','Nothing is lost: it picks up where it left off.');
-  btns.innerHTML='<button class="primary" id="setupGo">Try again</button>';$('#setupGo').onclick=startSetup;return;
+  btns.innerHTML='<button class="primary" id="setupGo">Try again</button>';
+  $('#setupGo').onclick=()=>startSetup((st.tiers.find(t=>t.model===st.target)||{}).id);closeBtn();return;
  }
- say('Welcome to Stillhere',`One-time setup: Stillhere downloads its AI (about ${gbs(st.need_bytes)}) so it can answer questions with no internet afterward. That takes about 10–15 minutes on a fast connection, longer on a slow one.`);
- btns.innerHTML='<button class="primary" id="setupGo">Download the AI</button>';$('#setupGo').onclick=startSetup;
+ if(setupMode==='switch'&&st.state==='done'&&setupRate){
+  say(`Now using ${name(st.chat_model)}`,'Your next question uses the new AI. Everything still works with no internet.');
+  btns.innerHTML='<button class="primary" id="setupClose">Done</button>';$('#setupClose').onclick=closeSetup;return;
+ }
+ if(setupMode==='switch')say('AI model','Bigger models give more careful answers but are slower and need more memory. Every size works with no internet.');
+ else say('Welcome to Stillhere','Pick the AI to download. It runs on this computer, so it answers with no internet afterward. You can change it later.');
+ paintPicker(st);
 }
 async function checkSetup(){
  clearTimeout(setupTimer);
  const st=await fetch('/api/setup').then(r=>r.json()).catch(()=>null);
  if(!st){setupTimer=setTimeout(checkSetup,2000);return}
+ if(setupMode==='switch'){
+  paintSetup(st);
+  if(st.state==='running')setupTimer=setTimeout(checkSetup,1000);
+  else refreshHealth();
+  return;
+ }
  if(st.ready){
   // "You're set" only after this session downloaded something; if the AI was just slow to answer, close quietly.
   if(!$('#setup').hidden){if(setupRate||st.state==='done')setupDone();else $('#setup').hidden=true}
@@ -1037,11 +1100,29 @@ async function checkSetup(){
  $('#setup').hidden=false;paintSetup(st);
  if(st.state==='running'||!st.ollama)setupTimer=setTimeout(checkSetup,st.ollama?1000:3000);
 }
-async function startSetup(){setupRate=null;await fetch('/api/setup/start',{method:'POST'}).catch(()=>{});checkSetup()}
+async function startSetup(tier){
+ setupRate=null;
+ await fetch('/api/setup/start',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(tier?{tier}:{})}).catch(()=>{});
+ checkSetup();
+}
+async function modelAction(kind,tier){
+ const r=await fetch('/api/models/'+kind,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({tier})}).catch(()=>null);
+ if(!r){alert("Stillhere's AI isn't responding. Try again in a moment.");return}
+ const d=await r.json().catch(()=>({}));
+ if(!r.ok){alert(d.error||'That didn’t work. Try again.');return}
+ paintSetup(d);refreshHealth();
+}
+function openModels(){
+ if(!lastSetup?.ready&&!$('#setup').hidden)return;   // first-run setup is already showing
+ setupMode='switch';setupRate=null;pick=null;$('#setup').hidden=false;checkSetup();
+}
+function closeSetup(){$('#setup').hidden=true;setupMode='first';clearTimeout(setupTimer);refreshHealth()}
+$('#statusBtn').onclick=openModels;
+$('#statusBtn').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openModels()}};
 function setupDone(){
  $('#setupTitle').textContent="You're set";
  $('#setupText').textContent='Stillhere now works with no internet. While you still have a connection, you can also download offline maps for your state.';
- $('#setupNum').textContent='';$('#setupBar').hidden=true;
+ $('#setupNum').textContent='';$('#setupBar').hidden=true;$('#setupPick').hidden=true;
  $('#setupBtns').innerHTML='<button id="setupMaps">Add offline maps</button><button class="primary" id="setupStart">Start asking</button>';
  $('#setupStart').onclick=()=>{$('#setup').hidden=true;$('#input').focus();fetch('/api/health').then(r=>r.json()).then(paintHealth).catch(()=>{})};
  $('#setupMaps').onclick=()=>{$('#setup').hidden=true;showView('map');setTimeout(()=>$('#regionsBtn')?.click(),300)};
@@ -1090,7 +1171,7 @@ checkSetup();
 function paintHealth(h){
  const ok=h.ollama&&h.chat_model_installed;
  $('#dot').className='dot '+(ok?'ok':'bad');
- $('#statusText').textContent=ok?`${h.chat_model} · offline · ${h.chunks.toLocaleString()} passages`:(h.ollama?'AI not downloaded yet':'AI engine not running');
+ $('#statusText').textContent=ok?`${h.chat_name?h.chat_name+' AI':h.chat_model} · offline · ${h.chunks.toLocaleString()} passages`:(h.ollama?'AI not downloaded yet':'AI engine not running');
 }
 function refreshHealth(){
  fetch('/api/health').then(r=>r.json()).then(paintHealth).catch(()=>{$('#dot').className='dot bad';$('#statusText').textContent='server unreachable'});

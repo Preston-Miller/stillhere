@@ -8,7 +8,7 @@ from pathlib import Path
 
 from paths import RESOURCES as ROOT,LIBRARY_DB as DB,OLLAMA   # ROOT: where knowledge/ and reference-sources/ live
 EMBED_MODEL='qwen3-embedding:0.6b'
-CHAT_MODEL='qwen3.5:9b'
+# The chat model is a buyer's choice: see models.py.
 QUERY_TEMPLATE='Instruct: Given a question from someone preparing for or dealing with an emergency, retrieve passages from survival and emergency manuals that help answer it\nQuery: {q}'
 # Folders the viewer may serve files from. Nothing outside these is reachable over HTTP.
 SERVABLE=['knowledge','reference-sources','offgrid-guides']

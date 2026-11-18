@@ -8,7 +8,7 @@ from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import urlparse,unquote,parse_qs
 sys.path.insert(0,str(Path(__file__).resolve().parent))
-from library import ROOT,SERVABLE,OLLAMA,CHAT_MODEL,Library
+from library import ROOT,SERVABLE,OLLAMA,Library
 from maps import MapStore,MAPS_SOURCE
 mimetypes.add_type('text/javascript','.mjs');mimetypes.add_type('application/x-protobuf','.pbf')
 
@@ -17,7 +17,7 @@ STATIC=Path(__file__).resolve().parent/'static'
 PORT=int(sys.argv[1]) if len(sys.argv)>1 else 8765
 LIB=Library()
 from userdocs import UserDocs,ImportError_,PREFIX as USER_PREFIX
-import videos,firstrun
+import videos,firstrun,models
 USERDOCS=UserDocs(LIB)
 
 def categories():
@@ -155,8 +155,9 @@ class Handler(BaseHTTPRequestHandler):
    try:
     c=http.client.HTTPConnection(*OLLAMA,timeout=3);c.request('GET','/api/tags');tags=json.loads(c.getresponse().read());c.close()
     names=[m['name'] for m in tags.get('models',[])]
-    return self.send(200,{'ollama':True,'chat_model':CHAT_MODEL,'chat_model_installed':CHAT_MODEL in names,'chunks':len(LIB.chunks)})
-   except OSError:return self.send(200,{'ollama':False,'chat_model':CHAT_MODEL,'chunks':len(LIB.chunks)})
+    chat=models.current()
+    return self.send(200,{'ollama':True,'chat_model':chat,'chat_name':models.BY_MODEL.get(chat,{}).get('name'),'chat_model_installed':firstrun.has(set(names),chat),'chunks':len(LIB.chunks)})
+   except OSError:return self.send(200,{'ollama':False,'chat_model':models.current(),'chunks':len(LIB.chunks)})
   m=TILE.match(path)
   if m:
    data,gz=MAPS.tile(*map(int,m.groups()))
@@ -258,7 +259,20 @@ class Handler(BaseHTTPRequestHandler):
  def do_POST(self):
   m=STATE.match(urlparse(self.path).path)
   if m and m.group(2):MAPS.install(m.group(1));return self.send(202,{'ok':True})
-  if urlparse(self.path).path=='/api/setup/start':firstrun.start();return self.send(200,firstrun.status())
+  if urlparse(self.path).path in ('/api/setup/start','/api/models/use','/api/models/remove'):
+   try:body=json.loads(self.rfile.read(int(self.headers.get('Content-Length') or 0)) or b'{}')
+   except ValueError:return self.send(400,{'error':'bad request'})
+   tier=body.get('tier') if isinstance(body,dict) else None
+   if tier is not None and tier not in models.BY_ID:return self.send(400,{'error':'unknown model size'})
+   p=urlparse(self.path).path
+   if p=='/api/setup/start':firstrun.start(tier);return self.send(200,firstrun.status())
+   if not tier:return self.send(400,{'error':'pick a model size'})
+   if p=='/api/models/use':
+    if not firstrun.use(tier):return self.send(409,{'error':'That model isn\'t downloaded yet.'})
+    return self.send(200,firstrun.status())
+   try:firstrun.remove(tier)
+   except (RuntimeError,OSError) as e:return self.send(409,{'error':str(e) if isinstance(e,RuntimeError) else 'The AI engine isn\'t running.'})
+   return self.send(200,firstrun.status())
   if urlparse(self.path).path=='/api/library':return self.add_document()
   if urlparse(self.path).path=='/api/videos':
    try:n=int(self.headers.get('Content-Length',0))
@@ -288,7 +302,7 @@ class Handler(BaseHTTPRequestHandler):
    evidence='\n\n'.join(f"[{s['n']}] {s['title']}"+(f", page {s['page']}" if s['page'] else '')+dated(s)+(" (a document the user added)" if s['mine'] else '')+'\n'+s['text'] for s in sources)
    system=SYSTEM+'\n\nLIBRARY EXCERPTS:\n\n'+(evidence or NO_SOURCES)
    history=[{'role':m['role'],'content':strip_citations(m['content']) if m['role']=='assistant' else m['content']} for m in messages]
-   payload={'model':CHAT_MODEL,'messages':[{'role':'system','content':system}]+history,'stream':True,'think':False,
+   payload={'model':models.current(),'messages':[{'role':'system','content':system}]+history,'stream':True,'think':False,
             'options':{'temperature':0.3,'presence_penalty':0,'repeat_penalty':1,'num_ctx':16384,'num_predict':1200}}
    c=http.client.HTTPConnection(*OLLAMA,timeout=600)
    c.request('POST','/api/chat',json.dumps(payload),{'Content-Type':'application/json'})
@@ -330,5 +344,5 @@ def watch_parent(parent,ollama_pid):
 if __name__=='__main__':
  if os.environ.get('STILLHERE_PARENT_PID'):
   watch_parent(int(os.environ['STILLHERE_PARENT_PID']),int(os.environ.get('STILLHERE_OLLAMA_PID') or 0))
- print(f'Stillhere on http://127.0.0.1:{PORT}  ({len(LIB.chunks)} library chunks, model {CHAT_MODEL})',flush=True)
+ print(f'Stillhere on http://127.0.0.1:{PORT}  ({len(LIB.chunks)} library chunks, model {models.current()})',flush=True)
  ThreadingHTTPServer(('127.0.0.1',PORT),Handler).serve_forever()
