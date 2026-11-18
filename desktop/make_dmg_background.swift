@@ -1,6 +1,6 @@
 // Draws the installer window background: an arrow from the app icon to the Applications folder, with one line of text.
 // usage: swift make_dmg_background.swift <out-dir>   → background.png (640x400) and background@2x.png
-// Icon centers must match the positions build.sh gives Finder: Stillhere at (170, 190), Applications at (470, 190).
+// Icon centers must match the positions build.sh gives Finder: stillhere.app at (170, 190), Applications at (470, 190).
 import Cocoa
 
 let out = URL(fileURLWithPath: CommandLine.arguments[1])
@@ -36,7 +36,7 @@ func draw(scale: CGFloat) -> Data {
             .paragraphStyle: p]
         NSAttributedString(string: s, attributes: attrs).draw(in: NSRect(x: 0, y: y(top) - size * 1.4, width: W, height: size * 1.6))
     }
-    text("Drag Stillhere into Applications", size: 17, weight: .semibold, alpha: 0.85, top: 300)
+    text("Drag stillhere into Applications", size: 17, weight: .semibold, alpha: 0.85, top: 300)
     text("Then open it from your Applications folder.", size: 13, weight: .regular, alpha: 0.55, top: 328)
 
     NSGraphicsContext.restoreGraphicsState()

@@ -20,7 +20,7 @@ export function BuyButton({
         type="submit"
         className={`inline-flex items-center justify-center rounded-md px-6 py-3 text-base font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber ${colors} ${className}`}
       >
-        {children ?? "Get Stillhere"}
+        {children ?? "Get stillhere"}
       </button>
     </form>
   );
@@ -52,7 +52,7 @@ export function Nav() {
   return (
     <header className="border-b border-line">
       <div className="flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="text-2xl" aria-label="Stillhere home">
+        <Link href="/" className="text-2xl" aria-label="stillhere home">
           <Logo />
         </Link>
         <nav className="flex shrink-0 items-center gap-4 whitespace-nowrap text-sm sm:gap-5">
@@ -76,7 +76,7 @@ export function Footer() {
     <footer className="border-t border-line">
       <div className="mx-auto max-w-4xl px-4 py-10 text-sm text-muted sm:px-6">
         <p>
-          Stillhere is not a doctor and doesn&apos;t replace one. If you can call for help, do that first.
+          stillhere is not a doctor and doesn&apos;t replace one. If you can call for help, do that first.
         </p>
         <p className="mt-3">
           Questions or trouble installing?{" "}

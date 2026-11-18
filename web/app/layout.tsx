@@ -14,31 +14,31 @@ const brand = Outfit({ variable: "--font-brand", subsets: ["latin"], weight: ["3
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.stillhereoffline.com"),
-  title: "Stillhere: AI. Maps. Even offline.",
+  title: "stillhere: AI. Maps. Even offline.",
   description:
     "AI, emergency guides and offline maps that run on your Mac, so they keep working without internet.",
   openGraph: {
     type: "website",
     url: "/",
-    siteName: "Stillhere",
-    title: "Stillhere — AI. Maps. Even offline.",
+    siteName: "stillhere",
+    title: "stillhere — AI. Maps. Even offline.",
     description:
       "An AI assistant on your Mac, with built-in emergency guides and searchable offline maps. No internet required after setup.",
     images: [{
       url: "/social-preview-v5.png",
       width: 1200,
       height: 630,
-      alt: "Stillhere: AI. Maps. Even offline. Emergency guides and offline maps on your Mac, with utility workers repairing power lines at night.",
+      alt: "stillhere: AI. Maps. Even offline. Emergency guides and offline maps on your Mac, with utility workers repairing power lines at night.",
     }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Stillhere — AI. Maps. Even offline.",
+    title: "stillhere — AI. Maps. Even offline.",
     description:
       "An AI assistant on your Mac, with built-in emergency guides and searchable offline maps. No internet required after setup.",
     images: [{
       url: "/social-preview-v5.png",
-      alt: "Stillhere: AI. Maps. Even offline. Emergency guides and offline maps on your Mac.",
+      alt: "stillhere: AI. Maps. Even offline. Emergency guides and offline maps on your Mac.",
     }],
   },
 };

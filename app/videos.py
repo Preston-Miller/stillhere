@@ -39,7 +39,7 @@ def add(name,length,stream):
  if length>MAX_BYTES:raise VideoError(f'{name} is larger than {MAX_BYTES//1024**3} GB.')
  DIR.mkdir(parents=True,exist_ok=True)
  free=shutil.disk_usage(DIR).free
- if length>free-2*1024**3:raise VideoError(f'Not enough free space on this Mac for {name}.')
+ if length>free-2*1024**3:raise VideoError(f'Not enough free space on this computer for {name}.')
  vid=time.strftime('%Y%m%d%H%M%S')+'-'+uuid.uuid4().hex[:6]
  safe=re.sub(r'[^\w.\- ()]+','_',name)[:120]
  folder=DIR/vid;folder.mkdir();part=folder/(safe+'.part')

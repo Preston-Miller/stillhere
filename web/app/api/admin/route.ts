@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
   if (!authorized(request)) {
     return new Response("Login required", {
       status: 401,
-      headers: { "WWW-Authenticate": 'Basic realm="Stillhere admin"', "Cache-Control": "no-store" },
+      headers: { "WWW-Authenticate": 'Basic realm="stillhere admin"', "Cache-Control": "no-store" },
     });
   }
 
@@ -42,11 +42,11 @@ export async function GET(request: NextRequest) {
   const totalClicks = Object.values(clicks).reduce((a, b) => a + b, 0);
   const rate = totalClicks ? `${Math.round((signups.length / totalClicks) * 100)}%` : "–";
   const html = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Stillhere waitlist</title>
+<title>stillhere waitlist</title>
 <style>body{font:16px/1.5 system-ui,sans-serif;background:#0c0e0b;color:#ebe8dc;max-width:720px;margin:40px auto;padding:0 16px}
 .n{font-size:40px;font-weight:700;color:#e3a72a}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
 .c{border:1px solid #2a2f24;padding:16px}a{color:#e3a72a}td{padding:4px 12px 4px 0;border-bottom:1px solid #2a2f24}small{color:#9b9a8a}</style></head><body>
-<h1>Stillhere waitlist</h1>
+<h1>stillhere waitlist</h1>
 <div class="grid"><div class="c"><div class="n">${totalClicks}</div><small>price clicks</small></div>
 <div class="c"><div class="n">${signups.length}</div><small>signups</small></div>
 <div class="c"><div class="n">${rate}</div><small>clicked → signed up</small></div></div>

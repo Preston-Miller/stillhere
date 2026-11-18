@@ -1,4 +1,4 @@
-// Stillhere logo: a roof over a light that's still on. Redrawn from the brand image as SVG.
+// stillhere logo: a roof over a light that's still on. Redrawn from the brand image as SVG.
 export const LOGO_CREAM = "#f6eedc";
 export const LOGO_ORANGE = "#f4a12c";
 

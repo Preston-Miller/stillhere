@@ -41,7 +41,7 @@ def status():
  tiers=[{**t,'installed':names is not None and has(names,t['model']),'current':t['model']==chat} for t in models.TIERS]
  return {'ollama':names is not None,'models':have or {},'ready':bool(have) and all(have.values()),
          'missing':missing,'need_bytes':sum(size(m) for m in missing),**job,'done':done,'total':total,
-         'chat_model':chat,'chosen':models.chosen() is not None,'tiers':tiers,'ram_gb':ram,'recommended':models.recommended(ram)}
+         'chat_model':chat,'chosen':models.chosen() is not None,'tiers':tiers,'ram_gb':ram,'recommended':models.recommended(ram,models.gpu_vram_gb())}
 
 def start(tier=None):
  """Download what's missing. With a tier id, download that model (and switch to it once it's in)."""
@@ -58,7 +58,7 @@ def start(tier=None):
 def _run(target):
  try:
   names=installed_names()
-  if names is None:raise RuntimeError("The AI engine isn't running. Quit Stillhere and open it again.")
+  if names is None:raise RuntimeError("The AI engine isn't running. Quit stillhere and open it again.")
   for m in [EMBED_MODEL,target]:   # small one first, so search works as early as possible
    if has(names,m):continue
    with _lock:_job['model']=m
@@ -79,7 +79,7 @@ def use(tier):
 def remove(tier):
  """Delete a downloaded model that isn't in use, to free disk space."""
  m=models.BY_ID[tier]['model']
- if m==models.current():raise RuntimeError("That's the model Stillhere is using. Switch to another one first.")
+ if m==models.current():raise RuntimeError("That's the model stillhere is using. Switch to another one first.")
  with _lock:
   if _job['state']=='running' and _job['target']==m:raise RuntimeError('That model is still downloading.')
  c=http.client.HTTPConnection(*OLLAMA,timeout=60)

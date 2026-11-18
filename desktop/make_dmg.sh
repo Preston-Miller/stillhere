@@ -1,14 +1,14 @@
 #!/bin/zsh
-# Packages build/Stillhere.app into build/Stillhere-<version>.dmg with a laid-out installer window:
+# Packages build/stillhere.app into build/Stillhere-<version>.dmg with a laid-out installer window:
 # fixed size, large icons, the app on the left, Applications on the right, and an arrow background.
 # The layout is written by Finder itself (AppleScript), so the first run may ask to allow controlling Finder.
 # usage: make_dmg.sh <version>     (run from desktop/; build.sh calls it)
 set -euo pipefail
 VERSION="$1"
-APP=build/Stillhere.app
-DMG="build/Stillhere-$VERSION.dmg"
+APP=build/stillhere.app
+DMG="build/Stillhere-$VERSION.dmg"   # file name stays: it is the R2 object key the website sends buyers
 RW=build/Stillhere-rw.dmg
-VOL="Stillhere"
+VOL="stillhere"
 
 # Background (1x + 2x in one TIFF so it's sharp on Retina screens).
 if [[ ! -f build/dmg-bg/background.tiff || make_dmg_background.swift -nt build/dmg-bg/background.tiff ]]; then
@@ -24,7 +24,7 @@ SIZE_MB=$(( $(du -sm "$APP" | cut -f1) + 40 ))
 hdiutil create -quiet -size ${SIZE_MB}m -fs HFS+ -volname "$VOL" -ov "$RW"
 MOUNT=$(hdiutil attach -readwrite -noverify -noautoopen "$RW" | awk -F'\t' '/\/Volumes\//{print $NF}')
 
-ditto "$APP" "$MOUNT/Stillhere.app"
+ditto "$APP" "$MOUNT/stillhere.app"
 ln -s /Applications "$MOUNT/Applications"
 mkdir "$MOUNT/.background"
 cp build/dmg-bg/background.tiff "$MOUNT/.background/background.tiff"
@@ -45,7 +45,7 @@ tell application "Finder"
     set icon size of opts to 128
     set text size of opts to 13
     set background picture of opts to file ".background:background.tiff"
-    set position of item "Stillhere.app" of container window to {170, 190}
+    set position of item "stillhere.app" of container window to {170, 190}
     set position of item "Applications" of container window to {470, 190}
     close
     open

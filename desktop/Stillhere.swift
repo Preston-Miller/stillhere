@@ -17,7 +17,8 @@
 import Cocoa
 import WebKit
 
-let appName = "Stillhere"
+let appName = "Stillhere"   // data folder name in Application Support; keep it so updates find existing data
+let displayName = "stillhere"   // the name people see (window, menus, messages)
 let serverPreferredPort: UInt16 = 47821   // fixed when free, so the page origin (and its saved settings) stays the same
 let ollamaPreferredPort: UInt16 = 47831
 
@@ -210,23 +211,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
     func applicationDidFinishLaunching(_ note: Notification) {
         buildMenu()
         buildWindow()
-        web.loadHTMLString(notice("Starting Stillhere…", "Getting the AI ready. This can take up to half a minute."), baseURL: nil)
+        web.loadHTMLString(notice("Starting stillhere…", "Getting the AI ready. This can take up to half a minute."), baseURL: nil)
 
         guard let layout = Layout.detect() else {
-            return fail("Stillhere is damaged", "Part of the app is missing. Download Stillhere again and replace this copy.")
+            return fail("stillhere is damaged", "Part of the app is missing. Download stillhere again and replace this copy.")
         }
         do { try FileManager.default.createDirectory(at: Layout.support, withIntermediateDirectories: true) }
-        catch { return fail("Stillhere can't save its data", "Your Mac didn't allow creating a folder in Application Support.") }
+        catch { return fail("stillhere can't save its data", "Your Mac didn't allow creating a folder in Application Support.") }
         helpers.reapStale()
         ollamaPort = pickPort(ollamaPreferredPort)
         serverPort = pickPort(serverPreferredPort, avoiding: [ollamaPort])
         do {
             try helpers.start(layout, serverPort: serverPort, ollamaPort: ollamaPort) { [weak self] status in
                 guard let self, !self.quitting else { return }
-                self.fail("Stillhere stopped unexpectedly", "Quit Stillhere and open it again. If it keeps happening, the details are in the logs folder inside ~/Library/Application Support/Stillhere.")
+                self.fail("stillhere stopped unexpectedly", "Quit stillhere and open it again. If it keeps happening, the details are in the logs folder inside ~/Library/Application Support/Stillhere.")
             }
         } catch {
-            return fail("Stillhere couldn't start", error.localizedDescription)
+            return fail("stillhere couldn't start", error.localizedDescription)
         }
         waitForOllama(until: Date().addingTimeInterval(45))
     }
@@ -260,7 +261,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
                 } else if Date() < deadline {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { self.waitForServer(until: deadline) }
                 } else {
-                    self.fail("Stillhere is taking too long to start", "Quit Stillhere and open it again.")
+                    self.fail("stillhere is taking too long to start", "Quit stillhere and open it again.")
                 }
             }
         }.resume()
@@ -304,7 +305,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
         window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 1240, height: 820),
                           styleMask: [.titled, .closable, .miniaturizable, .resizable],
                           backing: .buffered, defer: false)
-        window.title = appName
+        window.title = displayName
         window.minSize = NSSize(width: 720, height: 520)
         window.backgroundColor = web.underPageBackgroundColor
         window.contentView = web
@@ -386,14 +387,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
             let top = NSMenuItem(); let m = NSMenu(title: title); top.submenu = m; main.addItem(top); return m
         }
 
-        let app = sub(appName)
-        item(app, "About \(appName)", #selector(NSApplication.orderFrontStandardAboutPanel(_:)), "")
+        let app = sub(displayName)
+        item(app, "About \(displayName)", #selector(NSApplication.orderFrontStandardAboutPanel(_:)), "")
         app.addItem(.separator())
-        item(app, "Hide \(appName)", #selector(NSApplication.hide(_:)), "h")
+        item(app, "Hide \(displayName)", #selector(NSApplication.hide(_:)), "h")
         item(app, "Hide Others", #selector(NSApplication.hideOtherApplications(_:)), "h", [.command, .option])
         item(app, "Show All", #selector(NSApplication.unhideAllApplications(_:)), "")
         app.addItem(.separator())
-        item(app, "Quit \(appName)", #selector(NSApplication.terminate(_:)), "q")
+        item(app, "Quit \(displayName)", #selector(NSApplication.terminate(_:)), "q")
 
         let edit = sub("Edit")
         item(edit, "Undo", Selector(("undo:")), "z")
@@ -420,7 +421,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
         NSApp.windowsMenu = win
 
         let help = sub("Help")
-        item(help, "Show Stillhere's Data Folder", #selector(openDataFolder), "", target: self)
+        item(help, "Show stillhere's Data Folder", #selector(openDataFolder), "", target: self)
 
         NSApp.mainMenu = main
     }

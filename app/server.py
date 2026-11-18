@@ -71,7 +71,7 @@ def list_chats():
   except (OSError,ValueError):continue
  return sorted(out,key=lambda c:-c['updated'])
 
-SYSTEM='''You are Stillhere, an offline assistant for emergencies, preparedness and self-reliance. You have a library of reference documents (government and field manuals). Excerpts relevant to the question appear below, numbered [1], [2], and so on.
+SYSTEM='''You are stillhere, an offline assistant for emergencies, preparedness and self-reliance. You have a library of reference documents (government and field manuals). Excerpts relevant to the question appear below, numbered [1], [2], and so on.
 
 How to answer:
 - Write the answer in two parts, in this order:
@@ -327,8 +327,10 @@ class Handler(BaseHTTPRequestHandler):
    if c:c.close()
 
 def watch_parent(parent,ollama_pid):
- """In the Mac app: if the app dies without shutting us down (crash, force quit), exit and take its Ollama with us."""
+ """In the Mac app: if the app dies without shutting us down (crash, force quit), exit and take its Ollama with us.
+ Not used on Windows, where the launcher runs this server in its own process (and os.kill(pid,0) would kill the parent)."""
  import signal,threading
+ if sys.platform=='win32':return
  def loop():
   while True:
    time.sleep(2)
@@ -344,5 +346,5 @@ def watch_parent(parent,ollama_pid):
 if __name__=='__main__':
  if os.environ.get('STILLHERE_PARENT_PID'):
   watch_parent(int(os.environ['STILLHERE_PARENT_PID']),int(os.environ.get('STILLHERE_OLLAMA_PID') or 0))
- print(f'Stillhere on http://127.0.0.1:{PORT}  ({len(LIB.chunks)} library chunks, model {models.current()})',flush=True)
+ print(f'stillhere on http://127.0.0.1:{PORT}  ({len(LIB.chunks)} library chunks, model {models.current()})',flush=True)
  ThreadingHTTPServer(('127.0.0.1',PORT),Handler).serve_forever()

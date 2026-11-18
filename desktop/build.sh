@@ -1,5 +1,5 @@
 #!/bin/zsh
-# Builds desktop/build/Stillhere.app.
+# Builds desktop/build/stillhere.app.
 #
 #   desktop/build.sh          dev build: the app runs this repository's app-venv Python and app/ code,
 #                             the Ollama installed in /Applications, and the models in ~/.ollama.
@@ -12,7 +12,7 @@ HERE="${0:A:h}"
 ROOT="${HERE:h}"
 cd "$HERE"
 MODE="${1:-dev}"
-APP=build/Stillhere.app
+APP=build/stillhere.app
 VERSION=$(cat VERSION 2>/dev/null || echo 0.1.0)
 
 rm -rf "$APP"
@@ -45,8 +45,8 @@ cat > "$APP/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
-  <key>CFBundleName</key><string>Stillhere</string>
-  <key>CFBundleDisplayName</key><string>Stillhere</string>
+  <key>CFBundleName</key><string>stillhere</string>
+  <key>CFBundleDisplayName</key><string>stillhere</string>
   <key>CFBundleIdentifier</key><string>com.stillhere.mac</string>
   <key>CFBundleExecutable</key><string>Stillhere</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
@@ -56,7 +56,7 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   <key>LSMinimumSystemVersion</key><string>14.0</string>
   <key>LSApplicationCategoryType</key><string>public.app-category.reference</string>
   <key>NSHighResolutionCapable</key><true/>
-  <key>NSHumanReadableCopyright</key><string>© 2026 Stillhere</string>
+  <key>NSHumanReadableCopyright</key><string>© 2026 stillhere</string>
   <key>NSAppTransportSecurity</key><dict><key>NSAllowsLocalNetworking</key><true/></dict>
   $DEVKEY
   $MAPSKEY

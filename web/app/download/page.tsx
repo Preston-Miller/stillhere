@@ -6,7 +6,7 @@ import { getPaidSession } from "@/lib/stripe";
 import { SUPPORT_EMAIL } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "Your download — Stillhere",
+  title: "Your download — stillhere",
   robots: { index: false },
 };
 
@@ -46,14 +46,14 @@ async function Receipt({
           : ""}
         . Download it and open it now, while you have a connection. The first
         launch downloads the AI (about 7 GB) and lets you add offline maps.
-        After that, Stillhere never needs the internet again.
+        After that, stillhere never needs the internet again.
       </p>
 
       <a
         href={`/api/download?session_id=${encodeURIComponent(session.id)}`}
         className="mt-8 inline-flex bg-amber px-6 py-3 font-mono text-sm font-semibold uppercase tracking-wider text-bg hover:brightness-110"
       >
-        Download Stillhere
+        Download stillhere
       </a>
       <p className="mt-4 text-sm text-muted">
         The first time you open it, your Mac will show a warning.{" "}
@@ -104,7 +104,7 @@ async function Receipt({
         href="/#buy"
         className="mt-8 inline-flex border border-line px-6 py-3 font-mono text-sm uppercase tracking-wider hover:border-amber"
       >
-        Back to Stillhere
+        Back to stillhere
       </Link>
     </>
   );

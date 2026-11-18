@@ -1,4 +1,4 @@
-// "No Service" contrast illustration: cloud AI on a dead phone vs Stillhere on a laptop.
+// "No Service" contrast illustration: cloud AI on a dead phone vs stillhere on a laptop.
 // Pure HTML/CSS so it stays crisp, themeable and responsive.
 
 const QUESTION = "can i drink rainwater i collected off my roof?";
@@ -58,7 +58,7 @@ function Laptop() {
             <span className="h-2 w-2 rounded-full bg-fg/15" />
             <span className="h-2 w-2 rounded-full bg-fg/15" />
           </span>
-          <span className="font-mono text-[10px] uppercase tracking-wider text-muted">Stillhere</span>
+          <span className="font-mono text-[10px] uppercase tracking-wider text-muted">stillhere</span>
           <span className="font-mono text-[10px] text-olive">● offline</span>
         </div>
         <div className="space-y-4 p-5 text-[13px] leading-relaxed sm:text-[15px]">
@@ -100,7 +100,7 @@ export function NoServiceContrast() {
         <div>
           <Laptop />
           <p className="mt-8 text-center">
-            <span className="label text-olive">Stillhere · runs on your Mac</span>
+            <span className="label text-olive">stillhere · runs on your Mac</span>
           </p>
         </div>
       </div>
@@ -109,7 +109,7 @@ export function NoServiceContrast() {
         links its answer to the source.
       </p>
       <p className="mx-auto mt-3 max-w-xl text-center text-xs text-muted/70">
-        Illustration; real answers vary. Answer based on a CDC web page. CDC does not endorse Stillhere; the original
+        Illustration; real answers vary. Answer based on a CDC web page. CDC does not endorse stillhere; the original
         is free at cdc.gov.
       </p>
     </figure>

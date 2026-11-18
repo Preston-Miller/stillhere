@@ -53,8 +53,27 @@ def ram_gb():
   return round(os.sysconf('SC_PAGE_SIZE')*os.sysconf('SC_PHYS_PAGES')/2**30)
  except (OSError,ValueError,AttributeError):return None
 
-def recommended(ram):
- """The tier to suggest for this much memory. Large only when there's plenty to spare, since it's much slower."""
+_vram=[]
+def gpu_vram_gb():
+ """Windows only: memory on the NVIDIA graphics card in GB, 0 if there's none, None on other systems.
+ On a Mac the AI shares main memory, so ram_gb() is what counts there."""
+ if sys.platform!='win32':return None
+ if not _vram:
+  import subprocess
+  try:
+   out=subprocess.run(['nvidia-smi','--query-gpu=memory.total','--format=csv,noheader,nounits'],capture_output=True,text=True,
+                      timeout=10,creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0)).stdout
+   _vram.append(round(max(int(x) for x in out.split() if x.strip().isdigit())/1024))
+  except (OSError,ValueError,subprocess.SubprocessError):_vram.append(0)
+ return _vram[0]
+
+def recommended(ram,vram=None):
+ """The tier to suggest. Large only when there's plenty to spare, since it's much slower.
+ On Windows the graphics card decides: without an NVIDIA card the AI runs on the processor, where only Small is quick."""
+ if vram is not None:
+  if vram>=24 and (ram or 0)>=32:return 'large'
+  if vram>=8 and (ram or 0)>=16:return 'standard'
+  return 'small'
  if ram is None:return 'standard'
  if ram>=48:return 'large'
  if ram>=16:return 'standard'

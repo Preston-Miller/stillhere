@@ -78,7 +78,7 @@ export const TOPIC_CARDS: { title: string; blurb: string; examples: string[] }[]
 export const REVIEW_TOPICS: string[] = [];
 
 export const INCLUDED = [
-  "The Stillhere app for your Mac",
+  "The stillhere app for your Mac",
   "Its AI model, downloaded once when you first open it (about 7 GB)",
   "The saved library of emergency and survival guides",
   "Offline street maps for any U.S. states you choose, at no extra cost",
@@ -109,7 +109,7 @@ export const FAQ: [string, string][] = [
   ],
   [
     "What about updates and refunds?",
-    "Updates to Stillhere are free: download the newest version from your purchase page any time. If it isn't right for you, email us within 30 days of buying and we'll refund you in full, no questions asked. Please still check the requirements above first: a Mac with Apple Silicon (M1 or newer), macOS 14 or later, and 16 GB of memory.",
+    "Updates to stillhere are free: download the newest version from your purchase page any time. If it isn't right for you, email us within 30 days of buying and we'll refund you in full, no questions asked. Please still check the requirements above first: a Mac with Apple Silicon (M1 or newer), macOS 14 or later, and 16 GB of memory.",
   ],
   [
     "Can it replace a doctor?",

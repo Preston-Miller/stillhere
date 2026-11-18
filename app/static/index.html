@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Stillhere</title>
+<title>stillhere</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%231a1716'/%3E%3Cg transform='translate(91 168)'%3E%3Cpath d='M18 138 L165 20 L312 138' fill='none' stroke='%23f6eedc' stroke-width='30' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='165' cy='128' r='36' fill='%23f4a12c'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="stylesheet" href="vendor/maplibre-gl.css">
 <style>
@@ -483,7 +483,7 @@ button{font:inherit;cursor:pointer}
 <div class="setupwrap" id="setup" hidden>
  <div class="setupbox">
   <div class="setuplogo"><svg class="logo" viewBox="0 0 330 165" aria-hidden="true"><path d="M18 138 L165 20 L312 138" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/><circle cx="165" cy="128" r="36" fill="#f4a12c"/></svg></div>
-  <h2 id="setupTitle">Welcome to Stillhere</h2>
+  <h2 id="setupTitle">Welcome to stillhere</h2>
   <p id="setupText"></p>
   <div class="setuppick" id="setupPick" hidden></div>
   <div class="setupbar" id="setupBar" hidden><i id="setupFill"></i></div>
@@ -948,7 +948,7 @@ function paintVideos(){
    <div class="vbody">${vids.editing===v.id?`<input class="vname" value="${esc(v.title)}" maxlength="150" aria-label="Video title">`:`<b>${esc(v.title)}</b>`}<span class="meta2">${esc(fmtSize(v.bytes))} · added ${new Date(v.added*1000).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})}</span></div>
    <div class="vacts"><button class="vren">Rename</button><button class="vdel">Delete</button></div></div>`).join('');
  $('#vidList').innerHTML=`<div class="lhead">Your videos <span class="n">${vids.list.length||''}</span></div>
-  <div class="lnote">Add MP4 or MOV videos you already have, like ones you recorded, bought or downloaded. They're kept on this Mac and play without internet.</div>
+  <div class="lnote">Add MP4 or MOV videos you already have, like ones you recorded, bought or downloaded. They're kept on this computer and play without internet.</div>
   <div class="lgrid vgrid">${jobs}${cards}<label class="ldoc addcard"><span class="plus">+</span>Add videos<br>or drop them here<input type="file" multiple accept=".mp4,.m4v,.mov,video/mp4,video/quicktime" hidden class="vaddinput"></label></div>`;
  $('#vidList').querySelector('.vaddinput').onchange=e=>{addVideos(e.target.files);e.target.value=''};
  $('#vidList').querySelectorAll('[data-vjob]').forEach(b=>b.onclick=()=>{vids.jobs=vids.jobs.filter(j=>j.key!=+b.dataset.vjob);paintVideos()});
@@ -966,7 +966,7 @@ function paintVideos(){
   el.onclick=async e=>{
    if(e.target.closest('.vren')){vids.editing=v.id;return paintVideos()}
    if(e.target.closest('.vdel')){
-    if(!await appConfirm({title:`Delete “${v.title}”?`,message:`This removes the video (${fmtSize(v.bytes)}) from Stillhere. Your original file, if you still have it, isn't touched.`,ok:'Delete'}))return;
+    if(!await appConfirm({title:`Delete “${v.title}”?`,message:`This removes the video (${fmtSize(v.bytes)}) from stillhere. Your original file, if you still have it, isn't touched.`,ok:'Delete'}))return;
     await fetch('/api/videos/'+encodeURIComponent(v.id),{method:'DELETE'});return loadVideos();
    }
    if(e.target.closest('.vname'))return;
@@ -1052,7 +1052,7 @@ function paintSetup(st){
  const closeBtn=()=>{if(setupMode==='switch'){btns.insertAdjacentHTML('afterbegin','<button id="setupClose">Close</button>');$('#setupClose').onclick=closeSetup}};
  const name=m=>(st.tiers.find(t=>t.model===m)||{}).name||'the AI';
  if(!st.ollama){
-  say("Stillhere's AI isn't running","Quit Stillhere and open it again. If this keeps happening, restart your computer.");
+  say("stillhere's AI isn't running","Quit stillhere and open it again. If this keeps happening, restart your computer.");
   btns.innerHTML='<button class="primary" id="setupRetry">Check again</button>';$('#setupRetry').onclick=checkSetup;closeBtn();return;
  }
  if(st.state==='running'){
@@ -1064,8 +1064,8 @@ function paintSetup(st){
   const left=setupRate.speed?(st.total-st.done)/setupRate.speed:null;
   const eta=left==null?'':left<90?' · less than 2 minutes left':` · about ${Math.round(left/60)} minutes left`;
   const num=st.done?`${gbs(st.done)} of ${gbs(st.total)}${eta}`:'Starting…';
-  if(setupMode==='switch')say(`Downloading ${name(st.target)}…`,'Keep using Stillhere while it downloads. It switches over when it’s done.',num);
-  else say('Downloading the AI…','Keep Stillhere open and stay connected. You only do this once.',num);
+  if(setupMode==='switch')say(`Downloading ${name(st.target)}…`,'Keep using stillhere while it downloads. It switches over when it’s done.',num);
+  else say('Downloading the AI…','Keep stillhere open and stay connected. You only do this once.',num);
   closeBtn();return;
  }
  if(st.state==='error'){
@@ -1078,7 +1078,7 @@ function paintSetup(st){
   btns.innerHTML='<button class="primary" id="setupClose">Done</button>';$('#setupClose').onclick=closeSetup;return;
  }
  if(setupMode==='switch')say('AI model','Bigger models give more careful answers but are slower and need more memory. Every size works with no internet.');
- else say('Welcome to Stillhere','Pick the AI to download. It runs on this computer, so it answers with no internet afterward. You can change it later.');
+ else say('Welcome to stillhere','Pick the AI to download. It runs on this computer, so it answers with no internet afterward. You can change it later.');
  paintPicker(st);
 }
 async function checkSetup(){
@@ -1107,7 +1107,7 @@ async function startSetup(tier){
 }
 async function modelAction(kind,tier){
  const r=await fetch('/api/models/'+kind,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({tier})}).catch(()=>null);
- if(!r){alert("Stillhere's AI isn't responding. Try again in a moment.");return}
+ if(!r){alert("stillhere's AI isn't responding. Try again in a moment.");return}
  const d=await r.json().catch(()=>({}));
  if(!r.ok){alert(d.error||'That didn’t work. Try again.');return}
  paintSetup(d);refreshHealth();
@@ -1121,7 +1121,7 @@ $('#statusBtn').onclick=openModels;
 $('#statusBtn').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openModels()}};
 function setupDone(){
  $('#setupTitle').textContent="You're set";
- $('#setupText').textContent='Stillhere now works with no internet. While you still have a connection, you can also download offline maps for your state.';
+ $('#setupText').textContent='stillhere now works with no internet. While you still have a connection, you can also download offline maps for your state.';
  $('#setupNum').textContent='';$('#setupBar').hidden=true;$('#setupPick').hidden=true;
  $('#setupBtns').innerHTML='<button id="setupMaps">Add offline maps</button><button class="primary" id="setupStart">Start asking</button>';
  $('#setupStart').onclick=()=>{$('#setup').hidden=true;$('#input').focus();fetch('/api/health').then(r=>r.json()).then(paintHealth).catch(()=>{})};

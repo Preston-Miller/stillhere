@@ -155,7 +155,7 @@ export default function Home() {
                 <NoWifiIcon className="h-[0.95em] w-auto shrink-0" />
               </p>
               <div className="mt-8 flex flex-col items-center gap-4 md:items-start">
-                <BuyButton>Get Stillhere</BuyButton>
+                <BuyButton>Get stillhere</BuyButton>
                 <PriceLine left />
               </div>
             </div>
@@ -191,12 +191,12 @@ export default function Home() {
                 <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
                 <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
                 <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-                <span className="ml-3 text-xs text-muted">Stillhere</span>
+                <span className="ml-3 text-xs text-muted">stillhere</span>
               </div>
-              <DemoVideo src="/demo.mp4" poster="/demo-poster.jpg" label="Stillhere answering whether rainwater from a roof is safe to drink, citing a CDC guide, then zooming into Provo on the offline map and saving a pin named Home as a shelter" />
+              <DemoVideo src="/demo.mp4" poster="/demo-poster.jpg" label="stillhere answering whether rainwater from a roof is safe to drink, citing a CDC guide, then zooming into Provo on the offline map and saving a pin named Home as a shelter" />
             </div>
             <p className="mt-3 text-center text-xs text-muted">
-              Real recording of Stillhere on a Mac. The wait for the answer is sped up.
+              Real recording of stillhere on a Mac. The wait for the answer is sped up.
             </p>
           </div>
         </section>
@@ -243,7 +243,7 @@ export default function Home() {
                 <a href="/app-map.jpg" target="_blank" className="relative block aspect-[4/3]">
                   <Image
                     src={mapShot}
-                    alt="Stillhere's offline map, showing a search result for Sanpete Valley Hospital in Utah"
+                    alt="stillhere's offline map, showing a search result for Sanpete Valley Hospital in Utah"
                     fill
                     sizes="(min-width: 768px) 360px, 100vw"
                     className="object-cover object-[60%_40%]"
@@ -253,7 +253,7 @@ export default function Home() {
               </Feature>
             </div>
             <p className="mt-4 text-center text-xs text-muted">
-              AI answer is an illustration; real answers vary. CDC does not endorse Stillhere. Map: real app
+              AI answer is an illustration; real answers vary. CDC does not endorse stillhere. Map: real app
               screenshot, data © OpenStreetMap contributors, basemap by Protomaps.
             </p>
           </div>
@@ -357,10 +357,10 @@ export default function Home() {
               Get it ready before the lights go out.
             </h2>
             <p className="mt-4 max-w-lg text-bg/80">
-              Setup needs internet once. After that, Stillhere works whenever you need it.
+              Setup needs internet once. After that, stillhere works whenever you need it.
             </p>
             <div className="mt-8 flex flex-col items-center gap-4">
-              <BuyButton tone="dark">Get Stillhere</BuyButton>
+              <BuyButton tone="dark">Get stillhere</BuyButton>
               <PriceLine dark />
             </div>
           </div>

@@ -1,0 +1,63 @@
+# Builds the Windows app and installer, then checks it on a real Windows machine (windows/smoke_test.py).
+# GitHub's Windows runners have no graphics card, so the answer timing is the processor-only worst case.
+# Private repos get 2,000 free Actions minutes a month and Windows minutes count double, so this runs only
+# when Windows-relevant files change, or by hand (Actions tab → Windows build → Run workflow).
+name: Windows build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['windows/**', 'app/**', 'reference-sources/**', '.github/workflows/windows.yml']
+
+concurrency:
+  group: windows-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache the Ollama download
+        uses: actions/cache@v4
+        with:
+          path: build/win/ollama-windows-amd64-*.zip
+          key: ollama-windows-v0.40.16
+
+      - name: Build
+        shell: pwsh
+        run: windows/build.ps1
+
+      - name: Cache AI models for the test
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}/smoke/Stillhere/models
+          key: models-qwen3.5-4b-embed-0.6b
+
+      - name: Smoke test
+        shell: pwsh
+        run: python windows/smoke_test.py build\win\Stillhere\Stillhere.exe "${{ runner.temp }}\smoke" "${{ runner.temp }}\screenshot.png"
+
+      - name: Screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshot
+          path: ${{ runner.temp }}/screenshot.png
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: Stillhere-Setup
+          path: build/win/Stillhere-Setup-*.exe
+          compression-level: 0
+          retention-days: 3

@@ -72,7 +72,7 @@ export function Waitlist({
     return (
       <div className={`flex flex-col gap-1 ${alignCls}`} role="status">
         <p className={`text-lg font-semibold ${tone === "dark" ? "text-bg" : "text-olive"}`}>You&apos;re on the list.</p>
-        <p className={tone === "dark" ? "text-bg/80" : "text-muted"}>We&apos;ll email you as soon as Stillhere is ready.</p>
+        <p className={tone === "dark" ? "text-bg/80" : "text-muted"}>We&apos;ll email you as soon as stillhere is ready.</p>
       </div>
     );
   }
@@ -80,7 +80,7 @@ export function Waitlist({
   return (
     <div className={`flex w-full flex-col gap-3 ${alignCls}`}>
       <p className={`max-w-md ${textCls}`}>
-        Stillhere isn&apos;t out yet. Leave your email and you&apos;ll be the first to get it.
+        stillhere isn&apos;t out yet. Leave your email and you&apos;ll be the first to get it.
       </p>
       <form onSubmit={submit} className="flex w-full max-w-md flex-col gap-2 sm:flex-row">
         <label htmlFor={`email-${location}`} className="sr-only">Email</label>

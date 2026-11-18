@@ -15,6 +15,7 @@ app-venv/
 
 # Built and downloaded files (rebuilt by scripts, or too big for git)
 desktop/build/
+build/
 web/node_modules/
 web/.next/
 web/out/
