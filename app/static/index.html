@@ -700,7 +700,7 @@ async function ask(q){
     const ev=JSON.parse(line);
     if(ev.type==='sources'){turn.sources=ev.sources;if(here())showSources(turn);ans.innerHTML='<span class="meta">'+(ev.sources.length?`Found ${ev.sources.length} relevant sources. Writing…`:'Nothing in the library matched. Answering from model knowledge…')+'</span>'}
     else if(ev.type==='token'){const stick=here()&&nearBottom();turn.text+=ev.text;ans.innerHTML=render(turn);if(stick)toBottom()}
-    else if(ev.type==='done'){turn.done=true;turn.unverified=ev.unverified;turn.truncated=ev.truncated;turn.stats=ev.stats;paintTurn(turn);
+    else if(ev.type==='done'){if(typeof ev.text==='string')turn.text=ev.text;turn.done=true;turn.unverified=ev.unverified;turn.truncated=ev.truncated;turn.stats=ev.stats;paintTurn(turn);
      if(here()&&state.selected===turn)showSources(turn,state.activeSrc?.turn===turn?state.activeSrc.n:null)}
     else if(ev.type==='error'){throw new Error(ev.message)}
    }
