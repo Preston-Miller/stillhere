@@ -1,0 +1,18 @@
+{"id": "drinking-dose", "query": "drinking water bleach 8.25 gallon", "expected_top_id": "offgrid.02-drinking-water.2-bleach-use-one-complete-method", "limit": 3}
+{"id": "container-dose", "query": "sanitize empty container 30 seconds", "expected_top_id": "offgrid.02-drinking-water.4-build-a-stored-supply", "limit": 3}
+{"id": "surface-dose", "query": "surface bleach visibly wet one minute", "expected_top_id": "offgrid.03-sanitation.3-clean-a-compatible-household-surface", "limit": 3}
+{"id": "generator", "query": "generator carbon monoxide 20 feet", "expected_top_id": "offgrid.05-power.prevent-carbon-monoxide-poisoning", "limit": 3}
+{"id": "tornado", "query": "tornado mobile home", "expected_top_id": "offgrid.14-wildfire-tornado-winter.tornado-warning-get-into-the-right-structure", "limit": 3}
+{"id": "radiation", "query": "radioactive clothing shower", "expected_top_id": "offgrid.15-radiation-decontamination.remove-external-material", "limit": 3}
+{"id": "medical-gate", "query": "seizure five minutes", "expected_status": "clinical_review_required", "expect_empty": true}
+{"id": "infant-gate", "query": "infant CPR", "expected_status": "clinical_review_required", "expect_empty": true}
+{"id": "canning-gap", "query": "pressure canning green beans time", "expected_status": "scope_not_ready", "expect_empty": true}
+{"id": "well-gap", "query": "flooded well disinfection", "expected_status": "scope_not_ready", "expect_empty": true}
+{"id": "ambiguous-bleach", "query": "bleach 8.25 gallon", "expected_status": "clarify_treatment_target", "expect_empty": true}
+{"id": "review-mode", "query": "seizure five minutes", "include_review": true, "expected_status": "review_evidence", "expected_top_id": "offgrid.12-urgent-medical-conditions.seizure"}
+{"id": "generator-natural-0", "query": "Where should I put a generator?", "expected_top_id": "offgrid.05-power.prevent-carbon-monoxide-poisoning", "limit": 3}
+{"id": "generator-natural-1", "query": "Where should I put generators?", "expected_top_id": "offgrid.05-power.prevent-carbon-monoxide-poisoning", "limit": 3}
+{"id": "generator-natural-2", "query": "generator", "expected_top_id": "offgrid.05-power.prevent-carbon-monoxide-poisoning", "limit": 3}
+{"id": "generator-natural-3", "query": "generators", "expected_top_id": "offgrid.05-power.prevent-carbon-monoxide-poisoning", "limit": 3}
+{"id": "generator-natural-4", "query": "How far should a generator be from windows?", "expected_top_id": "offgrid.05-power.prevent-carbon-monoxide-poisoning", "limit": 3}
+{"id": "pressure-can-hyphen", "query": "How long do I pressure-can green beans?", "expected_status": "scope_not_ready", "expect_empty": true}

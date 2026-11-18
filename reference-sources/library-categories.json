@@ -1,0 +1,95 @@
+{
+ "_about": "Categories for the Sources view, in display order. Keys are document paths; anything not listed shows under \"Other\".",
+ "categories": [
+  {
+   "name": "Preparedness and supplies",
+   "blurb": "Emergency kits and getting ready.",
+   "docs": [
+    "reference-sources/web/src-237fcdfcd9ea69.txt",
+    "reference-sources/CDC-Disaster-Preparedness-Safety-Messaging.pdf"
+   ]
+  },
+  {
+   "name": "Drinking water",
+   "blurb": "Making water safe, storing it, rain, wells and cisterns.",
+   "docs": [
+    "reference-sources/web/src-7228150f0031bc.txt",
+    "reference-sources/web/src-2393c9c565ce55.txt",
+    "reference-sources/incoming/2026-11-16-coverage/water-assessment/CDC-Rainwater-Collection-and-Health.txt",
+    "reference-sources/incoming/2026-11-16-coverage/water-assessment/CDC-Choosing-Home-Water-Filters.txt",
+    "reference-sources/incoming/2026-11-16-coverage/water-assessment/CDC-Well-Water-Testing.txt",
+    "reference-sources/incoming/2026-11-16-coverage/water-assessment/CDC-Cistern-Safety-and-Disasters.txt"
+   ]
+  },
+  {
+   "name": "Power and home safety",
+   "blurb": "Outages, generators, heating and batteries.",
+   "docs": [
+    "reference-sources/web/src-40af8fc4603fe0.txt",
+    "reference-sources/incoming/2026-11-16-coverage/power-and-utilities/USFA-Portable-Generator-Safety.pdf",
+    "reference-sources/incoming/2026-11-16-coverage/power-and-utilities/USFA-Heating-Fire-Safety.pdf",
+    "reference-sources/incoming/2026-11-16-coverage/power-and-utilities/USFA-Lithium-Ion-Battery-Safety.pdf"
+   ]
+  },
+  {
+   "name": "Food and medicine",
+   "blurb": "What is still safe to eat and take.",
+   "docs": [
+    "reference-sources/web/src-1e80d8463390e1.txt",
+    "reference-sources/incoming/2026-11-16-coverage/medication-continuity/FDA-Safe-Drug-Use-After-Disaster.txt"
+   ]
+  },
+  {
+   "name": "First aid and health",
+   "blurb": "Wounds, burns, breaks, CPR, heat and cold, dehydration, stroke and more.",
+   "docs": [
+    "reference-sources/CDC-Emergency-Wound-Care.pdf",
+    "reference-sources/CDC-Heat-Related-Illness.pdf",
+    "reference-sources/web/src-06174d692f1b23.txt",
+    "reference-sources/web/src-ce4e4288982d45.txt",
+    "reference-sources/web/src-8c5567780f8de8.txt",
+    "reference-sources/baseline-2026-11-17/Army-ATP-4-02.11-First-Aid-2026.pdf",
+    "reference-sources/baseline-2026-11-17/NLM-CPR-Summary.txt",
+    "reference-sources/baseline-2026-11-17/NHS-Cuts-and-Grazes.txt",
+    "reference-sources/baseline-2026-11-17/NHS-Burns-and-Scalds.txt",
+    "reference-sources/baseline-2026-11-17/NHS-Broken-Arm-or-Wrist.txt",
+    "reference-sources/baseline-2026-11-17/CDC-Hypothermia.txt",
+    "reference-sources/baseline-2026-11-17/NHS-Dehydration.txt",
+    "reference-sources/baseline-2026-11-17/NHS-Diarrhoea-and-Vomiting.txt",
+    "reference-sources/baseline-2026-11-17/CDC-Cholera-Rehydration.txt"
+   ]
+  },
+  {
+   "name": "Hygiene and sanitation",
+   "blurb": "Handwashing, disinfecting and emergency toilets.",
+   "docs": [
+    "reference-sources/web/src-b74b256cd0f020.txt",
+    "reference-sources/web/src-bde5b3bbb0075f.txt",
+    "reference-sources/baseline-2026-11-17/CDC-Emergency-Sanitation-Options.txt"
+   ]
+  },
+  {
+   "name": "Weather and disasters",
+   "blurb": "Tornadoes, floods, winter storms, earthquakes, wildfires and radiation.",
+   "docs": [
+    "reference-sources/web/src-037ecbe5f65ae0.txt",
+    "reference-sources/web/src-de8fb0c0ae01fa.txt",
+    "reference-sources/web/src-bf709ea714e360.txt",
+    "reference-sources/web/src-cd82c1a895ab11.txt",
+    "reference-sources/web/src-a18271af15b30f.txt",
+    "reference-sources/web/src-fe5c1e7b306918.txt",
+    "reference-sources/web/src-72d658ee9dc459.txt",
+    "reference-sources/baseline-2026-11-17/CDC-Winter-Storm-Safety.txt"
+   ]
+  },
+  {
+   "name": "Outdoors",
+   "blurb": "Hiking essentials, trip plans and survival basics.",
+   "docs": [
+    "reference-sources/incoming/2026-11-16-coverage/field-shelter-and-rescue/NPS-Ten-Essentials.txt",
+    "reference-sources/incoming/2026-11-16-coverage/field-shelter-and-rescue/NPS-Outdoor-Emergency-Plan.pdf",
+    "reference-sources/baseline-2026-11-17/Army-ATP-3-50.21-Survival-2018.pdf"
+   ]
+  }
+ ]
+}

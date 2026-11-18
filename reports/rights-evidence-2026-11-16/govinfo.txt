@@ -1,0 +1,254 @@
+About Us | GovInfo
+Skip to main content
+Menu
+Search
+Browse
+A to Z
+Category
+Date
+Committee
+Author
+About
+About
+Policies
+Authentication
+Digital Preservation
+History
+Agency Submission
+U.S. Government Information
+FDsys Retirement
+Developers
+Developer Hub
+API
+Bulk Data Repository
+Link Service
+Feeds
+Sitemaps
+System Design
+Features
+All Features
+Featured Content
+News
+Release Notes
+Finding Publications
+Help
+Help
+Finding Information
+What's Available
+Tutorials and Handouts
+Other Resources
+Feedback
+Submit Feedback
+Contact Us
+Toggle the Search Widget
+Search
+About Us
+Help
+Search About, Features, and Help pages
+About Us
+About GovInfo
+FDsys to GovInfo Transition
+About GPO
+About the FDLP
+Policies
+Authentication
+Digital Preservation
+History
+Agency Submission
+U.S. Government Information
+Jump to: FAQs About GovInfo   │  GovInfo Logos   │   FDsys Retirement   │  Finding FDsys Resources on GovInfo   │  About GPO   │  About the FDLP
+About GovInfo
+GovInfo is free U.S. Government information for all.
+GovInfo is a service of the United States Government Publishing Office (GPO), which is a Federal agency in the legislative branch.
+GovInfo provides free public access to official publications from all three branches of the Federal Government.
+GovInfo replaced the FDsys website in December 2018.
+GPO launched GovInfo in February 2016 as a beta website to replace its predecessor, GPO’s Federal Digital System (FDsys). Learn about the transition.
+GovInfo is more than a website.
+In addition to providing an advanced, metadata-powered search experience, GovInfo also includes a content management system and a standards-compliant preservation repository.
+These three components comprise GPO’s world-class system for the comprehensive management of electronic information:
+Public access - GPO combines modern search technology with extensive metadata creation to ensure the highest quality search experience. Users can easily access documents for free by searching or browsing the mobile-friendly website.
+Content management – GPO securely controls digital content throughout its lifecycle to ensure content integrity and authenticity. This includes the application of digital signatures to PDF files so users can verify documents have not been altered and are the official versions.
+Digital preservation – GPO’s ISO 16363  certified Trustworthy Digital Repository ensures content is preserved for future generations despite technical failure, aging of hardware, or technological change.
+What can I find on GovInfo?
+See what's available, including information on individual publications or collections of content, or view an alphabetical list of collections, publications, other resources, and external partner sites.
+What's the difference between GovInfo, GPO.gov, FDLP.gov, and the CGP?
+The Government Publishing Office (GPO) is a Federal legislative branch agency established in 1861. GPO’s mission is rooted in legislation codified in Title 44 U.S.C. and is the Federal Government’s resource for publishing trusted information for the Federal Government to the American people. The GPO is responsible for the production and distribution of information products and services for all three branches of the Federal Government, including U.S. passports for the Department of State as well as the official publications of Congress, the White House, and other Federal agencies in digital and print formats. GPO’s website is available at  www.gpo.gov  and is helpful for current Federal agency customers, vendors looking for contract opportunities, prospective Federal agency customers, and anyone who wants to learn about GPO and available resources. Learn more about GPO.
+The Federal Depository Library Program (FDLP) was established by Congress to ensure that the American public has access to its Government’s information. GPO administers the FDLP on behalf of the participating libraries and the public. Information products from the Federal Government are disseminated to these nationwide libraries that, in turn, ensure the American public has free access to the materials, both in print and online. The website for the FDLP is available at www.fdlp.gov  and is helpful for librarians at FDLP libraries or prospective FDLP member libraries. Learn more about the FDLP.
+By law (U.S.C. Title 44, Sections 1710 and 1711) GPO aims to provide a comprehensive index of every document issued or published by a department, bureau, or office not confidential in character. GPO administers this program and provides public access to this index through the online bibliographic records contained in the Catalog of U.S. Government Publications (CGP). The CGP is available at https://catalog.gpo.gov  as a finding tool for Government publications, containing records with information about publications in many different file formats. When you search the CGP for a publication, you will find a record that tells you where you can find the publication, whether at a physical library or through a link to the full-text electronic version when available. The CGP includes records for content available on GovInfo and links to GovInfo for access to these publications. The CGP is helpful for anyone who wants to locate a Federal Government publication whether online or in print at a Federal Depository Library. Learn more about the CGP.
+Available at www.govinfo.gov, GovInfo is a service of GPO to provide free public access to the full text of official publications from all three branches of the Federal Government. When you search the content available on GovInfo, you will be able to download the full text of publications but you won’t see records for documents that are not stored on GovInfo. GovInfo is also a standards-compliant preservation repository, advanced search engine, and content management system that securely controls digital content throughout its lifecycle to ensure content integrity and authenticity. Learn more about GovInfo.
+How can I learn more or get help using GovInfo? Are training and educational materials or webinars available?
+Several tutorials and handouts are available and we will periodically add additional resources. Recorded webinars are available through the FDLP Academy.  To learn more about using GovInfo, visit our Help pages.
+Is GovInfo 508 compliant?
+GPO accepts official content from Federal committees, offices, or agencies in the form of final published documents that are then submitted into GovInfo and made available to public users. We generally do not make alterations to the files we receive (one exception is to add a visible Seal of Authenticity to PDF files). This includes alterations to files to apply accessibility standards.
+GPO does make an effort to follow best practices for making GovInfo webpages accessible to assistive technology, such as screen readers, whenever feasible. For example, providing alternative text for images, structuring content with headings to facilitate keyboard navigation, and using labels to provide enhanced semantics and accessibility for web content.
+Read GPO’s Section 508/Accessibility Policy and feel free to contact us if you encounter barriers to accessibility on any of our webpages. With your help, we can work together to ensure that GPO websites remain as accessible as possible.
+More information about Section 508 can be found on Section508.gov.
+What are the copyright and use policies for GovInfo content?
+The Public Domain and Copyright Notice states that: In general, GovInfo documents fall under Title 17, Section 105, United States Code, which provides that: Copyright protection under this title is not available for any work of the United States Government, but the United States Government is not precluded from receiving and holding copyrights transferred to it by assignment, bequest, or otherwise.
+The intent of the section is to place in the public domain all work of the United States Government, which is defined in 17 U.S.C. § 101 as work prepared by an officer or employee of the United States Government as part of the person's official duties.
+By virtue of the foregoing, public documents can generally be reprinted without legal restriction. However, Government publications may contain copyrighted material which was used with permission of the copyright owner. Publication in a Government document does not authorize any use or appropriation of such copyright material without the consent of the owner.
+Since the Government Publishing Office serves merely as a printing and distribution agency for Government publications and has no jurisdiction over their content or subject matter, it is advisable to consult with the originating department or agency, or its successor, prior to reprinting any given publication. In those instances in which permission to reprint material from Government publications is granted, customary credit should be given to the Government department or agency which prepared the material. In addition, whenever a work is published consisting predominantly of work of the U.S. Government, the copyright notice (if any) must identify those parts of the work in which copyright is claimed per 17 U.S.C. § 403.
+Photo Credits and Copyright
+For many of the images on GPO's websites, GPO has purchased the right to use the image. GPO is licensed to use these images on a non-exclusive and non-transferable basis. All other rights to the image, including those without limitation, copyright, and all other rights, are retained by the owner of the images. These images are not in the public domain.
+See all GovInfo policies.
+Download GovInfo Logos
+To download these logos on a desktop or laptop computer, right click on the logo, then select "Save image as..." and select the location on your computer where you want the image to be saved and click "Save".
+Blue GovInfo Logo
+Gray GovInfo Logo
+FDsys Retirement and Transition to GovInfo
+GPO's Federal Digital System (FDsys) website has been retired and replaced by GovInfo. FDsys links are now redirecting to GovInfo.
+What do I need to know about the transition?
+FDsys links are now redirecting to GovInfo.
+See below for a guide to finding certain FDsys resources on GovInfo.
+These other GPO websites are not affected by the FDsys retirement: eCFR.gov,  GPO.gov,  U.S. Government Bookstore,  Catalog of U.S. Government Publications,  FDLP.gov,  Ben’s Guide to the U.S. Government.
+What are the differences between FDsys and GovInfo?
+GovInfo provides access to the same publications and search functionality as FDsys did, but has a new look and new features.
+GovInfo is a redesign of the FDsys public website, with a focus on implementing feedback from users and improving overall search and access to electronic Federal Government information. The redesigned, mobile-friendly website incorporates innovative technologies and includes several new features for an overall enhanced user experience.
+GPO remains committed to ensuring authenticity, integrity, and preservation of more than a million Federal documents on GovInfo. This includes the application of digital signatures on PDF files and operation of the GovInfo repository as an ISO 16363 certified Trustworthy Digital Repository.
+The GovInfo website offers several enhancements to the way you accessed publications on the FDsys website. Here are some of the GovInfo enhancements:
+Clean, mobile friendly design – try using GovInfo on the mobile device of your choice.
+Linked related documents – link to select related documents right from the Details page for 7 collections
+Curated feature articles
+Quick and easy social sharing – look for Share buttons across the site
+Browse collections A-Z and by Category
+Sortable search filters – sort collections alphabetically, dates chronologically, and more
+RSS notification feeds
+Custom landing pages – see an example
+Link service and API – learn about all developer tools
+Customizable, open source search engine – making your results more relevant than ever
+Shorter, more user friendly URLs
+Expanded help information – includes tutorials and handouts
+New features based on your feedback – follow our progress through Release Notes
+Will my links to FDsys break?
+FDsys links are now redirecting to GovInfo. We encourage you to update your website links and references to GovInfo as is feasible. See redirect examples below.
+Data Users: Please explore the GovInfo developer tools available for your use (sitemaps, link service, etc.) If you have questions regarding the transition or the use of GovInfo developer tools for updating processes, please contact GPO or open an issue on GPO's GitHub page.
+Federal Depository Libraries: If you have GPO PURLs that point to FDsys linked in your catalog or anywhere else, please note that GPO is automatically redirecting FDsys links to GovInfo. In other words, these PURLs resolve to GovInfo instead of FDsys. GPO staff are also working to update FDsys PURLs to GovInfo as is feasible. For example, this purl for the Federal Register browse page: http://purl.access.gpo.gov/GPO/LPS1756 takes you to GovInfo.
+Redirect Examples
+These are examples of FDsys links and their corresponding GovInfo link. The links in the FDsys URL column are redirecting to the link in the GovInfo URL column.
+Type of URL
+FDsys URL
+GovInfo URL
+PDF file
+www.gpo.gov/fdsys/pkg/FR-2018-03-21/pdf/FR-2018-03-21.pdf
+www.govinfo.gov/content/pkg/FR-2018-03-21/pdf/FR-2018-03-21.pdf
+Text file
+www.gpo.gov/fdsys/pkg/USCODE-2016-title1/html/USCODE-2016-title1-chap1.htm
+www.govinfo.gov/content/pkg/USCODE-2016-title1/html/USCODE-2016-title1-chap1.htm
+MODS metadata file
+www.gpo.gov/fdsys/pkg/CREC-2018-01-02/mods.xml
+www.govinfo.gov/metadata/pkg/CREC-2018-01-02/mods.xml
+Collection browse page
+www.gpo.gov/fdsys/browse/collection.action?collectionCode=BILLS
+www.govinfo.gov/app/collection/bills
+More Information / Details page
+www.gpo.gov/fdsys/pkg/BILLS-115hr1ih/content-detail.html
+www.govinfo.gov/app/details/BILLS-115hr1ih
+Content on the Additional Government Publications page
+www.gpo.gov/fdsys/browse/collection.action?collectionCode=GPO&browsePath=Unified+Agenda&isCollapsed=false&leafLevelBrowse=false&ycord=0
+www.govinfo.gov/collection/unified-agenda
+Committee page
+www.gpo.gov/fdsys/browse/committee.action?chamber=house&committee=appropriations
+www.govinfo.gov/committee/house-appropriations
+Help page
+www.gpo.gov/fdsyspages/help/about_congressional_calendars.htm
+www.govinfo.gov/help/ccal
+Search results
+www.gpo.gov/fdsys/search/searchresults.action?st=public+papers+of+the+presidents
+www.govinfo.gov/app/search/%7B%22query%22%3A%22public%20papers%20of%20the%20presidents%22%2C%22offset%22%3A0%7D
+Where can I find resources on using GovInfo?
+Help – Find general information from search tips and examples to lists of metadata fields and values or help with individual specific collections.
+About – Download logos and learn more about GovInfo (Did you know GovInfo is a preservation repository or that digital signatures are applied to PDF documents?)
+Release Notes – Quarterly summaries of new features and enhancements.
+Tutorials – Five brief webcasts, each 7 minutes or less.
+Handouts – Full or half sheet information handouts and a Related Documents Quick Reference Guide downloadable in PDF format.
+Archived webinars – From the FDLP Academy.
+Where can I provide feedback or ask a question?
+Submit feedback
+Ask a question
+Why transition?
+GovInfo is a redesign of the FDsys public website, with a focus on implementing feedback from users and improving overall search and access to electronic Federal Government information. The redesigned, mobile-friendly website incorporates innovative technologies and includes several new features for an overall enhanced user experience.
+Since the launch of FDsys in 2009 to replace the legacy GPO Access website, minor enhancements have been made to the public website, but several drivers led to the decision to overhaul and redesign the site. These drivers included:
+A commitment to incorporating user feedback,
+The availability of more modern technologies and web design standards,
+The expansion of web use on mobile devices, and
+An effort to begin utilizing more open-source software.
+Some of the key new features of GovInfo include a new modern look and feel, improved navigation, linking of related content, two new ways to browse, a new open-source search engine, and more options for easily sharing pages and content on social media.
+Finding FDsys Resources on GovInfo
+Resource
+Where to Access
+Additional Government Publications (linked to the FDsys collection browse page)
+These publications now have separate browse pages. They are listed individually on the A to Z browse page and Category browse page.
+API
+The GovInfo API is available at api.govinfo.gov. A link service is also available for 13 collections.
+askGPOaskGPO is available at www.gpo.gov/askgpo and linked to the Contact page.
+Bulk Data/XML Bulk DataGPO's bulk data repository is available at www.govinfo.gov/bulkdata.
+Collections List to BrowseUsers can now browse the list of collections and publications on the A to Z Browse page or the Category Browse page.
+eCFR (Electronic Code of Federal Regulations)eCFR is available at www.ecfr.gov and linked to the A to Z Browse page and the Other Resources page.
+FDLP WebsiteThe FDLP website is available at www.fdlp.gov and linked to the A to Z Browse page and the Other Resources page.
+GitHub (GPO's Account)GPO's GitHub account is available at github.com/usgpo and linked from the Developer Hub page.
+GPO's WebsiteGPO's website is available at www.gpo.gov and linked at the bottom of every page on GovInfo.
+Moments in History (linked to the FDsys homepage)These pages have been incorporated into the Features.
+Online HelpThe FDsys Online Help has been migrated to www.govinfo.gov/help.
+Other Resources (linked on the bottom of the FDsys collection browse page)These resources are now linked to the A to Z Browse page and also to the Other Resources page.
+Privacy and Accessibility PoliciesPolicies are available on the Policies page.
+SitemapsSitemaps are available at https://www.govinfo.gov/sitemaps.
+Tutorials and WebinarsTutorials, handouts, and webcasts are available at www.govinfo.gov/help/tutorials-handouts.
+About the Government Publishing Office (GPO)
+Established in 1861, the mission of the Government Publishing Office  can be traced to the requirement in Article I of the Constitution that Congress “keep a journal of its proceedings and from time to time publish the same."
+GPO's in-plant production and printing procurement operations produce the official publications of Congress, the White House, and Federal agencies. GPO's information dissemination programs provide public access to the official publications and information of the Government in both digital and printed formats through an official website, www.govinfo.gov), a partnership with Federal depository libraries nationwide, and both online and bookstore sales.
+In recognition of this transformation, in 2014 Congress approved and the President signed into law (P.L. 113-235) a provision redesignating GPO as the Government Publishing Office. Total GPO employment today is approximately 1,700.
+About the Federal Depository Library Program (FDLP)
+Established by Congress to ensure the American public has access to its Government's information, the Federal Depository Library Program provides the public with Government information, when and where it is needed, in order to ensure an informed citizenry and an improved quality of life. The mission of the Federal Depository Library Program is to provide for no-fee ready and permanent public access to Federal Government information, now and for future generations.
+This historic Government program has been in existence since 1813, and GPO has administered this program since 1895. GPO staff serve to provide this network of libraries with the tools they need to keep America informed.
+Federal Government information, both in print and electronic formats, is distributed to over 1,150 Federal depository libraries throughout the United States, the District of Columbia, and U.S. territories. These libraries, in turn, make this information freely available to the public and provide expert assistance in navigating the materials.
+Use the Federal Depository Library Directory  to find your local Federal depository library.
+About GPO’s Cataloging & Indexing Program
+Under sections 1710 and 1711 of Title 44 of the United States Code, GPO is charged with creating cataloging and a comprehensive index for all public documents issued or published by the Federal Government that are not confidential in character.
+The goals of GPO’s Cataloging and Indexing Program are to:
+Develop a comprehensive and authoritative national bibliography of U.S. Government publications, of every document issued/published by the Federal Government
+Increase the visibility and use of Government information products
+Create a premier destination for information searchers
+This undertaking serves libraries and the public nationwide and enables people to locate desired Government publications in all formats. The public interface for accessing these cataloging records is the Catalog of U.S. Government Publications (CGP).  Using the CGP, anyone can freely-access descriptive information for historical and current publications of the Federal Government, as well as direct links to the full content.
+Partnerships
+GPO has been developing partnerships with Federal depository libraries and other Federal agencies to increase access to electronic Federal information since 1997. Many Federal agencies and Federal depository libraries have developed unique or innovative services for both the public and Federal depository libraries. GPO provides and guarantees access to these services for the Federal Depository Library Program (FDLP) through official partnerships. Learn more and view our current list of GPO partners here.
+Skip back to top
+Skip back to top
+Browse
+A to Z
+Category
+Date
+Committee
+Author
+About
+About
+Policies
+Authentication
+Digital Preservation
+History
+Agency Submission
+U.S. Government Information
+FDsys Retirement
+Developers
+Developer Hub
+API
+Bulk Data Repository
+Link Service
+Feeds
+Sitemaps
+System Design
+Features
+All Features
+Featured Content
+News
+Release Notes
+Finding Publications
+Help
+Help
+Finding Information
+What's Available
+Tutorials and Handouts
+Other Resources
+Feedback
+Submit Feedback
+Contact Us
+U.S. Government Publishing Office

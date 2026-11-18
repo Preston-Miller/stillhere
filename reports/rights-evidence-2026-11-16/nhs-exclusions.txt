@@ -1,0 +1,63 @@
+﻿
+Content not licensed for re-use - Terms and conditions - NHS
+Skip to main content
+NHS
+Search the NHS website
+Search
+Health A to Z
+NHS services
+Healthy living
+Mental health
+Care and support
+Browse
+More
+Home
+Our policies
+Terms and conditions
+Back to
+Terms and conditions
+Back
+Content not covered by our standard terms and conditions
+Most of the content on the NHS website can be re-used under our standard terms and conditions. The following are exceptions.
+Excluded content
+Excluded websites
+The following websites within the www.nhs.uk domain are not covered by our standard terms and conditions:
+Change4Life – www.nhs.uk/change4life
+Best Start in Life – www.nhs.uk/best-start-in-life
+Be Clear on Cancer – www.nhs.uk/be-clear-on-cancer
+One You – www.nhs.uk/oneyou
+Smokefree – www.nhs.uk/smokefree
+Quit Now – Tobacco – www.nhs.uk/quit
+Please check the terms and conditions specified on these websites.
+Excluded images and videos
+Some images and videos on the NHS website are not licensed for re-use as part of our standard terms and conditions.
+Download a list of excluded images and videos (CSV, 64kb)
+Information:
+We cannot guarantee this list includes all relevant exclusions. If you have any queries about a particular item you wish to re-use, please contact the NHS website team.
+Content that may need to be refreshed more frequently
+As detailed in our standard terms and conditions certain topics on the NHS website may need to be refreshed more frequently than the recommended every 24 hours and the required maximum of every 7 days.
+How often you need to refresh our content on these topics depends on how you're using it.
+If you use our:
+API or widgets – see our syndication terms for information on refresh rates
+JSON+LD script – the content will not include any information that needs to be refreshed more frequently than standard
+Page last reviewed: 17 April 2024
+Next review due: 17 April 2027
+Support links
+Home
+Health A to Z
+NHS services
+Healthy living
+Mental health
+Care and support
+NHS App
+View your test results
+About the NHS
+Healthcare abroad
+Manage NHS profiles
+Other NHS websites
+About us
+Report an issue with the NHS website
+Accessibility statement
+Our policies
+Cookies
+© Crown copyright

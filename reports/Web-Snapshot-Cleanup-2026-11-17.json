@@ -1,0 +1,466 @@
+{
+  "date": "2026-11-17",
+  "files_checked": 43,
+  "changed": [
+    "reference-sources/web/src-a18271af15b30f.txt",
+    "reference-sources/web/src-bde5b3bbb0075f.txt",
+    "reference-sources/web/src-cfeb059483560c.txt",
+    "reference-sources/web/src-fe5c1e7b306918.txt",
+    "reference-sources/web/src-0e3d568e886729.txt",
+    "reference-sources/web/src-8c5567780f8de8.txt",
+    "reference-sources/web/src-06174d692f1b23.txt",
+    "reference-sources/web/src-cd82c1a895ab11.txt",
+    "reference-sources/web/src-2393c9c565ce55.txt",
+    "reference-sources/web/src-ce4e4288982d45.txt",
+    "reference-sources/web/src-8a065409bc528c.txt",
+    "reference-sources/web/src-b74b256cd0f020.txt",
+    "reference-sources/web/src-1e80d8463390e1.txt",
+    "reference-sources/web/src-7228150f0031bc.txt",
+    "reference-sources/web/src-c3cc1cfaad64d3.txt",
+    "reference-sources/web/src-0908cb50b8f14b.txt",
+    "reference-sources/web/src-237fcdfcd9ea69.txt",
+    "reference-sources/web/src-c4925d1caf53b7.txt",
+    "reference-sources/web/src-72d658ee9dc459.txt",
+    "reference-sources/web/src-40af8fc4603fe0.txt",
+    "reference-sources/incoming/2026-11-16-coverage/water-assessment/CDC-Home-Water-Treatment-Systems.txt",
+    "reference-sources/incoming/2026-11-16-coverage/water-assessment/CDC-Well-Water-Testing.txt",
+    "reference-sources/incoming/2026-11-16-coverage/water-assessment/CDC-Well-Water-Treatment.txt",
+    "reference-sources/incoming/2026-11-16-coverage/water-assessment/CDC-Choosing-Home-Water-Filters.txt",
+    "reference-sources/incoming/2026-11-16-coverage/water-assessment/CDC-Rainwater-Collection-and-Health.txt",
+    "reference-sources/incoming/2026-11-16-coverage/water-assessment/CDC-Cistern-Safety-and-Disasters.txt"
+  ],
+  "audit": [
+    {
+      "path": "reference-sources/web/src-a18271af15b30f.txt",
+      "source_url": "https://www.cdc.gov/wildfires/safety/how-to-safely-stay-safe-during-a-wildfire.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 7730,
+      "new_bytes": 5026,
+      "old_sha256": "a7203954f2e988a34c915f177c72627690ff6d7be0552eda1196381bfc6c46ee",
+      "sha256": "7fda2726dc94a48db205a4e6fd07cabed5df8d973f733bc168a5a10466664ea3"
+    },
+    {
+      "path": "reference-sources/web/src-bde5b3bbb0075f.txt",
+      "source_url": "https://www.cdc.gov/hygiene/about/cleaning-and-disinfecting-with-bleach.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 5767,
+      "new_bytes": 3304,
+      "old_sha256": "c941ea44b718131a9767e83ecbbc54f64a71b6699544bd4401b079e363cecb79",
+      "sha256": "6d3d9239fca359d2fd652a4d8f83df1e13b3dab0a53a7cee9439930a9438c200"
+    },
+    {
+      "path": "reference-sources/web/src-cfeb059483560c.txt",
+      "source_url": "https://www.cdc.gov/diabetes/treatment/treatment-low-blood-sugar-hypoglycemia.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 8283,
+      "new_bytes": 4083,
+      "old_sha256": "ac4ae50e142906996560ce372cfb47db2b0abe9551447b2af2f59132c63e23a6",
+      "sha256": "383f111d315663ba69fb9874e0f53ddf903fa17e684e646c373132edaec61c12"
+    },
+    {
+      "path": "reference-sources/web/src-fe5c1e7b306918.txt",
+      "source_url": "https://www.cdc.gov/radiation-emergencies/faq/index.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 26580,
+      "new_bytes": 22036,
+      "old_sha256": "2bd67207758be34174306ff50e859af64d4e01ee93c9345c5dce6dbb1431cc78",
+      "sha256": "de927988bccf37fb8baa8c5b34725056b4207eab4324dcff906e30e1221b227b"
+    },
+    {
+      "path": "reference-sources/web/src-0e3d568e886729.txt",
+      "source_url": "https://www.cdc.gov/winter-weather/prevention/preventing-frostbite.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 8849,
+      "new_bytes": 6100,
+      "old_sha256": "59238a5933f5fa7050863ea9c98d99143f4919c29cab045aab885be3164e7ee1",
+      "sha256": "0711eb208c951053a29856d2285b0cce140910c901e87a26351f11c36a287161"
+    },
+    {
+      "path": "reference-sources/web/src-8c5567780f8de8.txt",
+      "source_url": "https://www.cdc.gov/overdose-prevention/reversing-overdose/about-Naloxone.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 8998,
+      "new_bytes": 4256,
+      "old_sha256": "ffc87e5b56e1471736b388624ff16274038b4882847cd6b692b5d8c4b25cee79",
+      "sha256": "02e6cc32d0720e12428457cd13d207952a1b631ab6e6be6dce9963a370e2ed47"
+    },
+    {
+      "path": "reference-sources/web/src-06174d692f1b23.txt",
+      "source_url": "https://www.cdc.gov/epilepsy/first-aid-for-seizures/index.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 6909,
+      "new_bytes": 3874,
+      "old_sha256": "c21dfcd69868083cf14fcb6edd42498243c312b7625b6b646a2677329693ad48",
+      "sha256": "d1fdb84d20231ba7d7eb762fae28878b78c0e5a12a76e748d4180555b58185b9"
+    },
+    {
+      "path": "reference-sources/web/src-cd82c1a895ab11.txt",
+      "source_url": "https://www.cdc.gov/earthquakes/safety/stay-safe-during-an-earthquake.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 9702,
+      "new_bytes": 7075,
+      "old_sha256": "7f04a60e5380c0774ba927b354267877f219993d78c5c29b5ce3efea52ac32e7",
+      "sha256": "13ea506d53565c3b3148e313f596ffedee8824a91efbf49a93e3ce4b4da2e131"
+    },
+    {
+      "path": "reference-sources/web/src-de8fb0c0ae01fa.txt",
+      "source_url": "https://www.weather.gov/safety/flood-turn-around-dont-drown",
+      "status": "unchanged_manual_review",
+      "reason": "Not handled by verified CDC boundaries; content remains available for individual review.",
+      "old_bytes": 10076,
+      "new_bytes": 10076,
+      "old_sha256": "89be39374c109a2a00f12686179f311c1ad2456d40e8f800ec193562ab87038e",
+      "sha256": "89be39374c109a2a00f12686179f311c1ad2456d40e8f800ec193562ab87038e"
+    },
+    {
+      "path": "reference-sources/web/src-2393c9c565ce55.txt",
+      "source_url": "https://www.cdc.gov/water-emergency/about/",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 12143,
+      "new_bytes": 8622,
+      "old_sha256": "bc759cfdf6afc9c34a8515062e4d4baed326e730d8a18850c42292cd22ea1bd5",
+      "sha256": "fcccac1da30c2a97cab7bcb5d62e3eb28864ddf134c5b84280922ce6c5021397"
+    },
+    {
+      "path": "reference-sources/web/src-ce4e4288982d45.txt",
+      "source_url": "https://www.cdc.gov/stroke/signs-symptoms/index.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 5663,
+      "new_bytes": 3040,
+      "old_sha256": "27fa30767cc1837509a60368ffb41d8ef54b922c7e1eb56fb0a7ded117ca57c8",
+      "sha256": "16a8bcae5f30fa109e75b4122371b501dddb3c4697e666aed693ba92f786c20f"
+    },
+    {
+      "path": "reference-sources/web/src-8a065409bc528c.txt",
+      "source_url": "https://www.cdc.gov/tetanus/hcp/clinical-guidance/",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 7534,
+      "new_bytes": 4250,
+      "old_sha256": "1ef9f41ad490542c12d70b7f11221befa5826ddd09a957a2008ae73f0406da52",
+      "sha256": "0b9db8bc56e9d8be98c5987d8e95073a9a4ddc60691ab02c15275b9e851791a7"
+    },
+    {
+      "path": "reference-sources/web/src-ae3ef0050d89a1.txt",
+      "source_url": "https://www.epa.gov/radtown/radiation-emergencies-and-preparedness",
+      "status": "unchanged_manual_review",
+      "reason": "Not handled by verified CDC boundaries; content remains available for individual review.",
+      "old_bytes": 16266,
+      "new_bytes": 16266,
+      "old_sha256": "43834dccb61b3ef72e3a927d7b1868f5dd2d08e9d428a4df4aba652572371982",
+      "sha256": "43834dccb61b3ef72e3a927d7b1868f5dd2d08e9d428a4df4aba652572371982"
+    },
+    {
+      "path": "reference-sources/web/src-b74b256cd0f020.txt",
+      "source_url": "https://www.cdc.gov/clean-hands/about/index.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 6499,
+      "new_bytes": 3140,
+      "old_sha256": "8627ca499bb17421c2d44d6dcbc43aea3954a09432d3a265dcc183679b54fc36",
+      "sha256": "d5e3b065c07fee4dad943225350349f7c43453dd22b334895975cc0e98531e74"
+    },
+    {
+      "path": "reference-sources/web/src-1e80d8463390e1.txt",
+      "source_url": "https://www.cdc.gov/food-safety/foods/keep-food-safe-after-emergency.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 8439,
+      "new_bytes": 5194,
+      "old_sha256": "26795ea8a40386238305e07d8dae7232ddf0b2881e2a3884227873b614573ebb",
+      "sha256": "7e301e1d724b41654ae8aa23aeb75b0334c628223b39e17d9d6c846bd6d0b4fa"
+    },
+    {
+      "path": "reference-sources/web/src-7228150f0031bc.txt",
+      "source_url": "https://www.cdc.gov/water-emergency/about/how-to-create-and-store-an-emergency-water-supply.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 8011,
+      "new_bytes": 4374,
+      "old_sha256": "b4c1c9fefa279730036de2e4fba2075d3b3c51cac095c3db1c416f7f34fa82c9",
+      "sha256": "d8f7591330d8cab837aaabac7f2187bde54a0279b7b76e1461d732c29e092448"
+    },
+    {
+      "path": "reference-sources/web/src-c3cc1cfaad64d3.txt",
+      "source_url": "https://www.cdc.gov/cholera/treatment/",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 5271,
+      "new_bytes": 2378,
+      "old_sha256": "766f87ffcf2e3b06004f45855896bc79ef3c690bd456015d0634d51d952f7452",
+      "sha256": "5b0353b7b22470732f7b67e5f11f572f7d8a03d680197a2f088d13a35cb57ccf"
+    },
+    {
+      "path": "reference-sources/web/src-037ecbe5f65ae0.txt",
+      "source_url": "https://www.weather.gov/safety/tornado-during",
+      "status": "unchanged_manual_review",
+      "reason": "Not handled by verified CDC boundaries; content remains available for individual review.",
+      "old_bytes": 2457,
+      "new_bytes": 2457,
+      "old_sha256": "6b67977ac4f309fabd1b4ec458afd14460ed183e7ca6fa3ed914cde2a65cc479",
+      "sha256": "6b67977ac4f309fabd1b4ec458afd14460ed183e7ca6fa3ed914cde2a65cc479"
+    },
+    {
+      "path": "reference-sources/web/src-0908cb50b8f14b.txt",
+      "source_url": "https://www.cdc.gov/heart-disease/about/heart-attack.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 8660,
+      "new_bytes": 4903,
+      "old_sha256": "0d58d5119dd446d9a64226e77458108117326743c500567815ebe50b31844c1a",
+      "sha256": "e357d09095e1a7ce990c4bc3e51eb176dfc4cfd7a04fa1d77679587f900b72a4"
+    },
+    {
+      "path": "reference-sources/web/src-237fcdfcd9ea69.txt",
+      "source_url": "https://www.fema.gov/print/pdf/node/503732",
+      "status": "repaired_pdf_extraction",
+      "reason": "Redownloaded original PDF and extracted 2 readable pages; preserved original PDF in backup.",
+      "old_bytes": 53856,
+      "new_bytes": 3389,
+      "old_sha256": "360015f0dca31195f7523c136c6ef3a507de71174f37ce0c5493b2a27364d565",
+      "sha256": "3105d7522613d1287433b2be4ec2d949c724cfb0a3500d3a9b398295f5b78bd5"
+    },
+    {
+      "path": "reference-sources/web/src-372d89271404bd.txt",
+      "source_url": "https://www.weather.gov/lot/severeprepare",
+      "status": "unchanged_manual_review",
+      "reason": "Not handled by verified CDC boundaries; content remains available for individual review.",
+      "old_bytes": 14467,
+      "new_bytes": 14467,
+      "old_sha256": "e6576f2e17f6bd667527f9e91cebc166b858dcc6bbf740fa0ad590ca9cee7853",
+      "sha256": "e6576f2e17f6bd667527f9e91cebc166b858dcc6bbf740fa0ad590ca9cee7853"
+    },
+    {
+      "path": "reference-sources/web/src-bf709ea714e360.txt",
+      "source_url": "https://www.weather.gov/safety/winter-during",
+      "status": "unchanged_manual_review",
+      "reason": "Not handled by verified CDC boundaries; content remains available for individual review.",
+      "old_bytes": 4908,
+      "new_bytes": 4908,
+      "old_sha256": "f8f1dabd24761a88d94b4824f549fe512aa63cd803f4acf25023aee4f23d8195",
+      "sha256": "f8f1dabd24761a88d94b4824f549fe512aa63cd803f4acf25023aee4f23d8195"
+    },
+    {
+      "path": "reference-sources/web/src-c4925d1caf53b7.txt",
+      "source_url": "https://www.cdc.gov/winter-weather/prevention/index.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 8816,
+      "new_bytes": 6053,
+      "old_sha256": "a2014bc2b16af7a7dfbed84a2491ad43d9ddee7ed44bffdefdedcb35a758ffba",
+      "sha256": "11a37d84f2504fff018926a6e0f6341e95a5428832bbf14d378297acf392340b"
+    },
+    {
+      "path": "reference-sources/web/src-72d658ee9dc459.txt",
+      "source_url": "https://www.cdc.gov/radiation-emergencies/prevention/self-decontaminate.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 7105,
+      "new_bytes": 2798,
+      "old_sha256": "cf3d1d05714825d7fc4387ca5f1229f35c33bddffd0317f708abc19ce4afef05",
+      "sha256": "e98ed06d8c7f9bf2db3dd42811a8c99d5842c9a072f284a8ee5528dd3f6e0120"
+    },
+    {
+      "path": "reference-sources/web/src-40af8fc4603fe0.txt",
+      "source_url": "https://www.cdc.gov/natural-disasters/response/what-to-do-protect-yourself-during-a-power-outage.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 13720,
+      "new_bytes": 9942,
+      "old_sha256": "3d4cd923a33e0a5058d9f023ee33a8bd6f0b6d3ae2434ca292b1a47ea1938cd2",
+      "sha256": "a94362954b8ff7c57c99da0c60e68062c678e7e3622c3a522eb29f1cf05d6701"
+    },
+    {
+      "path": "reference-sources/web/src-7acf4b4f44606e.txt",
+      "source_url": "https://www.epa.gov/emergencies-iaq/create-clean-room-protect-indoor-air-quality-during-wildfire",
+      "status": "unchanged_manual_review",
+      "reason": "Not handled by verified CDC boundaries; content remains available for individual review.",
+      "old_bytes": 12898,
+      "new_bytes": 12898,
+      "old_sha256": "eacacd0d6f19255e681e8ba1585349575c09e47ab1910519de22e9884a8fe257",
+      "sha256": "eacacd0d6f19255e681e8ba1585349575c09e47ab1910519de22e9884a8fe257"
+    },
+    {
+      "path": "reference-sources/web/src-52d53f987b420e.txt",
+      "source_url": "https://cd.kingcounty.gov/en/dept/dph/health-safety/safety-injury-prevention/emergency-preparedness/personal-preparedness/emergency-toilets",
+      "status": "unchanged_manual_review",
+      "reason": "Not handled by verified CDC boundaries; content remains available for individual review.",
+      "old_bytes": 7462,
+      "new_bytes": 7462,
+      "old_sha256": "6c03f15971a7142e9da0222bbe9e7be642d51f944fe1fdc70c5c9e33f445676a",
+      "sha256": "6c03f15971a7142e9da0222bbe9e7be642d51f944fe1fdc70c5c9e33f445676a"
+    },
+    {
+      "path": "reference-sources/incoming/2026-11-16-coverage/field-shelter-and-rescue/NPS-Ten-Essentials.txt",
+      "source_url": "https://www.nps.gov/articles/10essentials.htm",
+      "status": "unchanged_manual_review",
+      "reason": "Not handled by verified CDC boundaries; content remains available for individual review.",
+      "old_bytes": 6536,
+      "new_bytes": 6536,
+      "old_sha256": "0fd607009cb31146b56f733e241eeee8c56f62dbd8a2ed309718e6912227e8cb",
+      "sha256": "0fd607009cb31146b56f733e241eeee8c56f62dbd8a2ed309718e6912227e8cb"
+    },
+    {
+      "path": "reference-sources/incoming/2026-11-16-coverage/sanitation/Washington-DOH-Emergency-Toilets.txt",
+      "source_url": "https://doh.wa.gov/community-and-environment/wastewater-management/toilet-use-during-emergencies",
+      "status": "unchanged_manual_review",
+      "reason": "Not handled by verified CDC boundaries; content remains available for individual review.",
+      "old_bytes": 7287,
+      "new_bytes": 7287,
+      "old_sha256": "27d673e759527a24914b24baa4d70188b174ceaa71ca08bd038c588affa66edb",
+      "sha256": "27d673e759527a24914b24baa4d70188b174ceaa71ca08bd038c588affa66edb"
+    },
+    {
+      "path": "reference-sources/incoming/2026-11-16-coverage/sanitation/King-County-Emergency-Toilets.txt",
+      "source_url": "https://cd.kingcounty.gov/en/dept/dph/health-safety/safety-injury-prevention/emergency-preparedness/personal-preparedness/emergency-toilets",
+      "status": "unchanged_manual_review",
+      "reason": "Not handled by verified CDC boundaries; content remains available for individual review.",
+      "old_bytes": 7459,
+      "new_bytes": 7459,
+      "old_sha256": "28ba4c441578ec3698de66c943ad2b6e059a729d411514fc0a7081e9e2feafc4",
+      "sha256": "28ba4c441578ec3698de66c943ad2b6e059a729d411514fc0a7081e9e2feafc4"
+    },
+    {
+      "path": "reference-sources/incoming/2026-11-16-coverage/water-assessment/CDC-Home-Water-Treatment-Systems.txt",
+      "source_url": "https://www.cdc.gov/drinking-water/about/about-home-water-treatment-systems.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 8597,
+      "new_bytes": 5547,
+      "old_sha256": "1445ff35269656cf62786592764a163aa2d0aa0960c902a2ad35d869deceae31",
+      "sha256": "1e5f93f69c1d15e25baafdd62ff5b18283bc7986658013d3b9723a0aa6caab84"
+    },
+    {
+      "path": "reference-sources/incoming/2026-11-16-coverage/water-assessment/CDC-Well-Water-Testing.txt",
+      "source_url": "https://www.cdc.gov/drinking-water/safety/guidelines-for-testing-well-water.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 10456,
+      "new_bytes": 7388,
+      "old_sha256": "06379247fd086486e30550bc28c95dffd2d0cbbf3bc9fb695a403af5305d227b",
+      "sha256": "dcf7519a05d7e26725a93a56a82ad5e302d48c4fcdce0c1a2c354d077a974f01"
+    },
+    {
+      "path": "reference-sources/incoming/2026-11-16-coverage/water-assessment/CDC-Well-Water-Treatment.txt",
+      "source_url": "https://www.cdc.gov/drinking-water/safety/guidelines-for-treating-well-water.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 6246,
+      "new_bytes": 3172,
+      "old_sha256": "747e05f1916c0e8614c5a90dccb17594fd5c4be66ec6065f21bec43b38ca498a",
+      "sha256": "b02cb1591b39e85a6533e9727905b1f4bbbb9da3b40f447fcec4072c7a9aa9c7"
+    },
+    {
+      "path": "reference-sources/incoming/2026-11-16-coverage/water-assessment/CDC-Well-Disinfection-After-Emergency.txt",
+      "source_url": "https://www.cdc.gov/water-emergency/about/how-to-disinfect-wells-after-an-emergency.html",
+      "status": "unchanged_manual_review",
+      "reason": "Not handled by verified CDC boundaries; content remains available for individual review.",
+      "old_bytes": 18251,
+      "new_bytes": 18251,
+      "old_sha256": "c0898e4ab807c8d0d152d2c96107448dd312bab185f5bb7c2de69454ca2ac76e",
+      "sha256": "c0898e4ab807c8d0d152d2c96107448dd312bab185f5bb7c2de69454ca2ac76e"
+    },
+    {
+      "path": "reference-sources/incoming/2026-11-16-coverage/water-assessment/CDC-Choosing-Home-Water-Filters.txt",
+      "source_url": "https://www.cdc.gov/drinking-water/prevention/about-choosing-home-water-filters.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 11845,
+      "new_bytes": 8761,
+      "old_sha256": "b9c1210d1a76f4905efed7a98fa1596be2a604d880da24e12751090ac6ca8df9",
+      "sha256": "50673943ecde257ac708fd4bac7ed56dbf8c6985850030a1e21e646e93885660"
+    },
+    {
+      "path": "reference-sources/incoming/2026-11-16-coverage/water-assessment/CDC-Rainwater-Collection-and-Health.txt",
+      "source_url": "https://www.cdc.gov/drinking-water/about/collecting-rainwater-and-your-health-an-overview.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 8792,
+      "new_bytes": 5349,
+      "old_sha256": "98549ea2e4879363b47506ca6566383800a7d5c2686c783061b62a8639443d0d",
+      "sha256": "157e2c728fc73d545a046932ec1a04ce47381fcc8bd705fe2db2aef9b0afc81f"
+    },
+    {
+      "path": "reference-sources/incoming/2026-11-16-coverage/water-assessment/CDC-Cistern-Safety-and-Disasters.txt",
+      "source_url": "https://www.cdc.gov/water-emergency/about/cistern-safety-and-disasters-before-during-and-after.html",
+      "status": "cleaned_cdc_article",
+      "reason": "Removed navigation prefix and standard footer; preserved contiguous article including in-body warnings, lists and table text. Figure/table visual checks remain separate.",
+      "old_bytes": 10247,
+      "new_bytes": 6694,
+      "old_sha256": "febda5d190610875390544b29f6768da6846e26d287bfb58749d9d5f28bf5910",
+      "sha256": "4d4c81b440c0ea77be147c4cd5772493343ded4501bc4a73d7033664f734da3c"
+    },
+    {
+      "path": "reference-sources/incoming/2026-11-16-coverage/dental/NHS-Toothache.txt",
+      "source_url": "https://www.nhs.uk/symptoms/toothache/",
+      "status": "unchanged_manual_review",
+      "reason": "Not handled by verified CDC boundaries; content remains available for individual review.",
+      "old_bytes": 4053,
+      "new_bytes": 4053,
+      "old_sha256": "667ad2fe49664045c774e2d40cd731ba8db7a01b6f0fc501c8f961f240d49581",
+      "sha256": "667ad2fe49664045c774e2d40cd731ba8db7a01b6f0fc501c8f961f240d49581"
+    },
+    {
+      "path": "reference-sources/incoming/2026-11-16-coverage/dental/NHS-Knocked-Out-Tooth.txt",
+      "source_url": "https://www.nhs.uk/conditions/knocked-out-tooth/",
+      "status": "unchanged_manual_review",
+      "reason": "Not handled by verified CDC boundaries; content remains available for individual review.",
+      "old_bytes": 3573,
+      "new_bytes": 3573,
+      "old_sha256": "a546c1d25bd50c8690b403e1019fc8ee3642c5c8bb640daae5c5f391c3dd86e8",
+      "sha256": "a546c1d25bd50c8690b403e1019fc8ee3642c5c8bb640daae5c5f391c3dd86e8"
+    },
+    {
+      "path": "reference-sources/incoming/2026-11-16-coverage/dental/NHS-Dental-Abscess.txt",
+      "source_url": "https://www.nhs.uk/conditions/dental-abscess/",
+      "status": "unchanged_manual_review",
+      "reason": "Not handled by verified CDC boundaries; content remains available for individual review.",
+      "old_bytes": 4255,
+      "new_bytes": 4255,
+      "old_sha256": "6eaefcc05c937bb98fbf2565eb9c8709ed07a8a3aba4486662e3a391ec71f473",
+      "sha256": "6eaefcc05c937bb98fbf2565eb9c8709ed07a8a3aba4486662e3a391ec71f473"
+    },
+    {
+      "path": "reference-sources/incoming/2026-11-16-coverage/medication-continuity/FDA-Insulin-Storage-and-Emergency-Switching.txt",
+      "source_url": "https://www.fda.gov/drugs/emergency-preparedness-drugs/information-regarding-insulin-storage-and-switching-between-products-emergency",
+      "status": "unchanged_manual_review",
+      "reason": "Not handled by verified CDC boundaries; content remains available for individual review.",
+      "old_bytes": 13351,
+      "new_bytes": 13351,
+      "old_sha256": "d148ba5e0cb7a03de433dbff888fb6fc6f3f9cda96ba175f4f926f2b997330f4",
+      "sha256": "d148ba5e0cb7a03de433dbff888fb6fc6f3f9cda96ba175f4f926f2b997330f4"
+    },
+    {
+      "path": "reference-sources/incoming/2026-11-16-coverage/medication-continuity/FDA-Safe-Drug-Use-After-Disaster.txt",
+      "source_url": "https://www.fda.gov/drugs/emergency-preparedness-drugs/safe-drug-use-after-natural-disaster",
+      "status": "unchanged_manual_review",
+      "reason": "Not handled by verified CDC boundaries; content remains available for individual review.",
+      "old_bytes": 6532,
+      "new_bytes": 6532,
+      "old_sha256": "466bf0c08080e969cf7751115a124bad0f8d7796eb035399585eaa2e94ad8f7a",
+      "sha256": "466bf0c08080e969cf7751115a124bad0f8d7796eb035399585eaa2e94ad8f7a"
+    },
+    {
+      "path": "reference-sources/incoming/2026-11-16-coverage/communications/Indiana-Emergency-Communication-Planning.txt",
+      "source_url": "https://www.in.gov/dhs/get-prepared/emergencies/emergency-communication-plan/",
+      "status": "unchanged_manual_review",
+      "reason": "Not handled by verified CDC boundaries; content remains available for individual review.",
+      "old_bytes": 5318,
+      "new_bytes": 5318,
+      "old_sha256": "372cd29dff4eec67a78ec56e080f4ea0c41b2ee1cd22d9a345c45509d1aa368c",
+      "sha256": "372cd29dff4eec67a78ec56e080f4ea0c41b2ee1cd22d9a345c45509d1aa368c"
+    }
+  ],
+  "backup": "/Users/prestonmiller/Desktop/OffGridAI/archives/web-snapshots-before-cleanup-2026-11-17",
+  "index_updated": false
+}

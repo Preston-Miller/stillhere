@@ -1,0 +1,57 @@
+{
+  "result": "passed",
+  "session_checks": 11,
+  "exact_transcript_checks": 3,
+  "cases": [
+    {
+      "question": "I have some cloudy water, what are some ways I could purify it?",
+      "status": "verified_reference_procedures",
+      "context": {
+        "topic": "water",
+        "target": "drinking_water",
+        "water_condition": "cloudy",
+        "unavailable_methods": [],
+        "turn": 1
+      },
+      "evidence": [
+        "offgrid.02-drinking-water.1-kill-germs-by-boiling",
+        "offgrid.02-drinking-water.2-bleach-use-one-complete-method",
+        "offgrid.02-drinking-water.3-other-treatment-limits"
+      ]
+    },
+    {
+      "question": "I don't have any bleach, any other options?",
+      "status": "verified_reference_procedures",
+      "context": {
+        "topic": "water",
+        "target": "drinking_water",
+        "water_condition": "cloudy",
+        "unavailable_methods": [
+          "bleach"
+        ],
+        "turn": 2
+      },
+      "evidence": [
+        "offgrid.02-drinking-water.1-kill-germs-by-boiling",
+        "offgrid.02-drinking-water.3-other-treatment-limits"
+      ]
+    },
+    {
+      "question": "drinking water",
+      "status": "verified_reference_procedures",
+      "context": {
+        "topic": "water",
+        "target": "drinking_water",
+        "water_condition": "cloudy",
+        "unavailable_methods": [
+          "bleach"
+        ],
+        "turn": 3
+      },
+      "evidence": [
+        "offgrid.02-drinking-water.1-kill-germs-by-boiling",
+        "offgrid.02-drinking-water.3-other-treatment-limits"
+      ]
+    }
+  ]
+}

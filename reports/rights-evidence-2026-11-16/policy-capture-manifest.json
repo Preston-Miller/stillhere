@@ -1,0 +1,142 @@
+[
+  {
+    "policy": "cdc",
+    "url": "https://www.cdc.gov/other/agencymaterials.html",
+    "status": "saved_unverified_response",
+    "sha256": "ce4947eeeef60392ec42e43ee160d0ca628d9296717cdc3539820c95a4020f23",
+    "retrieved": "2026-11-16",
+    "bytes": 84067
+  },
+  {
+    "policy": "nhs",
+    "url": "https://www.nhs.uk/our-policies/terms-and-conditions/",
+    "status": "saved_unverified_response",
+    "sha256": "3cba8fdb63e4e0ff5c960fa4d6f9f9c0abe944d10b1c79adb0f410ff9445f67b",
+    "retrieved": "2026-11-16",
+    "bytes": 61244
+  },
+  {
+    "policy": "nhs-exclusions",
+    "url": "https://www.nhs.uk/our-policies/terms-and-conditions/content-not-licensed-for-re-use/",
+    "status": "saved_unverified_response",
+    "sha256": "fefb0482728ba0397f4d1b46acf0a1547510ec3ccfd7cf2333ba69b87abe933f",
+    "retrieved": "2026-11-16",
+    "bytes": 21617
+  },
+  {
+    "policy": "redcross",
+    "url": "https://www.redcross.org/terms-of-use.html",
+    "status": "fetch_failed",
+    "error": "curl: (56) The requested URL returned error: 403\n"
+  },
+  {
+    "policy": "aha",
+    "url": "https://www.heart.org/en/about-us/statements-and-policies/copyright-permission-guidelines",
+    "status": "fetch_failed",
+    "error": "curl: (56) The requested URL returned error: 403\n"
+  },
+  {
+    "policy": "fda",
+    "url": "https://www.fda.gov/about-fda/about-website/website-policies",
+    "status": "saved_unverified_response",
+    "sha256": "73b8d759772795766b5c42745684b4b8e98bb17cd872e7eb67c3927b570bbc37",
+    "retrieved": "2026-11-16",
+    "bytes": 45587
+  },
+  {
+    "policy": "epa",
+    "url": "https://www.epa.gov/web-policies-and-procedures/epa-disclaimers",
+    "status": "saved_unverified_response",
+    "sha256": "6f0484f971d70b4eb8473ac282ea8f10b53cbe363da6062ff35ed7baede5a4da",
+    "retrieved": "2026-11-16",
+    "bytes": 62565
+  },
+  {
+    "policy": "nws",
+    "url": "https://www.weather.gov/disclaimer",
+    "status": "saved_unverified_response",
+    "sha256": "c08c1597ebd52b31e3ba749f76d2217c290dcd16dc894cb4c109655566ecbbd1",
+    "retrieved": "2026-11-16",
+    "bytes": 41679
+  },
+  {
+    "policy": "nps",
+    "url": "https://www.nps.gov/aboutus/disclaimer.htm",
+    "status": "saved_unverified_response",
+    "sha256": "580872bf9e5105f3ccd03902bd778212d7cef3fb9b50fa63abeebae94f444ceb",
+    "retrieved": "2026-11-16",
+    "bytes": 38448
+  },
+  {
+    "policy": "rdpo",
+    "url": "https://rdpo.net/emergency-toilet",
+    "status": "saved_unverified_response",
+    "sha256": "49993032300eb12facc8e0574a1bf196416d9a5910bbe79f1292b528a26aa688",
+    "retrieved": "2026-11-16",
+    "bytes": 242102
+  },
+  {
+    "policy": "who",
+    "url": "https://www.who.int/about/policies/terms-of-use",
+    "status": "saved_unverified_response",
+    "sha256": "34275f38db68f14cc36c2cb964bb60af6689728787af694c0ae6d468e691e9c6",
+    "retrieved": "2026-11-16",
+    "bytes": 76581
+  },
+  {
+    "policy": "government",
+    "url": "https://www.usa.gov/government-copyright",
+    "status": "saved_unverified_response",
+    "sha256": "02c0d6d3a68d1a2a45fb8235ee1f1e4f35ba650f1735d09191a69d3031cdfeba",
+    "retrieved": "2026-11-16",
+    "bytes": 40560
+  },
+  {
+    "policy": "ogl",
+    "url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+    "status": "saved_unverified_response",
+    "sha256": "f5b2b9f2af63647cde889fa6c3508f5705925295b74912c68caa28dd37e64aa5",
+    "retrieved": "2026-11-16",
+    "bytes": 10450
+  },
+  {
+    "policy": "cc-nc-sa",
+    "url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "status": "saved_unverified_response",
+    "sha256": "ca0597fd98c6fb2417993e867b5cbc91ebdc55e24839c38e4674e8c78d817f17",
+    "retrieved": "2026-11-16",
+    "bytes": 37146
+  },
+  {
+    "policy": "osm",
+    "url": "https://www.openstreetmap.org/copyright",
+    "status": "saved_unverified_response",
+    "sha256": "6acd27a8e46712e34ce3af91c5408c21a9a5c903c3513d5d00d758996b2b485b",
+    "retrieved": "2026-11-16",
+    "bytes": 21314
+  },
+  {
+    "policy": "protomaps",
+    "url": "https://protomaps.com/legal",
+    "status": "saved_unverified_response",
+    "sha256": "5b93c512c840d60b4a8dfcf00d06684560d922e957c336194ecfd47eccd5c006",
+    "retrieved": "2026-11-16",
+    "bytes": 61924
+  },
+  {
+    "policy": "indiana",
+    "url": "https://www.in.gov/core/terms_of_use.html",
+    "status": "saved_unverified_response",
+    "sha256": "d57244e8864f6b1d007c99d909c0097b594164f5912fad2a2ebfaf6b13cc630e",
+    "retrieved": "2026-11-16",
+    "bytes": 66043
+  },
+  {
+    "policy": "govinfo",
+    "url": "https://www.govinfo.gov/about",
+    "status": "saved_unverified_response",
+    "sha256": "47877b5635271d4539f76d26e78081891a522e739cfee7537f8ec219654d228d",
+    "retrieved": "2026-11-16",
+    "bytes": 82068
+  }
+]

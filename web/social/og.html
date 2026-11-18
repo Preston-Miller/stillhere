@@ -1,0 +1,16 @@
+<!doctype html>
+<!-- Link preview image (1200x630). Keep the price in sync with PRICE_DISPLAY in lib/content.ts.
+     Render: see social/render.sh. Save under a NEW file name so Messages/Slack/etc. drop their cached copy. --><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&display=block" rel="stylesheet">
+<style>
+body{margin:0;width:1200px;height:630px;background:#0c0e0b;font-family:Outfit,sans-serif;overflow:hidden;position:relative;color:#f6eedc}
+.ph{position:absolute;inset:0 auto 0 0;width:720px;background:url(../public/hero-photo.jpg) left center/cover;filter:brightness(.75);-webkit-mask-image:linear-gradient(to right,#000 25%,transparent 92%)}
+.t{position:absolute;left:500px;right:60px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center}
+.lock{display:flex;align-items:center;gap:22px}.lock svg{height:70px}.word{font-size:104px;font-weight:600;letter-spacing:-2px;line-height:1}
+.tag{margin-top:22px;font-size:46px;font-weight:300;letter-spacing:4px}
+.price{margin-top:56px;font-size:30px;font-weight:300;color:#d9d1c0}.price b{font-weight:600;color:#f4a12c}
+</style></head><body><div class="ph"></div><div class="t">
+<div class="lock"><svg viewBox="0 0 330 165"><path d="M18 138 L165 20 L312 138" fill="none" stroke="#f6eedc" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/><circle cx="165" cy="128" r="36" fill="#f4a12c"/></svg><div class="word">stillhere</div></div>
+<div class="tag">AI. Maps. Even offline.</div>
+<div class="price"><b>$49.99</b> · One-time purchase · for Mac</div>
+</div></body></html>

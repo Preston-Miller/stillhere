@@ -1,0 +1,758 @@
+[
+  {
+    "category": "communications",
+    "name": "CISA-AUXFOG-2016",
+    "kind": "pdf",
+    "audience": "trained auxiliary/amateur emergency communicators",
+    "notes": "Older reference; confirm current rules separately",
+    "requested_url": "https://www.cisa.gov/sites/default/files/publications/AUXFOG%20June%202016%20-%20508%20Reviewed%20-%20Final%20%282-16-17%29_0.pdf",
+    "resolved_url": "https://www.cisa.gov/sites/default/files/publications/AUXFOG%20June%202016%20-%20508%20Reviewed%20-%20Final%20%282-16-17%29_0.pdf",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "extraction_status": "first-page text extractable; full tables/figures unverified",
+    "pages": 156,
+    "files": [
+      "communications/CISA-AUXFOG-2016.pdf"
+    ],
+    "sha256": "8b85a38d8d70c2d1e2a38c8f1e9ba80f4e5955d129e83da681ada65823603251",
+    "bytes": 3427776,
+    "pdf_title": "[Add Logo Here]"
+  },
+  {
+    "category": "communications",
+    "name": "CISA-NIFOG-2.02-2025",
+    "kind": "pdf",
+    "audience": "radio technicians and authorized public-safety communications personnel",
+    "notes": "Technical interoperability reference; channel listings do not authorize transmission",
+    "requested_url": "https://www.cisa.gov/sites/default/files/2024-12/NIFOG%202.02_508%20FINAL%20VERSION%2012%2003%202024.pdf",
+    "resolved_url": "https://www.cisa.gov/sites/default/files/2024-12/NIFOG%202.02_508%20FINAL%20VERSION%2012%2003%202024.pdf",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "extraction_status": "first-page text extractable; full tables/figures unverified",
+    "pages": 192,
+    "files": [
+      "communications/CISA-NIFOG-2.02-2025.pdf"
+    ],
+    "sha256": "45c2f5d94861b3ed1b80f7ce5962a160fdd56092211586bdee711b68ca3d3142",
+    "bytes": 6735362,
+    "pdf_title": "NIFOG: National Interoperability Field Operations Guide (Version 2.01)"
+  },
+  {
+    "category": "communications",
+    "name": "FCC-Family-Radio-Service",
+    "kind": "html",
+    "audience": "general public",
+    "notes": "US jurisdiction; current licensing/equipment requirements require periodic recheck",
+    "status": "unavailable",
+    "action_eligible": false,
+    "attempts": [
+      {
+        "url": "https://www.fcc.gov/wireless/bureau-divisions/mobility-division/family-radio-service-frs",
+        "error": "curl: (56) The requested URL returned error: 403"
+      }
+    ]
+  },
+  {
+    "category": "communications",
+    "name": "FCC-General-Mobile-Radio-Service",
+    "kind": "html",
+    "audience": "general public",
+    "notes": "US jurisdiction; not authorization to use public-safety channels",
+    "status": "unavailable",
+    "action_eligible": false,
+    "attempts": [
+      {
+        "url": "https://www.fcc.gov/wireless/bureau-divisions/mobility-division/general-mobile-radio-service-gmrs",
+        "error": "curl: (56) The requested URL returned error: 403"
+      }
+    ]
+  },
+  {
+    "category": "communications",
+    "name": "GovInfo-47-CFR-Part95-2025",
+    "kind": "pdf",
+    "audience": "general public",
+    "notes": "2025 annual rules snapshot; verify later amendments before publishing US radio rules",
+    "requested_url": "https://www.govinfo.gov/content/pkg/CFR-2025-title47-vol5/pdf/CFR-2025-title47-vol5-part95.pdf",
+    "resolved_url": "https://www.govinfo.gov/content/pkg/CFR-2025-title47-vol5/pdf/CFR-2025-title47-vol5-part95.pdf",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "extraction_status": "first-page text extractable; full tables/figures unverified",
+    "pages": 73,
+    "files": [
+      "communications/GovInfo-47-CFR-Part95-2025.pdf"
+    ],
+    "sha256": "99ecd35afec7566a92f0edb92ff02f39cc7c9fa7f47f2c586e3372d9892118ed",
+    "bytes": 463026,
+    "pdf_title": ""
+  },
+  {
+    "category": "communications",
+    "name": "Indiana-Emergency-Communication-Planning",
+    "kind": "html",
+    "audience": "general public",
+    "notes": "Planning supplement; not a radio operating manual",
+    "requested_url": "https://www.in.gov/dhs/get-prepared/emergencies/emergency-communication-plan/",
+    "resolved_url": "https://www.in.gov/dhs/get-prepared/emergencies/emergency-communication-plan/",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "files": [
+      "communications/Indiana-Emergency-Communication-Planning.txt",
+      "communications/Indiana-Emergency-Communication-Planning.html.source"
+    ],
+    "sha256": "372cd29dff4eec67a78ec56e080f4ea0c41b2ee1cd22d9a345c45509d1aa368c",
+    "bytes": 5318,
+    "title": "Get Prepared: Emergency Communication PlansIN.gov",
+    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified"
+  },
+  {
+    "category": "current-first-aid",
+    "name": "AHA-2025-Adult-Basic-Life-Support",
+    "kind": "html",
+    "audience": "guideline users/training authors; recommendations distinguish lay and professional responders",
+    "notes": "",
+    "status": "unavailable",
+    "action_eligible": false,
+    "attempts": [
+      {
+        "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support",
+        "error": "curl: (56) The requested URL returned error: 403"
+      }
+    ]
+  },
+  {
+    "category": "current-first-aid",
+    "name": "AHA-2025-CPR-ECC-Highlights",
+    "kind": "pdf",
+    "audience": "training authors/responders",
+    "notes": "Highlights are not a full layperson manual; diagrams/permissions need review",
+    "requested_url": "https://www.heart.org/-/media/CPR-Files/2025-documents-for-cpr-heart-edits-posting/Resuscitation-Science/252500_Hghlghts_2025ECCGuidelines.pdf",
+    "resolved_url": "https://www.heart.org/-/media/CPR-Files/2025-documents-for-cpr-heart-edits-posting/Resuscitation-Science/252500_Hghlghts_2025ECCGuidelines.pdf",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "extraction_status": "first-page text extractable; full tables/figures unverified",
+    "pages": 24,
+    "files": [
+      "current-first-aid/AHA-2025-CPR-ECC-Highlights.pdf"
+    ],
+    "sha256": "3bd093d1bef0f5139a07411d368981575a10235f758fd0e36dd87badf70a8290",
+    "bytes": 1020430,
+    "pdf_title": "Highlights of the 2025 American Heart Association's Guidelines for CPR and ECC "
+  },
+  {
+    "category": "current-first-aid",
+    "name": "AHA-2025-Pediatric-Basic-Life-Support",
+    "kind": "html",
+    "audience": "guideline users/training authors",
+    "notes": "Excludes resuscitation at birth; do not merge infant CPR/choking variants",
+    "status": "unavailable",
+    "action_eligible": false,
+    "attempts": [
+      {
+        "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/pediatric-basic-life-support",
+        "error": "curl: (56) The requested URL returned error: 403"
+      }
+    ]
+  },
+  {
+    "category": "current-first-aid",
+    "name": "AHA-Red-Cross-2024-First-Aid-Guidelines",
+    "kind": "html",
+    "audience": "guideline users/training authors",
+    "notes": "2024 first aid and 2025 resuscitation have different update scopes",
+    "status": "unavailable",
+    "action_eligible": false,
+    "attempts": [
+      {
+        "url": "https://cpr.heart.org/en/resuscitation-science/2024-first-aid-guidelines",
+        "error": "curl: (56) The requested URL returned error: 403"
+      }
+    ]
+  },
+  {
+    "category": "current-first-aid",
+    "name": "AHA-Red-Cross-2024-First-Aid-Highlights",
+    "kind": "pdf",
+    "audience": "general public",
+    "notes": "Summary of changes, not full first aid manual; copyright review required",
+    "status": "unavailable",
+    "action_eligible": false,
+    "attempts": [
+      {
+        "url": "https://www.heart.org/-/media/CPR-Files/CPR-Guidelines-Files/Highlights/2024-First-Aid/Highlights_2024FA_241118.pdf?sc_lang=en",
+        "error": "curl: (56) The requested URL returned error: 403"
+      }
+    ]
+  },
+  {
+    "category": "dental",
+    "name": "NHS-Dental-Abscess",
+    "kind": "html",
+    "audience": "general public",
+    "notes": "UK service numbers/jurisdiction; do not copy contact instructions as US guidance",
+    "requested_url": "https://www.nhs.uk/conditions/dental-abscess/",
+    "resolved_url": "https://www.nhs.uk/conditions/dental-abscess/",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "files": [
+      "dental/NHS-Dental-Abscess.txt",
+      "dental/NHS-Dental-Abscess.html.source"
+    ],
+    "sha256": "6eaefcc05c937bb98fbf2565eb9c8709ed07a8a3aba4486662e3a391ec71f473",
+    "bytes": 4255,
+    "title": "Dental abscess - NHSNHS",
+    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified"
+  },
+  {
+    "category": "dental",
+    "name": "NHS-Knocked-Out-Tooth",
+    "kind": "html",
+    "audience": "general public",
+    "notes": "Permanent/baby tooth distinction must stay attached; UK service numbers",
+    "requested_url": "https://www.nhs.uk/conditions/knocked-out-tooth/",
+    "resolved_url": "https://www.nhs.uk/conditions/knocked-out-tooth/",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "files": [
+      "dental/NHS-Knocked-Out-Tooth.txt",
+      "dental/NHS-Knocked-Out-Tooth.html.source"
+    ],
+    "sha256": "a546c1d25bd50c8690b403e1019fc8ee3642c5c8bb640daae5c5f391c3dd86e8",
+    "bytes": 3573,
+    "title": "Knocked-out tooth - NHSNHS",
+    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified"
+  },
+  {
+    "category": "dental",
+    "name": "NHS-Toothache",
+    "kind": "html",
+    "audience": "general public",
+    "notes": "UK contact information; symptom advice does not replace dental treatment",
+    "requested_url": "https://www.nhs.uk/symptoms/toothache/",
+    "resolved_url": "https://www.nhs.uk/symptoms/toothache/",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "files": [
+      "dental/NHS-Toothache.txt",
+      "dental/NHS-Toothache.html.source"
+    ],
+    "sha256": "667ad2fe49664045c774e2d40cd731ba8db7a01b6f0fc501c8f961f240d49581",
+    "bytes": 4053,
+    "title": "Toothache - NHSNHS",
+    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified"
+  },
+  {
+    "category": "field-shelter-and-rescue",
+    "name": "NPS-Outdoor-Emergency-Plan",
+    "kind": "pdf",
+    "audience": "general public",
+    "notes": "",
+    "requested_url": "https://www.nps.gov/subjects/healthandsafety/upload/NPS-Outdoor-Emergency-Plan-508c.pdf",
+    "resolved_url": "https://www.nps.gov/subjects/healthandsafety/upload/NPS-Outdoor-Emergency-Plan-508c.pdf",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "extraction_status": "first-page text extractable; full tables/figures unverified",
+    "pages": 3,
+    "files": [
+      "field-shelter-and-rescue/NPS-Outdoor-Emergency-Plan.pdf"
+    ],
+    "sha256": "36b12edf242fdfffe5ca12d1d4d87f22cedf1c84a4bccc8cba201ab97cb339e4",
+    "bytes": 590560,
+    "pdf_title": "NPS Outdoor Emergency Plan"
+  },
+  {
+    "category": "field-shelter-and-rescue",
+    "name": "NPS-Ten-Essentials",
+    "kind": "html",
+    "audience": "general public",
+    "notes": "",
+    "requested_url": "https://www.nps.gov/articles/10essentials.htm",
+    "resolved_url": "https://www.nps.gov/articles/10essentials.htm",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "files": [
+      "field-shelter-and-rescue/NPS-Ten-Essentials.txt",
+      "field-shelter-and-rescue/NPS-Ten-Essentials.html.source"
+    ],
+    "sha256": "0fd607009cb31146b56f733e241eeee8c56f62dbd8a2ed309718e6912227e8cb",
+    "bytes": 6536,
+    "title": "Ten Essentials (U.S. National Park Service)Lock",
+    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified"
+  },
+  {
+    "category": "medication-continuity",
+    "name": "FDA-Insulin-Storage-and-Emergency-Switching",
+    "kind": "html",
+    "audience": "patients with clinical guidance and healthcare professionals",
+    "notes": "Storage and substitution must remain product-specific; no generalized insulin dose conversion",
+    "requested_url": "https://www.fda.gov/drugs/emergency-preparedness-drugs/information-regarding-insulin-storage-and-switching-between-products-emergency",
+    "resolved_url": "https://www.fda.gov/drugs/emergency-preparedness-drugs/information-regarding-insulin-storage-and-switching-between-products-emergency",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "files": [
+      "medication-continuity/FDA-Insulin-Storage-and-Emergency-Switching.txt",
+      "medication-continuity/FDA-Insulin-Storage-and-Emergency-Switching.html.source"
+    ],
+    "sha256": "d148ba5e0cb7a03de433dbff888fb6fc6f3f9cda96ba175f4f926f2b997330f4",
+    "bytes": 13351,
+    "title": "Information Regarding Insulin Storage and Switching Between Products in an Emergency | FDA",
+    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified"
+  },
+  {
+    "category": "medication-continuity",
+    "name": "FDA-Safe-Drug-Use-After-Disaster",
+    "kind": "html",
+    "audience": "general public",
+    "notes": "",
+    "requested_url": "https://www.fda.gov/drugs/emergency-preparedness-drugs/safe-drug-use-after-natural-disaster",
+    "resolved_url": "https://www.fda.gov/drugs/emergency-preparedness-drugs/safe-drug-use-after-natural-disaster",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "files": [
+      "medication-continuity/FDA-Safe-Drug-Use-After-Disaster.txt",
+      "medication-continuity/FDA-Safe-Drug-Use-After-Disaster.html.source"
+    ],
+    "sha256": "466bf0c08080e969cf7751115a124bad0f8d7796eb035399585eaa2e94ad8f7a",
+    "bytes": 6532,
+    "title": "Safe Drug Use After a Natural Disaster | FDA",
+    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified"
+  },
+  {
+    "category": "power-and-utilities",
+    "name": "FEMA-Basic-Preparedness-Utilities",
+    "kind": "pdf",
+    "audience": "general public",
+    "notes": "Historical guide; utility-specific shutoff instructions still required",
+    "requested_url": "https://www.fema.gov/pdf/areyouready/basic_preparedness.pdf",
+    "resolved_url": "https://www.fema.gov/pdf/areyouready/basic_preparedness.pdf",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "extraction_status": "first-page text extractable; full tables/figures unverified",
+    "pages": 34,
+    "files": [
+      "power-and-utilities/FEMA-Basic-Preparedness-Utilities.pdf"
+    ],
+    "sha256": "fe0e858d2a5ba862f7168e2e7b7278333d2115fe03785e31390787650ab2f464",
+    "bytes": 1205866,
+    "pdf_title": "untitled"
+  },
+  {
+    "category": "power-and-utilities",
+    "name": "USFA-Heating-Fire-Safety",
+    "kind": "pdf",
+    "audience": "general public",
+    "notes": "",
+    "requested_url": "https://www.usfa.fema.gov/downloads/pdf/publications/heating-fire-safety-handout.pdf",
+    "resolved_url": "https://www.usfa.fema.gov/downloads/pdf/publications/heating-fire-safety-handout.pdf",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "extraction_status": "first-page text extractable; full tables/figures unverified",
+    "pages": 1,
+    "files": [
+      "power-and-utilities/USFA-Heating-Fire-Safety.pdf"
+    ],
+    "sha256": "5b460264dce7376dece4bfb29bc091bb1f9d9decd82f497ebf5c9fa1f832384d",
+    "bytes": 354991,
+    "pdf_title": "Heating Fire Safety"
+  },
+  {
+    "category": "power-and-utilities",
+    "name": "USFA-Lithium-Ion-Battery-Safety",
+    "kind": "pdf",
+    "audience": "general public",
+    "notes": "",
+    "requested_url": "https://www.usfa.fema.gov/downloads/pdf/publications/lithium-ion-battery-safety-handout.pdf",
+    "resolved_url": "https://www.usfa.fema.gov/downloads/pdf/publications/lithium-ion-battery-safety-handout.pdf",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "extraction_status": "first-page text extractable; full tables/figures unverified",
+    "pages": 1,
+    "files": [
+      "power-and-utilities/USFA-Lithium-Ion-Battery-Safety.pdf"
+    ],
+    "sha256": "6ce137a329ef161a614bf937b3f5ea5c2f1a3c49c1b88afa0720755bfaa8b16e",
+    "bytes": 337833,
+    "pdf_title": "Lithium-Ion Battery Safety for Electronic Devices"
+  },
+  {
+    "category": "power-and-utilities",
+    "name": "USFA-Portable-Generator-Safety",
+    "kind": "pdf",
+    "audience": "general public",
+    "notes": "",
+    "requested_url": "https://www.usfa.fema.gov/downloads/pdf/publications/5-step-to-portable-generator-safety-handout.pdf",
+    "resolved_url": "https://www.usfa.fema.gov/downloads/pdf/publications/5-step-to-portable-generator-safety-handout.pdf",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "extraction_status": "first-page text extractable; full tables/figures unverified",
+    "pages": 1,
+    "files": [
+      "power-and-utilities/USFA-Portable-Generator-Safety.pdf"
+    ],
+    "sha256": "689f513011bab215b35a3a8939642dba0f33e301333fc1ebacdc7f60a395a1e1",
+    "bytes": 387067,
+    "pdf_title": "5 Steps to Portable Generator Safety"
+  },
+  {
+    "category": "power-and-utilities",
+    "name": "Victron-Wiring-Unlimited",
+    "kind": "pdf",
+    "audience": "electrical installers/technical readers",
+    "notes": "Manufacturer-specific technical reference; not generic permission for DIY mains/battery work",
+    "requested_url": "https://www.victronenergy.com/upload/documents/The_Wiring_Unlimited_book/43562-Wiring_Unlimited-pdf-en.pdf",
+    "resolved_url": "https://www.victronenergy.com/upload/documents/The_Wiring_Unlimited_book/43562-Wiring_Unlimited-pdf-en.pdf",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "extraction_status": "first-page text extractable; full tables/figures unverified",
+    "pages": 73,
+    "files": [
+      "power-and-utilities/Victron-Wiring-Unlimited.pdf"
+    ],
+    "sha256": "7bb64267a37a25623f7a80e0e646052c9e4f2473fba9997e4721ff18cca65314",
+    "bytes": 29024866,
+    "pdf_title": "Wiring Unlimited"
+  },
+  {
+    "category": "prolonged-care",
+    "name": "USU-Practical-Guide-Prolonged-Casualty-Care-2025",
+    "kind": "pdf",
+    "audience": "laypeople facing delayed medical support",
+    "notes": "2025 candidate; medical review and procedure-level audience checks required",
+    "requested_url": "https://champ.usuhs.edu/sites/default/files/2025-09/Layperson%27s_Guide_to_Prolonged_Casualty_Care.pdf",
+    "resolved_url": "https://champ.usuhs.edu/sites/default/files/2025-09/Layperson%27s_Guide_to_Prolonged_Casualty_Care.pdf",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "CC BY-NC-SA 4.0, copyright 2025 Henry M. Jackson Foundation; noncommercial/share-alike restrictions. Commercial product redistribution NOT cleared.",
+    "attempts": [],
+    "extraction_status": "first-page text extractable; full tables/figures unverified",
+    "pages": 388,
+    "files": [
+      "prolonged-care/USU-Practical-Guide-Prolonged-Casualty-Care-2025.pdf"
+    ],
+    "sha256": "4cd88a78b8d2a72c611f4cd37e9807053364140aa6918eb1f23ba17555d49fa9",
+    "bytes": 14382001,
+    "pdf_title": "A Practical Guide to Prolonged Casualty Care"
+  },
+  {
+    "category": "sanitation",
+    "name": "King-County-Emergency-Toilets",
+    "kind": "html",
+    "audience": "general public",
+    "notes": "Local disposal permissions are not universal",
+    "requested_url": "https://cd.kingcounty.gov/en/dept/dph/health-safety/safety-injury-prevention/emergency-preparedness/personal-preparedness/emergency-toilets",
+    "resolved_url": "https://cd.kingcounty.gov/en/dept/dph/health-safety/safety-injury-prevention/emergency-preparedness/personal-preparedness/emergency-toilets",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "files": [
+      "sanitation/King-County-Emergency-Toilets.txt",
+      "sanitation/King-County-Emergency-Toilets.html.source"
+    ],
+    "sha256": "28ba4c441578ec3698de66c943ad2b6e059a729d411514fc0a7081e9e2feafc4",
+    "bytes": 7459,
+    "title": "How to create an emergency toilet - King County, Washington",
+    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified"
+  },
+  {
+    "category": "sanitation",
+    "name": "RDPO-Emergency-Toilet-Guidebook",
+    "kind": "pdf",
+    "audience": "general public",
+    "notes": "Regional guidance; verify waste disposal rules locally",
+    "requested_url": "https://docs.google.com/document/d/1Pt4W2ul_nfBeES0-aI38SFGN9_5-rCDcV45lbfvligA/export?format=pdf",
+    "resolved_url": "https://doc-00-4o-docstext.googleusercontent.com/export/dr04igesal9pftlk9arelf1tq8/h9a2ap5t15ds5fdtp5ovs0nq94/1794887720000/105250506097979753968/*/1Pt4W2ul_nfBeES0-aI38SFGN9_5-rCDcV45lbfvligA?format=pdf",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "extraction_status": "first-page text extractable; full tables/figures unverified",
+    "pages": 9,
+    "files": [
+      "sanitation/RDPO-Emergency-Toilet-Guidebook.pdf"
+    ],
+    "sha256": "cbd12c215b46ef0af63dc4f90685a2de018c832bc51d457d989159cbeef05943",
+    "bytes": 1142626,
+    "pdf_title": "Emergency Toilet Guidebook"
+  },
+  {
+    "category": "sanitation",
+    "name": "Washington-DOH-Emergency-Toilets",
+    "kind": "html",
+    "audience": "general public",
+    "notes": "Local disposal permissions are not universal",
+    "requested_url": "https://doh.wa.gov/community-and-environment/wastewater-management/toilet-use-during-emergencies",
+    "resolved_url": "https://doh.wa.gov/community-and-environment/wastewater-management/toilet-use-during-emergencies",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "files": [
+      "sanitation/Washington-DOH-Emergency-Toilets.txt",
+      "sanitation/Washington-DOH-Emergency-Toilets.html.source"
+    ],
+    "sha256": "27d673e759527a24914b24baa4d70188b174ceaa71ca08bd038c588affa66edb",
+    "bytes": 7287,
+    "title": "Toilet Use During an Emergency | Washington State Department of Health",
+    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified"
+  },
+  {
+    "category": "water-assessment",
+    "name": "CDC-Choosing-Home-Water-Filters",
+    "kind": "html",
+    "audience": "general public",
+    "notes": "",
+    "requested_url": "https://www.cdc.gov/drinking-water/prevention/about-choosing-home-water-filters.html",
+    "resolved_url": "https://www.cdc.gov/drinking-water/prevention/about-choosing-home-water-filters.html",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "files": [
+      "water-assessment/CDC-Choosing-Home-Water-Filters.txt",
+      "water-assessment/CDC-Choosing-Home-Water-Filters.html.source"
+    ],
+    "sha256": "50673943ecde257ac708fd4bac7ed56dbf8c6985850030a1e21e646e93885660",
+    "bytes": 8761,
+    "title": "About Choosing Home Water Filters | Drinking Water | CDC",
+    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified",
+    "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+  },
+  {
+    "category": "water-assessment",
+    "name": "CDC-Cistern-Safety-and-Disasters",
+    "kind": "html",
+    "audience": "general public",
+    "notes": "",
+    "requested_url": "https://www.cdc.gov/water-emergency/about/cistern-safety-and-disasters-before-during-and-after.html",
+    "resolved_url": "https://www.cdc.gov/water-emergency/about/cistern-safety-and-disasters-before-during-and-after.html",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "files": [
+      "water-assessment/CDC-Cistern-Safety-and-Disasters.txt",
+      "water-assessment/CDC-Cistern-Safety-and-Disasters.html.source"
+    ],
+    "sha256": "4d4c81b440c0ea77be147c4cd5772493343ded4501bc4a73d7033664f734da3c",
+    "bytes": 6694,
+    "title": "Cistern Safety and Disasters: Before, During, and After | Water, Sanitation, and Hygiene (WASH)-related Emergencies and Outbreaks | CDC",
+    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified",
+    "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+  },
+  {
+    "category": "water-assessment",
+    "name": "CDC-Home-Water-Treatment-Systems",
+    "kind": "html",
+    "audience": "general public",
+    "notes": "",
+    "requested_url": "https://www.cdc.gov/drinking-water/about/about-home-water-treatment-systems.html",
+    "resolved_url": "https://www.cdc.gov/drinking-water/about/about-home-water-treatment-systems.html",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "files": [
+      "water-assessment/CDC-Home-Water-Treatment-Systems.txt",
+      "water-assessment/CDC-Home-Water-Treatment-Systems.html.source"
+    ],
+    "sha256": "1e5f93f69c1d15e25baafdd62ff5b18283bc7986658013d3b9723a0aa6caab84",
+    "bytes": 5547,
+    "title": "About Home Water Treatment Systems | Drinking Water | CDC",
+    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified",
+    "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+  },
+  {
+    "category": "water-assessment",
+    "name": "CDC-Rainwater-Collection-and-Health",
+    "kind": "html",
+    "audience": "general public",
+    "notes": "",
+    "requested_url": "https://www.cdc.gov/drinking-water/about/collecting-rainwater-and-your-health-an-overview.html",
+    "resolved_url": "https://www.cdc.gov/drinking-water/about/collecting-rainwater-and-your-health-an-overview.html",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "files": [
+      "water-assessment/CDC-Rainwater-Collection-and-Health.txt",
+      "water-assessment/CDC-Rainwater-Collection-and-Health.html.source"
+    ],
+    "sha256": "157e2c728fc73d545a046932ec1a04ce47381fcc8bd705fe2db2aef9b0afc81f",
+    "bytes": 5349,
+    "title": "Collecting Rainwater and Your Health: An Overview | Drinking Water | CDC",
+    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified",
+    "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+  },
+  {
+    "category": "water-assessment",
+    "name": "CDC-Well-Disinfection-After-Emergency",
+    "kind": "html",
+    "audience": "well owners and qualified well/pump contractors",
+    "notes": "Full tables and electrical/confined-space precautions must stay attached",
+    "requested_url": "https://www.cdc.gov/water-emergency/about/how-to-disinfect-wells-after-an-emergency.html",
+    "resolved_url": "https://www.cdc.gov/water-emergency/about/how-to-disinfect-wells-after-an-emergency.html",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "files": [
+      "water-assessment/CDC-Well-Disinfection-After-Emergency.txt",
+      "water-assessment/CDC-Well-Disinfection-After-Emergency.html.source"
+    ],
+    "sha256": "c0898e4ab807c8d0d152d2c96107448dd312bab185f5bb7c2de69454ca2ac76e",
+    "bytes": 18251,
+    "title": "How to Disinfect Wells After an Emergency | Water, Sanitation, and Hygiene (WASH)-related Emergencies and Outbreaks | CDC",
+    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified"
+  },
+  {
+    "category": "water-assessment",
+    "name": "CDC-Well-Water-Testing",
+    "kind": "html",
+    "audience": "general public",
+    "notes": "",
+    "requested_url": "https://www.cdc.gov/drinking-water/safety/guidelines-for-testing-well-water.html",
+    "resolved_url": "https://www.cdc.gov/drinking-water/safety/guidelines-for-testing-well-water.html",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "files": [
+      "water-assessment/CDC-Well-Water-Testing.txt",
+      "water-assessment/CDC-Well-Water-Testing.html.source"
+    ],
+    "sha256": "dcf7519a05d7e26725a93a56a82ad5e302d48c4fcdce0c1a2c354d077a974f01",
+    "bytes": 7388,
+    "title": "Guidelines for Testing Well Water | Drinking Water | CDC",
+    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified",
+    "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+  },
+  {
+    "category": "water-assessment",
+    "name": "CDC-Well-Water-Treatment",
+    "kind": "html",
+    "audience": "general public",
+    "notes": "",
+    "requested_url": "https://www.cdc.gov/drinking-water/safety/guidelines-for-treating-well-water.html",
+    "resolved_url": "https://www.cdc.gov/drinking-water/safety/guidelines-for-treating-well-water.html",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "files": [
+      "water-assessment/CDC-Well-Water-Treatment.txt",
+      "water-assessment/CDC-Well-Water-Treatment.html.source"
+    ],
+    "sha256": "b02cb1591b39e85a6533e9727905b1f4bbbb9da3b40f447fcec4072c7a9aa9c7",
+    "bytes": 3172,
+    "title": "Guidelines for Treating Well Water | Drinking Water | CDC",
+    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified",
+    "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+  },
+  {
+    "category": "water-assessment",
+    "name": "EPA-Private-Well-After-Flood",
+    "kind": "pdf",
+    "audience": "general public",
+    "notes": "Historical publication still linked by CDC; reconcile with current CDC instructions",
+    "requested_url": "https://www.epa.gov/sites/default/files/2015-05/documents/epa816f05021.pdf",
+    "resolved_url": "https://www.epa.gov/sites/default/files/2015-05/documents/epa816f05021.pdf",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "extraction_status": "first-page text extractable; full tables/figures unverified",
+    "pages": 3,
+    "files": [
+      "water-assessment/EPA-Private-Well-After-Flood.pdf"
+    ],
+    "sha256": "ebf9465e7a23d1a546217bcfc33eaf034895b4836bb36965338ac1c05dff3fcc",
+    "bytes": 743298,
+    "pdf_title": "What to Do After the Flood"
+  },
+  {
+    "category": "water-assessment",
+    "name": "EPA-Selecting-Water-Treatment-Systems-2025",
+    "kind": "pdf",
+    "audience": "general public",
+    "notes": "System selection; not a universal emergency treatment recipe",
+    "requested_url": "https://www.epa.gov/system/files/documents/2025-01/ws-products-home-water-treatment-guide_v2_508.pdf",
+    "resolved_url": "https://www.epa.gov/system/files/documents/2025-01/ws-products-home-water-treatment-guide_v2_508.pdf",
+    "retrieved": "2026-11-16",
+    "status": "acquired_for_review",
+    "action_eligible": false,
+    "rights_status": "Research/reference copy only; commercial redistribution and contributed content not cleared",
+    "attempts": [],
+    "extraction_status": "first-page text extractable; full tables/figures unverified",
+    "pages": 9,
+    "files": [
+      "water-assessment/EPA-Selecting-Water-Treatment-Systems-2025.pdf"
+    ],
+    "sha256": "723ed6199a70ff59d18fd34da5968352a0a4d463a4b43438ab8ec49a110e6e0e",
+    "bytes": 1087568,
+    "pdf_title": "WaterSense Guide to Selecting Water Treatment Systems"
+  }
+]

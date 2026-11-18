@@ -1,0 +1,52 @@
+{
+  "version": "0.4.0",
+  "not_complete": true,
+  "primary_deliverable": "offline RAG corpus",
+  "high_priority_gaps": [
+    {
+      "topic": "pediatric CPR and complete infant choking",
+      "state": "medical review draft/technique incomplete",
+      "reason": "Need full age-specific procedure, updated illustrations and clinical review"
+    },
+    {
+      "topic": "medical release review",
+      "state": "not performed",
+      "reason": "All clinical units remain excluded from default actions"
+    },
+    {
+      "topic": "canning recipes",
+      "state": "source PDFs acquired; no approved recipe chunks",
+      "reason": "Keep recipe prerequisites, altitude, jar size, pack style and full process table together"
+    },
+    {
+      "topic": "wilderness technical skills",
+      "state": "outline only",
+      "reason": "New Army download unavailable; old abridged source not sufficient for automatic procedural ingestion"
+    },
+    {
+      "topic": "flooded wells and infant feeding",
+      "state": "not authored",
+      "reason": "Do not extrapolate generic water doses"
+    },
+    {
+      "topic": "hurricanes, tsunami, electrical/chemical burns, birth care",
+      "state": "not complete",
+      "reason": "Dedicated current procedures still needed"
+    },
+    {
+      "topic": "model integration",
+      "state": "Ollama generation connected; vector stack pending",
+      "reason": "Installed qwen3.5:9b tested with local lexical retrieval. Embeddings, reranking and broader answer evaluation are unfinished."
+    },
+    {
+      "topic": "full original-source detail audit",
+      "state": "partial",
+      "reason": "Inventory and ledger are not a page-by-page completeness claim"
+    }
+  ],
+  "optional_user_specific_inputs": [
+    "Equipment model numbers, if specific devices are to be supported",
+    "Target jurisdiction, if local disposal/evacuation rules are required"
+  ],
+  "not_blocked_on_user_inputs": true
+}

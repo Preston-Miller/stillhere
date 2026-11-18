@@ -1,0 +1,33 @@
+{
+  "rules": [
+    {
+      "pattern": "\\b(seizur\\w*|epilep\\w*|stroke|heart attack|chest pain|anaphyla\\w*|epinephrine|epipen|hypoglyc\\w*|glucose|insulin|diabet\\w*|naloxone|narcan|overdose|wound\\w*|tetanus|infect\\w*|sepsis|diarrh\\w*|rehydrat\\w*|ORS|CPR|cardiac|chok\\w*|fractur\\w*|broken bone|splint\\w*|burn\\w*|scald\\w*|frostbite|hypothermia|heatstroke|heat stroke|heat exhaustion|tourniquet|bleed\\w*|snakebite|childbirth)\\b",
+      "status": "clinical_review_required",
+      "reason": "Matching authored medical procedures remain in the explicit review collection. Do not substitute a nonmedical lexical hit as treatment evidence.",
+      "review_document_ids": [
+        "offgrid.06-first-aid",
+        "offgrid.09-choking-burns-fractures",
+        "offgrid.10-heat-and-cold",
+        "offgrid.11-wounds-and-infection",
+        "offgrid.12-urgent-medical-conditions",
+        "offgrid.13-diarrhea-and-rehydration"
+      ]
+    },
+    {
+      "pattern": "\\b(canning|pressure[\\s-]+can(?:ner|ning|ned)?|home[\\s-]+canned|jar processing|botulism|preserv\\w*)\\b",
+      "status": "scope_not_ready",
+      "reason": "Tested USDA source PDFs are available, but no full recipe/processing unit has completed table/figure and prerequisite review. Do not generate timings from a raw page."
+    },
+    {
+      "pattern": "\\b(flooded well|well disinfection|shock chlorinat\\w*|infant formula|baby formula|newborn|baby CPR|infant CPR|pediatric CPR|potassium iodide|KI tablets)\\b",
+      "status": "scope_not_ready",
+      "reason": "This procedure is not complete in the bounded action collection. Use the gap register and verified original source; do not infer a recipe or dose."
+    },
+    {
+      "pattern": "^(?!.*\\b(drink\\w*|potable|water|container|surface|disinfect\\w*|clean\\w*)\\b).*\\bbleach\\b",
+      "status": "clarify_treatment_target",
+      "reason": "Ask whether the user means drinking-water treatment, empty-container sanitation or surface disinfection before selecting a concentration/dose."
+    }
+  ],
+  "limitations": "Conservative keyword routing for the lexical prototype only. Not a comprehensive clinical classifier or replacement for model-level scope assessment."
+}

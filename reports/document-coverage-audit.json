@@ -1,0 +1,48 @@
+{
+  "audit_date": "2026-11-16",
+  "knowledge_pdfs": 25,
+  "reference_pdfs": 12,
+  "web_snapshots": 27,
+  "index_meta": {
+    "embed_model": "qwen3-embedding:0.6b",
+    "built": "2026-11-16 20:24",
+    "chunks": "1912"
+  },
+  "index_counts": [
+    {
+      "kind": "guide",
+      "passages": 26,
+      "documents": 8
+    },
+    {
+      "kind": "pdf",
+      "passages": 1728,
+      "documents": 37
+    },
+    {
+      "kind": "web",
+      "passages": 158,
+      "documents": 27
+    }
+  ],
+  "new_army_manual": {
+    "pages": 227,
+    "bytes": 2621944,
+    "base_date": "2002-12-23",
+    "change_1": "2004-07-15"
+  },
+  "source_gaps": [
+    "prolonged patient care",
+    "rainwater/well source assessment",
+    "equipment power/utilities",
+    "radio operations",
+    "current consistent first-aid baseline"
+  ],
+  "preparation_gaps": [
+    "source precedence/obsolete sections",
+    "multi-page recipe/table context",
+    "professional-versus-lay audience",
+    "OCR/illustration verification"
+  ],
+  "app_modified": false
+}

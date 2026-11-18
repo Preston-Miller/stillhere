@@ -1,0 +1,72 @@
+{"id":"gen-01","query":"is it safe to run my genny in the garage with the door open","expected":["offgrid.05-power.prevent-carbon-monoxide-poisoning"]}
+{"id":"gen-02","query":"how far away from the house does the generator need to be","expected":["offgrid.05-power.prevent-carbon-monoxide-poisoning"]}
+{"id":"gen-03","query":"can I use my camp stove inside to cook during the blackout","expected":["offgrid.05-power.prevent-carbon-monoxide-poisoning"]}
+{"id":"gen-04","query":"the CO detector is beeping what do I do","expected":["offgrid.05-power.prevent-carbon-monoxide-poisoning"]}
+{"id":"gen-05","query":"can I heat the house with the oven since the furnace is out","expected":["offgrid.05-power.prevent-carbon-monoxide-poisoning","offgrid.05-power.when-to-relocate"]}
+{"id":"gen-06","query":"everyone has a headache and feels dizzy and the generator is running","expected":["offgrid.05-power.prevent-carbon-monoxide-poisoning"]}
+{"id":"pow-01","query":"the lights just went out across the whole neighborhood, what first","expected":["offgrid.05-power.immediate-actions"]}
+{"id":"pow-02","query":"my mom is on an oxygen machine and the electricity is down","expected":["offgrid.05-power.immediate-actions","offgrid.05-power.when-to-relocate"]}
+{"id":"pow-03","query":"it's getting way too cold inside with no power, should we leave","expected":["offgrid.05-power.when-to-relocate"]}
+{"id":"food-01","query":"the power has been out two days is the stuff in my freezer ok","expected":["offgrid.04-food.1-prepare-and-track-the-outage","offgrid.04-food.2-distinguish-outage-duration-from-time-above-temperature"]}
+{"id":"food-02","query":"how long will my fridge keep things cold without electricity","expected":["offgrid.04-food.1-prepare-and-track-the-outage"]}
+{"id":"food-03","query":"can I still eat the milk and leftovers after the fridge got warm","expected":["offgrid.04-food.2-distinguish-outage-duration-from-time-above-temperature"]}
+{"id":"food-04","query":"is butter and hard cheese ok if it sat out warm","expected":["offgrid.04-food.2-distinguish-outage-duration-from-time-above-temperature"]}
+{"id":"food-05","query":"what temp does chicken have to reach to be done","expected":["offgrid.04-food.3-check-cooking-with-a-thermometer"]}
+{"id":"food-06","query":"how hot should hamburger be inside before eating","expected":["offgrid.04-food.3-check-cooking-with-a-thermometer"]}
+{"id":"food-07","query":"my meat thawed out, can I just cook it really well to make it safe","expected":["offgrid.04-food.1-prepare-and-track-the-outage","offgrid.04-food.2-distinguish-outage-duration-from-time-above-temperature","offgrid.04-food.3-check-cooking-with-a-thermometer"]}
+{"id":"wat-01","query":"how do I make water safe to drink","expected":["offgrid.02-drinking-water.1-kill-germs-by-boiling","offgrid.02-drinking-water.2-bleach-use-one-complete-method","offgrid.02-drinking-water.quick-decision"]}
+{"id":"wat-02","query":"how long do I need to boil creek water","expected":["offgrid.02-drinking-water.1-kill-germs-by-boiling"]}
+{"id":"wat-03","query":"we live up in the mountains, does that change how long to boil","expected":["offgrid.02-drinking-water.1-kill-germs-by-boiling"]}
+{"id":"wat-04","query":"how many drops of clorox per gallon to drink","expected":["offgrid.02-drinking-water.2-bleach-use-one-complete-method"]}
+{"id":"wat-05","query":"is my brita or a camping filter enough to make water safe","expected":["offgrid.02-drinking-water.3-other-treatment-limits"]}
+{"id":"wat-06","query":"are iodine tablets ok to use if I'm pregnant","expected":["offgrid.02-drinking-water.3-other-treatment-limits"]}
+{"id":"wat-07","query":"how much water should my family of four keep stored","expected":["offgrid.02-drinking-water.4-build-a-stored-supply","offgrid.01-preparedness.before-an-emergency"]}
+{"id":"wat-08","query":"can I reuse old milk jugs or a laundry soap jug to store water","expected":["offgrid.02-drinking-water.4-build-a-stored-supply"]}
+{"id":"wat-09","query":"gasoline leaked near our well, can I boil the water","expected":["offgrid.02-drinking-water.quick-decision"]}
+{"id":"wat-10","query":"the tap water looks clear so it should be fine right","expected":["offgrid.02-drinking-water.quick-decision"]}
+{"id":"wat-11","query":"the river water is muddy, what do I do before treating it","expected":["offgrid.02-drinking-water.1-kill-germs-by-boiling","offgrid.02-drinking-water.2-bleach-use-one-complete-method"]}
+{"id":"san-01","query":"the toilet won't flush after the storm, what do we use","expected":["offgrid.03-sanitation.1-assemble-a-temporary-toilet","offgrid.03-sanitation.quick-decision"]}
+{"id":"san-02","query":"how do I make a bucket toilet","expected":["offgrid.03-sanitation.1-assemble-a-temporary-toilet"]}
+{"id":"san-03","query":"can I pour a bucket of water in the toilet to flush it","expected":["offgrid.03-sanitation.quick-decision"]}
+{"id":"san-04","query":"the septic tank flooded, is it ok to keep flushing","expected":["offgrid.03-sanitation.quick-decision"]}
+{"id":"san-05","query":"how long should I scrub my hands","expected":["offgrid.03-sanitation.2-set-up-handwashing"]}
+{"id":"san-06","query":"no running water, how do we wash hands","expected":["offgrid.03-sanitation.2-set-up-handwashing"]}
+{"id":"san-07","query":"how do I mix a disinfecting spray for the kitchen counters","expected":["offgrid.03-sanitation.3-clean-a-compatible-household-surface"]}
+{"id":"san-08","query":"can I mix clorox with ammonia to clean","expected":["offgrid.03-sanitation.3-clean-a-compatible-household-surface"]}
+{"id":"prep-01","query":"what should go in our emergency kit","expected":["offgrid.01-preparedness.before-an-emergency"]}
+{"id":"prep-02","query":"how do we make a family plan in case we get separated","expected":["offgrid.01-preparedness.before-an-emergency"]}
+{"id":"prep-03","query":"there's an evacuation order for our county, what do we do","expected":["offgrid.01-preparedness.when-conditions-change","offgrid.07-disasters.flood","offgrid.14-wildfire-tornado-winter.wildfire-evacuation-and-smoke-are-different-decisions"]}
+{"id":"prep-04","query":"should we stay home or get out of town","expected":["offgrid.01-preparedness.when-conditions-change"]}
+{"id":"eq-01","query":"what do I do if my house is shaking","expected":["offgrid.07-disasters.earthquake"]}
+{"id":"eq-02","query":"should I run outside during an earthquake","expected":["offgrid.07-disasters.earthquake"]}
+{"id":"eq-03","query":"I'm in a wheelchair and the ground started moving","expected":["offgrid.07-disasters.earthquake"]}
+{"id":"fl-01","query":"the road ahead is covered in water, can I drive through","expected":["offgrid.07-disasters.flood"]}
+{"id":"fl-02","query":"the creek is rising toward our house","expected":["offgrid.07-disasters.flood"]}
+{"id":"tor-01","query":"a twister is coming and I live in a trailer","expected":["offgrid.14-wildfire-tornado-winter.tornado-warning-get-into-the-right-structure"]}
+{"id":"tor-02","query":"tornado sirens are going off where do I go","expected":["offgrid.14-wildfire-tornado-winter.tornado-warning-get-into-the-right-structure"]}
+{"id":"tor-03","query":"I'm driving and see a funnel cloud","expected":["offgrid.14-wildfire-tornado-winter.tornado-warning-get-into-the-right-structure"]}
+{"id":"tor-04","query":"is the school gym a good place to shelter from a tornado","expected":["offgrid.14-wildfire-tornado-winter.tornado-warning-get-into-the-right-structure"]}
+{"id":"fire-01","query":"the wildfire is getting close, should we stay inside","expected":["offgrid.14-wildfire-tornado-winter.wildfire-evacuation-and-smoke-are-different-decisions"]}
+{"id":"fire-02","query":"the air is full of smoke from fires far away, how do I protect my kids","expected":["offgrid.14-wildfire-tornado-winter.wildfire-evacuation-and-smoke-are-different-decisions","offgrid.14-wildfire-tornado-winter.set-up-a-cleaner-air-room"]}
+{"id":"fire-03","query":"what furnace filter should I use for bad air quality","expected":["offgrid.14-wildfire-tornado-winter.set-up-a-cleaner-air-room"]}
+{"id":"fire-04","query":"how do I make one room in the house safe from smoke","expected":["offgrid.14-wildfire-tornado-winter.set-up-a-cleaner-air-room"]}
+{"id":"win-01","query":"my car is stuck in a snowdrift on the highway","expected":["offgrid.14-wildfire-tornado-winter.stranded-vehicle-in-a-winter-storm"]}
+{"id":"win-02","query":"how often can I run the engine to stay warm while stuck in a blizzard","expected":["offgrid.14-wildfire-tornado-winter.stranded-vehicle-in-a-winter-storm"]}
+{"id":"win-03","query":"should I walk for help if I'm stranded in the snow","expected":["offgrid.14-wildfire-tornado-winter.stranded-vehicle-in-a-winter-storm"]}
+{"id":"rad-01","query":"there was a nuclear blast in the city, what do we do","expected":["offgrid.07-disasters.nuclear-fallout","offgrid.15-radiation-decontamination.initial-shelter-decision"]}
+{"id":"rad-02","query":"how long do we stay inside after a nuke","expected":["offgrid.07-disasters.nuclear-fallout","offgrid.15-radiation-decontamination.initial-shelter-decision"]}
+{"id":"rad-03","query":"my husband is at work across town after the bomb, should I go get him","expected":["offgrid.07-disasters.nuclear-fallout","offgrid.15-radiation-decontamination.initial-shelter-decision"]}
+{"id":"rad-04","query":"we were outside when the dust fell, how do we get it off","expected":["offgrid.15-radiation-decontamination.remove-external-material"]}
+{"id":"rad-05","query":"should I scrub hard to get the fallout off my skin","expected":["offgrid.15-radiation-decontamination.remove-external-material"]}
+{"id":"none-01","query":"how do I change a flat tire","expect":"abstain"}
+{"id":"none-02","query":"what's the best way to start a campfire with wet wood","expect":"abstain"}
+{"id":"none-03","query":"how do I catch fish without a rod","expect":"abstain"}
+{"id":"none-04","query":"which solar panels should I buy for my cabin","expect":"abstain"}
+{"id":"none-05","query":"how do I find north without a compass","expect":"abstain"}
+{"id":"none-06","query":"what is the capital of France","expect":"abstain"}
+{"id":"none-07","query":"how do I sharpen a knife","expect":"abstain"}
+{"id":"none-08","query":"how do I tie a bowline knot","expect":"abstain"}
+{"id":"none-09","query":"write me a poem about the ocean","expect":"abstain"}
+{"id":"none-10","query":"how do I build a debris shelter in the woods","expect":"abstain"}
+{"id":"none-11","query":"which wild mushrooms are safe to eat","expect":"abstain"}
+{"id":"none-12","query":"how do I patch a hole in drywall","expect":"abstain"}

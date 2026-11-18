@@ -1,0 +1,48 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "web",
+        "run",
+        "dev"
+      ],
+      "port": 3000
+    },
+    {
+      "name": "offgrid-app",
+      "runtimeExecutable": "app-venv/bin/python",
+      "runtimeArgs": [
+        "app/server.py",
+        "8765"
+      ],
+      "port": 8765
+    },
+    {
+      "name": "ollama-fresh",
+      "runtimeExecutable": "env",
+      "runtimeArgs": [
+        "OLLAMA_HOST=127.0.0.1:11500",
+        "OLLAMA_MODELS=/private/tmp/claude-501/-Users-prestonmiller--claude-spares-spare-yncBGO/5b27ba88-dfa2-4df0-85aa-5e6e77d9e575/scratchpad/fresh-models",
+        "/usr/local/bin/ollama",
+        "serve"
+      ],
+      "port": 11500
+    },
+    {
+      "name": "app-fresh",
+      "runtimeExecutable": "env",
+      "runtimeArgs": [
+        "STILLHERE_OLLAMA=127.0.0.1:11500",
+        "STILLHERE_DATA=/private/tmp/claude-501/-Users-prestonmiller--claude-spares-spare-yncBGO/5b27ba88-dfa2-4df0-85aa-5e6e77d9e575/scratchpad/fresh-data",
+        "app-venv/bin/python",
+        "app/server.py",
+        "8766"
+      ],
+      "port": 8766
+    }
+  ]
+}

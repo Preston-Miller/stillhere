@@ -1,0 +1,116 @@
+[
+  {
+    "filename": "USDA-Canning-Introduction-2015.pdf",
+    "url": "https://nchfp.uga.edu/papers/guide/INTRO_HomeCanrev0715.pdf",
+    "pages": 12,
+    "bytes": 467339,
+    "sha256": "c1683833cb4546858445c787f02bb4027710760bbff08c7e1b54889bf5521568",
+    "retrieved": "2026-11-16",
+    "status": "downloaded and parsed"
+  },
+  {
+    "filename": "USDA-Canning-Guide-1-2015.pdf",
+    "url": "https://nchfp.uga.edu/papers/guide/GUIDE01_HomeCan_rev0715.pdf",
+    "pages": 40,
+    "bytes": 3794234,
+    "sha256": "60d1e1a74a9fe61c19e6f5312a76d291905a8ca51b28d0def04c677294416d86",
+    "retrieved": "2026-11-16",
+    "status": "downloaded and parsed"
+  },
+  {
+    "filename": "USDA-Canning-Guide-2-2015.pdf",
+    "url": "https://nchfp.uga.edu/papers/guide/GUIDE02_HomeCan_rev0715.pdf",
+    "pages": 32,
+    "bytes": 1098841,
+    "sha256": "5f6918678e1410b72f9f87d652ebab2f5f5d39f3806db676399e5c785be0b58e",
+    "retrieved": "2026-11-16",
+    "status": "downloaded and parsed"
+  },
+  {
+    "filename": "USDA-Canning-Guide-3-2015.pdf",
+    "url": "https://nchfp.uga.edu/papers/guide/GUIDE03_HomeCan_rev0715.pdf",
+    "pages": 26,
+    "bytes": 976490,
+    "sha256": "6f8d166be89c7260964bfa4746fae72e79164f19a712672b0c1aa3bb902d18ff",
+    "retrieved": "2026-11-16",
+    "status": "downloaded and parsed"
+  },
+  {
+    "filename": "USDA-Canning-Guide-4-2015.pdf",
+    "url": "https://nchfp.uga.edu/papers/guide/GUIDE04_HomeCan_rev0715.pdf",
+    "pages": 22,
+    "bytes": 2013613,
+    "sha256": "bb1d6ccce65146b5caad8bdaf766424c702119a90aa834b25269816da165641f",
+    "retrieved": "2026-11-16",
+    "status": "downloaded and parsed"
+  },
+  {
+    "filename": "USDA-Canning-Guide-5-2015.pdf",
+    "url": "https://nchfp.uga.edu/papers/guide/GUIDE05_HomeCan_rev0715.pdf",
+    "pages": 16,
+    "bytes": 1356485,
+    "sha256": "bffe17ee5a99d5b3393894b811508cbe797d30685b1b91d13496d7a768b589b7",
+    "retrieved": "2026-11-16",
+    "status": "downloaded and parsed"
+  },
+  {
+    "filename": "USDA-Canning-Guide-6-2015.pdf",
+    "url": "https://nchfp.uga.edu/papers/guide/GUIDE06_HomeCan_rev0715.pdf",
+    "pages": 36,
+    "bytes": 3173534,
+    "sha256": "fa4be9f7ac718801178f4f04efa169d74b8c64757d35aa29aa8226fbdaeee4bf",
+    "retrieved": "2026-11-16",
+    "status": "downloaded and parsed"
+  },
+  {
+    "filename": "USDA-Canning-Guide-7-2015.pdf",
+    "url": "https://nchfp.uga.edu/papers/guide/GUIDE07_HomeCan_rev0715.pdf",
+    "pages": 13,
+    "bytes": 1300368,
+    "sha256": "6023faf9ea45f8e20078c54c5d273a7717ce17c66eba57a18f363ba54021e411",
+    "retrieved": "2026-11-16",
+    "status": "downloaded and parsed"
+  },
+  {
+    "filename": "Army-ATP-3-50.21-Survival-2018.pdf",
+    "url": "https://rdl.train.army.mil/catalog-ws/view/100.ATSC/13BC7D8D-AD46-433D-9C0B-F3A1D1405259-1537466238381/atp3_50x21.pdf",
+    "status": "unavailable",
+    "error": "curl: (28) Failed to connect to rdl.train.army.mil port 443 after 5006 ms: Timeout was reached"
+  },
+  {
+    "filename": "CDC-Disaster-Preparedness-Safety-Messaging.pdf",
+    "url": "https://www.cdc.gov/hurricanes/media/pdfs/338199-A_NCEH_PUB_HurricaneKeyMsgs-English-508.pdf",
+    "pages": 68,
+    "bytes": 1828362,
+    "sha256": "a38cf68452a075febab012ebc93b6241c47bdabe104985ef75544946bbb2721b",
+    "retrieved": "2026-11-16",
+    "status": "downloaded and parsed"
+  },
+  {
+    "filename": "CDC-Emergency-Wound-Care.pdf",
+    "url": "https://www.cdc.gov/disasters/hurricanes/pdf/woundcare.pdf",
+    "pages": 1,
+    "bytes": 352891,
+    "sha256": "ee9b0b61906c5a731d6d0a8ed6c3c5ebaddf9a11f6588219e2b2c9dee2f87a6f",
+    "retrieved": "2026-11-16",
+    "status": "downloaded and parsed"
+  },
+  {
+    "filename": "CDC-Heat-Related-Illness.pdf",
+    "url": "https://www.cdc.gov/natural-disasters/media/pdfs/2026/09/Heat_Related_Illness-NEWLOGO.pdf",
+    "pages": 1,
+    "bytes": 229152,
+    "sha256": "3d0d6063da6ff8ed3ee87b9a14ade23607ef2550e2037197ae6e7f79dce70a23",
+    "retrieved": "2026-11-16",
+    "status": "downloaded and parsed"
+  },
+  {
+    "filename": "EPA-Cleaner-Air-Room-2026.pdf",
+    "url": "https://www.epa.gov/system/files/documents/2026-06/cleaner-air-room-factsheet.pdf",
+    "pages": 3,
+    "bytes": 436652,
+    "sha256": "2844e31e3f797e28bf33260e3724a3fef47cd0d9eb483ba032a099780727924c",
+    "retrieved": "2026-11-16",
+    "status": "downloaded and parsed"
+  }
+]

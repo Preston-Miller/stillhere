@@ -1,0 +1,37 @@
+# Secrets: never commit. Keys live in these files on Preston's Mac only.
+.env*
+!.env.example
+scripts/r2.env
+*.pem
+*.key
+.vercel
+.claude/settings.local.json
+
+# Python
+__pycache__/
+*.pyc
+app-venv/
+.venv/
+
+# Built and downloaded files (rebuilt by scripts, or too big for git)
+desktop/build/
+web/node_modules/
+web/.next/
+web/out/
+web/tsconfig.tsbuildinfo
+maps-build/out/
+maps-build/dl-*/
+maps-build/*.log
+
+# App data written while developing: personal chats, pins, added docs, maps.
+# library.sqlite is kept: it's the built library index the app ships with.
+app/data/*
+!app/data/library.sqlite
+
+# Bulky archives and review material (kept on disk, not in git)
+_removed-sources/
+source-review/
+archives/
+
+# OS
+.DS_Store

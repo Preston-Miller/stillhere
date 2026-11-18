@@ -1,0 +1,1104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stillhere</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%231a1716'/%3E%3Cg transform='translate(91 168)'%3E%3Cpath d='M18 138 L165 20 L312 138' fill='none' stroke='%23f6eedc' stroke-width='30' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='165' cy='128' r='36' fill='%23f4a12c'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="stylesheet" href="vendor/maplibre-gl.css">
+<style>
+:root{
+ --bg:#f6f5f1;--panel:#ffffff;--ink:#1d1f1c;--muted:#6a6d66;--line:#e2e0d8;
+ --doc:#2f6f4f;--doc-bg:#eef6f1;--model:#a86a12;--model-bg:#fdf5e8;--warn:#b3261e;
+ --accent:#2f6f4f;--user-bg:#efede7;--chip:#2f6f4f;--chip-ink:#fff;--side:#f3f2ed;--hover:#e7e5de;
+ --radius:10px;--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root{
+ --bg:#151714;--panel:#1d201c;--ink:#e7e8e3;--muted:#9a9e95;--line:#30342e;
+ --doc:#7cc59e;--doc-bg:#1b2a21;--model:#e2ac5a;--model-bg:#2b2416;--warn:#f2827a;
+ --accent:#7cc59e;--user-bg:#2a2e28;--chip:#3f8a63;--chip-ink:#fff;--side:#181a17;--hover:#262924;
+}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}   /* classes below set display; the hidden attribute must still win */
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--font)}
+.shell{display:grid;grid-template-columns:260px 1fr;height:100vh;height:100dvh;overflow:hidden}
+.shell.side-closed{grid-template-columns:0 1fr}
+.shell>.app,.shell>.mapview,.shell>.libview{grid-column:2;grid-row:1;min-width:0}
+.vgrid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.vcard{padding:0;overflow:hidden;gap:0;min-height:0}
+.vthumb{position:relative;aspect-ratio:16/9;background:#111;display:flex;align-items:center;justify-content:center}
+.vthumb video{width:100%;height:100%;object-fit:cover;pointer-events:none}
+.vthumb .play{position:absolute;width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;padding-left:3px}
+.vcard .vbody{display:flex;flex-direction:column;gap:4px;padding:10px 12px 12px}
+.vcard .vbody input{font:inherit;font-weight:600;font-size:14px;padding:3px 6px;border:1px solid var(--accent);border-radius:6px;background:var(--bg);color:var(--ink)}
+.vcard .vacts{display:flex;gap:6px;position:absolute;top:8px;right:8px;visibility:hidden}
+.vcard:hover .vacts{visibility:visible}
+.vcard .vacts button{border:none;background:rgba(0,0,0,.6);color:#fff;font-size:12px;padding:3px 8px;border-radius:6px}
+.vcard .vacts button:hover{background:rgba(0,0,0,.8)}
+.docbox.vidbox{background:#000;height:auto;max-height:100%;width:min(1100px,100%)}
+.vidbox .docbar{background:var(--panel)}
+.vidstage{display:flex;align-items:center;justify-content:center;background:#000;min-height:0}
+.vidstage video{max-width:100%;max-height:calc(92vh - 52px);display:block}
+.app{display:grid;grid-template-columns:1fr 0;grid-template-rows:100%;height:100%;overflow:hidden}
+.app.reading{grid-template-columns:minmax(380px,1fr) minmax(380px,46%)}
+.app:not(.reading) .reader{display:none}
+/* ---- sidebar ---- */
+.side{grid-column:1;grid-row:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;background:var(--side);border-right:1px solid var(--line);padding:10px 8px}
+.shell.side-closed .side{visibility:hidden;border:0;padding:0}
+.side-top{display:flex;align-items:center;padding:2px 4px 10px 8px}
+.side-top .spacer,.topbar .spacer{flex:1}
+.navitem{display:flex;align-items:center;gap:10px;width:100%;border:none;background:none;color:var(--ink);font-size:14px;text-align:left;padding:8px 10px;border-radius:8px}
+.navitem svg,.iconbtn svg{width:18px;height:18px;flex:0 0 18px}
+.navitem:hover,.navitem.on{background:var(--hover)}
+.side-label{padding:16px 10px 6px;font-size:12px;font-weight:600;color:var(--muted)}
+.side-label .hint{font-weight:400;margin-left:4px}
+.hlist{flex:1;overflow-y:auto;min-height:0}
+.side-foot{padding:10px 10px 4px;border-top:1px solid var(--line);margin-top:6px}
+.iconbtn{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border:none;background:none;color:var(--muted);border-radius:8px;font-size:15px}
+.iconbtn:hover{background:var(--hover);color:var(--ink)}
+.sideopen{display:none}
+.shell.side-closed .sideopen{display:inline-flex}
+.side-scrim{display:none}
+.topbar{border-bottom:none!important;padding:8px 12px!important;min-height:50px}
+.ctitle{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+/* Grid/flex children default to min-height:auto and grow with content; pin them so .messages scrolls. */
+.chat,.reader{min-height:0;height:100%;overflow:hidden}
+.messages{min-height:0;overscroll-behavior:contain}
+/* ---- chat ---- */
+.chat{display:flex;flex-direction:column;min-width:0;background:var(--panel)}
+header{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line)}
+header h1{font-size:16px;margin:0;font-weight:650;letter-spacing:.2px}
+header h1.brand{display:inline-flex;align-items:center;gap:7px;font-size:18px;font-weight:600;letter-spacing:-.3px}
+.brand .logo{height:.8em;width:auto}
+.side .brand{display:inline-flex;align-items:center;gap:7px;margin:0;font-size:19px;font-weight:600;letter-spacing:-.3px}
+.status{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.dot.ok{background:#3c9a63}.dot.bad{background:var(--warn)}
+header .spacer{flex:1}
+button{font:inherit;cursor:pointer}
+.ghost{background:none;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:5px 10px;font-size:13px}
+.ghost:hover{border-color:var(--muted)}
+.legend{display:flex;gap:14px;padding:8px 16px;font-size:12px;color:var(--muted);border-bottom:1px solid var(--line)}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.legend .l-doc::before{background:var(--doc)}.legend .l-model::before{background:var(--model)}
+.messages{flex:1;overflow-y:auto;padding:12px max(20px,calc((100% - 760px)/2)) 24px}
+.empty{color:var(--muted);text-align:center;margin-top:20vh;padding:0 20px}
+.empty h2{color:var(--ink);font-size:26px;font-weight:600;margin:0 0 10px;letter-spacing:-.3px}
+.suggest{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px}
+.suggest button{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;color:var(--ink)}
+.msg{margin:0 0 26px}
+.msg.user{display:flex;justify-content:flex-end}
+.msg.user .bubble{background:var(--user-bg);border-radius:18px;padding:9px 16px;max-width:75%;white-space:pre-wrap}
+.msg.assistant{cursor:default}
+.msg.assistant.selected .answer{outline:none}
+.answer .grp{border-left:3px solid transparent;padding:4px 0 4px 11px;margin:6px 0;border-radius:0 6px 6px 0}
+.answer .grp.doc{border-color:var(--doc);background:var(--doc-bg)}
+.answer .grp.model{border-color:var(--model);background:var(--model-bg)}
+.answer .grp.model::before{content:"Beyond the library — model knowledge";display:block;font-size:11px;font-weight:600;color:var(--model);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px}
+.answer .grp.doc::before{content:"From your library";display:block;font-size:11px;font-weight:600;color:var(--doc);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px}
+.answer .grp{padding-right:10px}
+.answer .ln{margin:3px 0}
+.answer .ln.gap{height:6px;margin:0}
+.answer ol,.answer ul{margin:4px 0 6px;padding-left:26px}
+.answer li{margin:4px 0;padding-left:2px}
+.answer ol>li::marker{font-weight:600}
+.answer li.unverified{text-decoration:underline wavy var(--warn);text-underline-offset:3px}
+.answer .ln.neutral{font-weight:600;margin-top:10px}
+.answer .ln.unverified{text-decoration:underline wavy var(--warn);text-underline-offset:3px}
+.answer .flag{display:block;font-size:12px;color:var(--warn);margin:2px 0 4px}
+.cite{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:18px;padding:0 5px;margin:0 1px;border:none;border-radius:5px;background:var(--chip);color:var(--chip-ink);font-size:11px;font-weight:650;vertical-align:1px}
+.cite:hover{filter:brightness(1.15)}
+.meta{font-size:12px;color:var(--muted);margin-top:4px}
+.srclist{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.srclist:empty{display:none}
+.srchead{width:100%;font-size:12px;font-weight:600;color:var(--muted)}
+.srcchip{display:inline-flex;align-items:center;gap:6px;max-width:100%;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:4px 9px 4px 5px;font-size:12px;text-align:left}
+.srcchip:hover{border-color:var(--muted)}
+.srcchip b{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:17px;border-radius:4px;background:var(--chip);color:var(--chip-ink);font-size:11px}
+.srcchip .st{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px}
+.srcchip .sp{color:var(--muted);white-space:nowrap}
+.err{color:var(--warn);font-size:13px}
+.cursor::after{content:"▍";animation:blink 1s steps(2) infinite;color:var(--muted)}
+@keyframes blink{50%{opacity:0}}
+.composer-wrap{padding:0 max(20px,calc((100% - 760px)/2)) 10px}
+.composer{display:flex;gap:8px;align-items:flex-end;border:1px solid var(--line);border-radius:24px;padding:8px 8px 8px 18px;background:var(--panel);box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.composer:focus-within{border-color:var(--muted)}
+.composer textarea{flex:1;resize:none;border:none;outline:none;padding:7px 0;font:inherit;background:none;color:var(--ink);max-height:200px}
+.send{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;flex:0 0 36px;background:var(--ink);color:var(--panel);border:none;border-radius:50%}
+.send svg{width:18px;height:18px}
+.send:disabled{opacity:.5;cursor:default}
+.fineprint{text-align:center;font-size:12px;color:var(--muted);padding-top:8px}
+.regions .send,.placeholder .send{width:auto;height:auto;border-radius:var(--radius);padding:10px 16px;background:var(--accent);color:#fff;font-weight:600}
+.rfoot .send{width:100%}
+.chat{position:relative}
+.hrow{display:flex;align-items:center;gap:6px;padding:7px 6px 7px 10px;border-radius:8px;cursor:pointer;font-size:14px}
+.hrow:hover,.hrow.current{background:var(--hover)}
+.hrow .ht{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hrow .del{border:none;background:none;color:var(--muted);font-size:15px;line-height:1;padding:2px 6px;border-radius:5px;visibility:hidden}
+.hrow:hover .del{visibility:visible}
+.hrow .del:hover{color:var(--warn)}
+.hday{padding:12px 10px 4px;font-size:11px;color:var(--muted)}
+.hrow .hlive{width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none;animation:hpulse 1.2s ease-in-out infinite}
+@keyframes hpulse{50%{opacity:.25}}
+.hnone{padding:6px 10px;color:var(--muted);font-size:13px}
+/* ---- reader ---- */
+.reader{display:flex;flex-direction:column;min-width:0;background:var(--bg);border-left:1px solid var(--line)}
+.reader header{background:var(--panel)}
+.sources{display:flex;gap:8px;overflow-x:auto;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--panel);min-height:58px}
+.src{flex:0 0 auto;max-width:240px;text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:6px 10px;font-size:12px}
+.src b{display:inline-block;min-width:18px;height:17px;border-radius:4px;background:var(--chip);color:var(--chip-ink);text-align:center;font-size:11px;margin-right:6px}
+.src .t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.src .p{color:var(--muted)}
+.src.active{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.src.unused{opacity:.55}
+.nosrc{color:var(--muted);font-size:13px;align-self:center;padding:0 4px}
+.excerpt{border-bottom:1px solid var(--line);background:var(--panel);font-size:13px}
+.excerpt summary{padding:8px 14px;cursor:pointer;color:var(--muted)}
+.excerpt div{padding:0 14px 12px;max-height:180px;overflow:auto;white-space:pre-wrap;color:var(--ink)}
+.view{flex:1;position:relative;min-height:0}
+.view iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+.view .text{position:absolute;inset:0;overflow:auto;padding:22px 28px;white-space:pre-wrap;background:var(--panel)}
+.view .text a{color:var(--accent)}
+.placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);text-align:center;padding:30px}
+.rtitle{font-weight:600;font-size:15px}
+.rinfo{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mapview{height:100%;display:flex;flex-direction:column;background:var(--bg)}
+.mapview header{background:var(--panel);position:relative;z-index:6}
+/* ---- Sources (library) view ---- */
+.libview{height:100%;display:flex;flex-direction:column;background:var(--panel);position:relative;min-height:0}
+.vtitle{font-size:16px;margin:0 0 0 4px;font-weight:600}
+.addbtn{background:var(--ink);color:var(--panel);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.addbtn:hover{opacity:.9}
+.libbody{flex:1;min-height:0;position:relative;border-top:1px solid var(--line)}
+.liblist{position:absolute;inset:0;overflow-y:auto;padding:8px max(20px,calc((100% - 1100px)/2)) 32px}
+.libdoc{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:4vh 4vw;background:rgba(0,0,0,.45);animation:fadein .12s ease-out}
+.docbox{display:flex;flex-direction:column;width:min(1000px,100%);height:100%;background:var(--panel);border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+@keyframes fadein{from{opacity:0}}
+.docbar{display:flex;align-items:center;gap:12px;padding:8px 8px 8px 18px;border-bottom:1px solid var(--line);background:var(--panel)}
+.doctitle{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.docview{flex:1;position:relative;min-height:0}
+.docview iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+.docview .text{position:absolute;inset:0;overflow:auto;padding:24px 32px;white-space:pre-wrap;background:var(--panel);line-height:1.6}
+.lhead{display:flex;align-items:baseline;gap:8px;padding:20px 2px 4px;font-weight:600;font-size:15px}
+.lhead .n{font-weight:400;color:var(--muted);font-size:12px}
+.lhead .lfilter{margin-left:auto}
+.lnote{padding:0 2px 10px;font-size:12px;color:var(--muted)}
+.lfilter{width:min(260px,50%);padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit;font-size:13px;font-weight:400}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.ldoc{position:relative;display:flex;flex-direction:column;gap:8px;min-height:128px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--panel);cursor:pointer;text-align:left}
+.ldoc:hover{border-color:var(--muted);box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.ldoc .badge{align-self:flex-start;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:5px;background:var(--doc-bg);color:var(--doc)}
+.ldoc .badge.web{background:var(--user-bg);color:var(--muted)}
+.ldoc .badge.mine{background:var(--model-bg);color:var(--model)}
+.ldoc b{font-weight:600;font-size:14px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.ldoc .meta2{margin-top:auto;font-size:12px;color:var(--muted)}
+.ldoc .del{position:absolute;top:8px;right:8px;border:none;background:var(--panel);color:var(--muted);font-size:12px;padding:3px 8px;border-radius:6px;visibility:hidden}
+.ldoc:hover .del{visibility:visible}
+.ldoc .del:hover{color:var(--warn)}
+.ldoc.busy{cursor:default}
+.ldoc.removed{cursor:default;opacity:.65;border-style:dashed}
+.ldoc.removed:hover{opacity:1;box-shadow:none}
+.ldoc .restore{align-self:flex-start;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-size:12px;padding:3px 10px;border-radius:6px}
+.ldoc .restore:hover{border-color:var(--muted)}
+.ldoc .bar{height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.ldoc .bar i{display:block;height:100%;background:var(--accent);transition:width .2s}
+.ldoc.failed .meta2{color:var(--warn)}
+.ldoc.catcard{min-height:120px}
+.ldoc.catcard b{font-size:16px}
+.catnav{padding:14px 0 0}
+.ldoc.addcard{border-style:dashed;align-items:center;justify-content:center;color:var(--muted);font-size:13px;text-align:center}
+.ldoc.addcard:hover{color:var(--ink)}
+.ldoc.addcard .plus{font-size:26px;line-height:1}
+.dropcover{position:absolute;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--panel) 85%,transparent);border:3px dashed var(--accent);font-weight:600;pointer-events:none}
+.srcchip .mine,.src .mine{color:var(--model)}
+.setupwrap{position:fixed;inset:0;z-index:55;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--bg)}
+.setupbox{width:min(480px,100%);text-align:center}
+.setuplogo .logo{height:44px;width:auto;color:var(--ink)}
+.setupbox h2{font-size:26px;font-weight:600;letter-spacing:-.3px;margin:14px 0 8px}
+.setupbox p{color:var(--muted);margin:0 0 6px}
+.setupbar{height:8px;border-radius:4px;background:var(--line);overflow:hidden;margin:22px 0 8px}
+.setupbar i{display:block;height:100%;width:0;background:var(--accent);transition:width .4s}
+.setupnum{font-size:13px;font-variant-numeric:tabular-nums}
+.setupbtns{display:flex;gap:10px;justify-content:center;margin-top:20px}
+.setupbtns button{border-radius:999px;padding:10px 20px;font-size:15px;font-weight:600;border:1px solid var(--line);background:none;color:var(--ink)}
+.setupbtns button.primary{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.setupbtns .err{color:var(--warn)}
+.dlgwrap{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.4);animation:fadein .12s ease-out}
+.dlg{width:min(420px,100%);background:var(--panel);color:var(--ink);border-radius:14px;padding:20px 20px 16px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.dlg h2{font-size:16px;margin:0 0 6px;font-weight:600}
+.dlg p{margin:0;color:var(--muted);font-size:14px}
+.dlgbtns{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+.dlgbtns button{border-radius:8px;padding:7px 14px;font-size:14px;font-weight:500}
+.dlgno{background:none;border:1px solid var(--line);color:var(--ink)}
+.dlgno:hover{border-color:var(--muted)}
+.dlgyes{border:none;background:var(--ink);color:var(--panel)}
+.dlgyes.danger{background:var(--warn);color:#fff}
+@media (max-width:600px){.lgrid{grid-template-columns:1fr 1fr;gap:8px}.lhead{flex-wrap:wrap}.lhead .lfilter{width:100%;margin:6px 0 0}}
+.msearch{position:relative;flex:1;max-width:460px;margin-left:8px}
+.msearch input{width:100%;font:inherit;font-size:14px;padding:7px 11px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.msearch input:focus{outline:2px solid var(--accent);outline-offset:-1px}
+.mresults{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.18);max-height:min(420px,70vh);overflow-y:auto;padding:4px}
+.mresults button{display:block;width:100%;text-align:left;border:none;background:none;color:var(--ink);padding:7px 10px;border-radius:7px;cursor:pointer;font-size:14px}
+.mresults button.on,.mresults button:hover{background:var(--bg)}
+.mresults .sub{display:block;font-size:12px;color:var(--muted)}
+.mresults .none{padding:10px;color:var(--muted);font-size:13px}
+.searchdot{width:16px;height:16px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 0 0 2px var(--accent),0 2px 6px rgba(0,0,0,.3)}
+.spop{color:#1a1a1a}.spop b{display:block}.spop .sub{color:#666;font-size:12px}.spop .ll{font-family:ui-monospace,Menlo,monospace;font-size:12px;margin:4px 0 8px;color:#333}
+.spop button{font:inherit;font-size:13px;padding:5px 10px;border-radius:6px;border:1px solid #ccc;background:#fff;cursor:pointer;margin-right:4px}
+.pane{flex:1;display:flex;flex-direction:column;min-height:0;position:relative}
+.pane[hidden]{display:none}
+#map{position:absolute;inset:0}
+.maptools{position:absolute;top:10px;left:10px;z-index:2;display:flex;gap:6px}
+.maptools .ghost{background:var(--panel);box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.maptools .ghost.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.maphint{position:absolute;top:52px;left:10px;z-index:2;background:var(--ink);color:var(--panel);font-size:12px;padding:5px 10px;border-radius:6px}
+.coverhint,.maptoast{position:absolute;left:50%;transform:translateX(-50%);z-index:2;display:flex;align-items:center;gap:10px;max-width:calc(100% - 32px);background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px 10px 8px 14px;font-size:13px;box-shadow:0 4px 16px rgba(0,0,0,.18)}
+.coverhint{top:56px}.maptoast{bottom:88px}
+.coverhint[hidden],.maptoast[hidden],.measurebar[hidden]{display:none}
+.measurebar{position:absolute;left:50%;transform:translateX(-50%);bottom:34px;z-index:2;display:flex;align-items:center;gap:8px;max-width:calc(100% - 32px);background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:7px 8px 7px 14px;font-size:13px;box-shadow:0 4px 16px rgba(0,0,0,.18)}
+.measurebar .mt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.measurebar .dot{margin:0 6px;color:var(--muted)}
+.measurebar .tn{color:var(--muted);text-decoration:underline dotted;cursor:help}
+.measurebar button{flex:none;font:inherit;border:1px solid var(--line);border-radius:7px;padding:4px 10px;cursor:pointer;background:none;color:var(--ink)}
+.measurebar button.pri{background:var(--accent);border-color:var(--accent);color:var(--panel);font-weight:600}
+.measurebar button:disabled{opacity:.45;cursor:default}
+.coordread{font:12px/1.2 ui-monospace,Menlo,monospace;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:4px 8px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.coordread .k{font:600 10px var(--font);color:var(--muted);margin-right:6px;letter-spacing:.03em}
+.spotmenu{display:flex;flex-direction:column;min-width:240px;font:13px/1.35 var(--font);color:#1d1f1c}
+.spotmenu .h{font-size:11px;color:#6a6d66;padding:2px 6px 4px}
+.spotmenu button{display:flex;flex-direction:column;align-items:flex-start;text-align:left;border:none;background:none;padding:5px 6px;border-radius:6px;cursor:pointer;font:inherit;color:inherit}
+.spotmenu button:hover{background:#efede7}
+.spotmenu .v{font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
+.spotmenu .n{font-size:11px;color:#6a6d66}
+.spotmenu .sep{height:1px;background:#e2e0d8;margin:4px 0}
+.coverhint button,.maptoast button{flex:none;font:inherit;font-weight:600;border:none;border-radius:7px;padding:5px 10px;cursor:pointer;background:var(--accent);color:var(--panel)}
+.maptoast button{background:none;color:var(--accent)}
+.pinform{display:flex;flex-direction:column;gap:6px;font:13px/1.4 var(--font);color:#1d1f1c;min-width:220px}
+.pinform input,.pinform select,.pinform textarea{font:inherit;padding:5px 7px;border:1px solid #d6d4cc;border-radius:6px;width:100%}
+.pinform textarea{resize:vertical;min-height:48px}
+.pinform .row{display:flex;gap:6px;justify-content:space-between;align-items:center}
+.pinform .coords{font-size:11px;color:#6a6d66}
+.pinform button{font:inherit;border-radius:6px;padding:4px 10px;border:1px solid #d6d4cc;background:#fff;cursor:pointer}
+.pinform .save{background:#2f6f4f;color:#fff;border-color:#2f6f4f}
+.pinform .del{color:#b3261e}
+.pdot{width:12px;height:12px;border-radius:50%;flex:0 0 12px}
+.regions{position:absolute;top:0;left:0;bottom:0;width:min(380px,100%);z-index:3;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;box-shadow:2px 0 12px rgba(0,0,0,.12)}
+.rhead{display:flex;align-items:center;padding:12px 14px 4px}
+.rnote{padding:0 14px 10px;font-size:12px;color:var(--muted)}
+.rnote .warn,.regions .warn{color:var(--warn)}
+.rsearch{margin:0 14px 8px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.rlist{flex:1;overflow-y:auto;border-top:1px solid var(--line)}
+.rrow{display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid var(--line);cursor:pointer;font-size:14px}
+.rrow:hover{background:var(--bg)}
+.rrow input{width:16px;height:16px;accent-color:var(--accent)}
+.rbox{width:16px;flex:0 0 16px}
+.rname{flex:1}
+.rsize{color:var(--muted);font-size:12px}
+.rok{color:var(--doc);font-size:12px}
+.rbtn{border:1px solid var(--line);background:none;color:var(--ink);border-radius:6px;padding:2px 8px;font-size:12px}
+.rprog{width:90px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.rprog span{display:block;height:100%;background:var(--accent)}
+.rfoot{padding:12px 14px;border-top:1px solid var(--line)}
+.rfoot .send{width:100%}
+.rnone{padding:14px;color:var(--muted);font-size:13px}
+/* Map: larger buttons and text throughout, so it is easy to read and hit (about 40px targets). */
+#mapView .msearch input{font-size:15px;padding:9px 12px}
+#mapView .mresults button{font-size:15px;padding:10px 12px}
+#mapView .mresults .sub{font-size:13px}
+.maptools{top:12px;left:12px;gap:8px;flex-wrap:wrap;right:70px}
+.maptools .ghost{font-size:15px;padding:9px 15px;min-height:40px;border-radius:9px}
+.maphint{top:66px;left:12px;font-size:14px;padding:7px 12px}
+.coverhint{top:66px}
+.coverhint,.maptoast,.measurebar{font-size:15px}
+.coverhint button,.maptoast button,.measurebar button{padding:8px 14px;min-height:38px}
+.coordread{font-size:14px;padding:7px 10px}
+.coordread .k{font-size:11px}
+#mapView .maplibregl-ctrl-group button{width:40px;height:40px}
+#mapView .maplibregl-ctrl-icon{background-size:34px}
+#mapView .maplibregl-popup-close-button{font-size:22px;width:32px;height:32px}
+.spotmenu{font-size:14px;min-width:270px}
+.spotmenu button{padding:8px 8px}
+.spotmenu .v{font-size:14px}.spotmenu .n{font-size:12px}
+.pinform{font-size:14px;min-width:250px;gap:8px}
+.pinform input,.pinform select,.pinform textarea{padding:8px 9px}
+.pinform button,.spop button{font-size:14px;padding:8px 14px}
+#mapView .rhead b{font-size:16px}
+#mapView .rhead .ghost{font-size:18px;min-width:38px;min-height:38px}
+#mapView .rnote{font-size:13px}
+#mapView .rsearch{font-size:15px;padding:10px 12px}
+#mapView .rrow{font-size:15px;padding:12px 14px}
+#mapView .rrow input{width:20px;height:20px}
+#mapView .rsize,#mapView .rok{font-size:13px}
+#mapView .rbtn{font-size:14px;padding:6px 12px}
+.spop{font-size:14px}.spop b{font-size:15px}.spop .sub{font-size:13px}.spop .ll{font-size:13px}
+@media (max-width:900px){
+ .shell,.shell.side-closed{grid-template-columns:0 1fr}
+ .side{position:fixed;top:0;left:0;bottom:0;width:280px;z-index:30;box-shadow:4px 0 24px rgba(0,0,0,.2)}
+ .shell:not(.side-closed) .side-scrim{display:block;position:fixed;inset:0;z-index:29;background:rgba(0,0,0,.3)}
+ .sideopen{display:inline-flex}
+ .app,.app.reading{grid-template-columns:1fr}
+ .reader{position:fixed;inset:0;z-index:5}
+}
+</style>
+</head>
+<body>
+<div class="shell" id="shell">
+<aside class="side" id="side">
+ <div class="side-top">
+  <h1 class="brand"><svg class="logo" viewBox="0 0 330 165" aria-hidden="true"><path d="M18 138 L165 20 L312 138" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/><circle cx="165" cy="128" r="36" fill="#f4a12c"/></svg>stillhere</h1>
+  <span class="spacer"></span>
+  <button class="iconbtn" data-side title="Close sidebar" aria-label="Close sidebar"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 3.5v13" stroke="currentColor" stroke-width="1.6"/></svg></button>
+ </div>
+ <button class="navitem" id="newChat"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3.5H5.5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M14.5 3l2.5 2.5-6.5 6.5H8V9.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>New chat</button>
+ <button class="navitem" data-view="chat"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4.5h12a1.5 1.5 0 0 1 1.5 1.5v7a1.5 1.5 0 0 1-1.5 1.5H9l-4 3v-3H4A1.5 1.5 0 0 1 2.5 13V6A1.5 1.5 0 0 1 4 4.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Chat</button>
+ <button class="navitem" data-view="map"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 5l5-2 5 2 5-2v12l-5 2-5-2-5 2z M7.5 3v12 M12.5 5v12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Map</button>
+ <button class="navitem" data-view="library"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4.5c2.5-1 5-1 7 .5 2-1.5 4.5-1.5 7-.5v11c-2.5-1-5-1-7 .5-2-1.5-4.5-1.5-7-.5z M10 5v11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Sources</button>
+ <button class="navitem" data-view="videos"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="4" width="15" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 7.5v5l4-2.5z" fill="currentColor"/></svg>Videos</button>
+ <div class="side-label">Chats <span class="hint">saved on this computer</span></div>
+ <div class="hlist" id="historyList"></div>
+ <div class="side-foot status"><span class="dot" id="dot"></span><span id="statusText">checking…</span></div>
+</aside>
+<div class="side-scrim" data-side></div>
+<div class="app">
+ <section class="chat">
+  <header class="topbar">
+   <button class="iconbtn sideopen" data-side title="Open sidebar" aria-label="Open sidebar"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 3.5v13" stroke="currentColor" stroke-width="1.6"/></svg></button>
+   <span class="ctitle" id="chatTitle"></span>
+   <span class="spacer"></span>
+   <button class="iconbtn" id="newChatTop" title="New chat" aria-label="New chat"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3.5H5.5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M14.5 3l2.5 2.5-6.5 6.5H8V9.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
+  </header>
+  <div class="messages" id="messages">
+   <div class="empty" id="empty">
+    <h2>What do you need to know?</h2>
+    <div>Answers come from your offline library. Click a numbered source to see the page it came from. Anything the AI adds from its own training is marked separately.</div>
+    <div class="suggest">
+     <button>Where should I put a generator?</button>
+     <button>How do I purify cloudy water?</button>
+     <button>The power's been out two days. Is my freezer food OK?</button>
+     <button>How do I find north without a compass?</button>
+    </div>
+   </div>
+  </div>
+  <div class="composer-wrap">
+   <form class="composer" id="form">
+    <textarea id="input" rows="1" placeholder="Ask a question…" autofocus></textarea>
+    <button class="send" id="send" type="submit" aria-label="Send"></button>
+   </form>
+   <div class="fineprint">It can make mistakes. Check the sources, especially for anything medical.</div>
+  </div>
+ </section>
+ <section class="reader" id="reader">
+  <header><span class="rtitle">Sources</span>
+   <span class="status rinfo" id="readerInfo"></span><span class="spacer"></span>
+   <button class="iconbtn" id="back" title="Close sources" aria-label="Close sources">✕</button></header>
+  <div class="pane" id="sourcesPane">
+   <div class="sources" id="sources"><span class="nosrc">Sources for the selected answer appear here.</span></div>
+   <details class="excerpt" id="excerpt" hidden><summary>Matched passage</summary><div id="excerptText"></div></details>
+   <div class="view" id="view"><div class="placeholder">Click a source number in an answer to open the page here.</div></div>
+  </div>
+ </section>
+</div>
+<section class="mapview" id="mapView" hidden>
+ <header class="topbar">
+  <button class="iconbtn sideopen" data-side title="Open sidebar" aria-label="Open sidebar"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 3.5v13" stroke="currentColor" stroke-width="1.6"/></svg></button>
+  <h1>Map</h1>
+  <div class="msearch">
+   <input id="mapSearch" type="search" placeholder="Search places, coordinates, or a grid reference" autocomplete="off" spellcheck="false" aria-label="Search the map" aria-controls="mapResults">
+   <div class="mresults" id="mapResults" role="listbox" hidden></div>
+  </div>
+ </header>
+  <div class="pane" id="mapPane">
+   <div id="map"></div>
+   <div class="maptools">
+    <button class="ghost" id="addPinBtn" title="Click the map to drop a pin">+ Add pin</button>
+    <button class="ghost" id="pinsBtn">Pins</button>
+    <button class="ghost" id="measureBtn" title="Click points on the map to measure distance and bearing">Measure</button>
+    <button class="ghost" id="regionsBtn">Map regions</button>
+   </div>
+   <div class="maphint" id="pinHint" hidden>Click the map to place the pin · Esc to cancel</div>
+   <div class="regions" id="pinsPanel" hidden>
+    <div class="rhead"><b>Pins</b><span class="spacer"></span><button class="ghost" id="pinsClose" aria-label="Close">×</button></div>
+    <div class="rnote">Saved on this computer. Click a pin to go to it; drag a pin on the map to move it.</div>
+    <div class="rlist" id="pinsList"></div>
+   </div>
+   <div class="placeholder" id="mapEmpty" hidden><div><b>No maps downloaded yet.</b><br>Pick the states you want available offline.<br><br><button class="send" id="mapEmptyBtn">Choose states</button></div></div>
+   <div class="regions" id="regions" hidden>
+    <div class="rhead"><b>Map regions</b><span class="spacer"></span><button class="ghost" id="regionsClose" aria-label="Close">×</button></div>
+    <div class="rnote" id="regionsNote"></div>
+    <input class="rsearch" id="regionsSearch" type="search" placeholder="Find a state…">
+    <div class="rlist" id="regionsList"></div>
+    <div class="rfoot"><button class="send" id="regionsGo" disabled>Select states to download</button></div>
+   </div>
+  </div>
+ </section>
+<section class="libview" id="vidView" hidden>
+ <header class="topbar">
+  <button class="iconbtn sideopen" data-side title="Open sidebar" aria-label="Open sidebar"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 3.5v13" stroke="currentColor" stroke-width="1.6"/></svg></button>
+  <h1 class="vtitle">Videos</h1>
+  <span class="spacer"></span>
+  <label class="addbtn">+ Add videos<input type="file" id="addVideos" multiple accept=".mp4,.m4v,.mov,video/mp4,video/quicktime" hidden></label>
+ </header>
+ <div class="libbody"><div class="liblist" id="vidList"></div></div>
+ <div class="libdoc" id="vidPlayer" hidden>
+  <div class="docbox vidbox" role="dialog" aria-modal="true" aria-labelledby="vidTitle">
+   <div class="docbar"><span class="doctitle" id="vidTitle"></span><span class="spacer" style="flex:1"></span><button class="iconbtn" id="vidClose" title="Close (Esc)" aria-label="Close">✕</button></div>
+   <div class="vidstage"><video id="vidEl" controls playsinline></video></div>
+  </div>
+ </div>
+ <div class="dropcover" id="vidDrop" hidden><div>Drop videos to add them</div></div>
+</section>
+<section class="libview" id="libView" hidden>
+ <header class="topbar">
+  <button class="iconbtn sideopen" data-side title="Open sidebar" aria-label="Open sidebar"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 3.5v13" stroke="currentColor" stroke-width="1.6"/></svg></button>
+  <h1 class="vtitle">Sources</h1>
+  <span class="spacer"></span>
+  <label class="addbtn">+ Add documents<input type="file" id="addFiles" multiple accept=".pdf,.txt,.md,.docx" hidden></label>
+ </header>
+ <div class="libbody">
+  <div class="liblist" id="libList"></div>
+  <div class="libdoc" id="libDocWrap" hidden>
+   <div class="docbox" role="dialog" aria-modal="true" aria-labelledby="libDocTitle">
+    <div class="docbar"><span class="doctitle" id="libDocTitle"></span><span class="spacer" style="flex:1"></span><button class="iconbtn" id="libBack" title="Close (Esc)" aria-label="Close">✕</button></div>
+    <div class="docview" id="libDoc"></div>
+   </div>
+  </div>
+ </div>
+ <div class="dropcover" id="dropCover" hidden><div>Drop files to add them to your documents</div></div>
+</section>
+</div>
+<div class="setupwrap" id="setup" hidden>
+ <div class="setupbox">
+  <div class="setuplogo"><svg class="logo" viewBox="0 0 330 165" aria-hidden="true"><path d="M18 138 L165 20 L312 138" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/><circle cx="165" cy="128" r="36" fill="#f4a12c"/></svg></div>
+  <h2 id="setupTitle">Welcome to Stillhere</h2>
+  <p id="setupText"></p>
+  <div class="setupbar" id="setupBar" hidden><i id="setupFill"></i></div>
+  <p class="setupnum" id="setupNum"></p>
+  <div class="setupbtns" id="setupBtns"></div>
+ </div>
+</div>
+<div class="dlgwrap" id="dlg" hidden>
+ <div class="dlg" role="alertdialog" aria-modal="true" aria-labelledby="dlgTitle" aria-describedby="dlgMsg">
+  <h2 id="dlgTitle"></h2>
+  <p id="dlgMsg"></p>
+  <div class="dlgbtns"><button class="dlgno" id="dlgNo">Cancel</button><button class="dlgyes" id="dlgYes">OK</button></div>
+ </div>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+// The app's own confirm dialog, used instead of the browser's (which shows "localhost says…").
+// appConfirm({title,message,ok,danger}) resolves true or false.
+window.appConfirm=({title='Are you sure?',message='',ok='OK',danger=true}={})=>new Promise(resolve=>{
+ const w=$('#dlg'),yes=$('#dlgYes'),no=$('#dlgNo'),prev=document.activeElement;
+ $('#dlgTitle').textContent=title;$('#dlgMsg').textContent=message;$('#dlgMsg').hidden=!message;
+ yes.textContent=ok;yes.classList.toggle('danger',danger);w.hidden=false;no.focus();
+ const done=v=>{w.hidden=true;document.removeEventListener('keydown',key,true);yes.onclick=no.onclick=w.onclick=null;prev?.focus?.();resolve(v)};
+ const key=e=>{if(e.key==='Escape'){e.stopPropagation();done(false)}else if(e.key==='Enter'&&document.activeElement!==no){e.preventDefault();done(true)}};
+ document.addEventListener('keydown',key,true);
+ yes.onclick=()=>done(true);no.onclick=()=>done(false);w.onclick=e=>{if(e.target===w)done(false)};
+});
+const state={messages:[],turns:[],saved:[],busy:false,selected:null,activeSrc:null,chatId:null,ctrl:null};
+
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function inline(s){return esc(s).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/(^|[^*])\*([^*\s][^*]*)\*/g,'$1<i>$2</i>')}
+
+// The answer comes in sections: the library part (cited) and an optional "Beyond the library:" part.
+// Each section renders as one block. A section with no valid citation is model knowledge, and so is
+// anything after the last cited line of a library section (the model forgot the marker).
+const MODEL_MARK=/^[\s*_#]*(beyond the library|(general|model|my own|own) knowledge)[\s*_]*:?[\s*_]*/i;
+const DOC_MARK=/^[\s*_#]*from (the|your) library[\s*_]*:?[\s*_]*/i;
+function render(turn){
+ const valid=new Set(turn.sources.map(s=>s.n));
+ const flagged=new Map((turn.unverified||[]).map(f=>[f.line,f.numbers]));
+ const sections=[];let sec={kind:null,lines:[]};
+ splitSteps(turn.text).forEach(({i,raw})=>{
+  let line=raw.trim();
+  const m=line.match(MODEL_MARK)||line.match(DOC_MARK);
+  if(m&&(m[0].includes(':')||m[0].length===line.length)){   // "Beyond the library:" or the phrase alone on a line
+   sections.push(sec);sec={kind:MODEL_MARK.test(line)?'model':'doc',lines:[]};
+   line=line.slice(m[0].length).trim();
+  }
+  sec.lines.push({i,line});
+ });
+ sections.push(sec);
+ const out=[];
+ for(const s of sections){
+  const lines=s.lines.map(l=>({...l,good:[...l.line.matchAll(/\[(\d+)\]/g)].map(m=>+m[1]).filter(n=>valid.has(n))}));
+  const last=lines.map(l=>l.good.length>0).lastIndexOf(true);
+  if(s.kind==='model'||last<0){out.push({kind:'model',lines});continue}
+  out.push({kind:'doc',lines:lines.slice(0,last+1)});
+  if(sections.length===1)out.push({kind:'model',lines:lines.slice(last+1)});   // no marker at all: trailing uncited text is the model's
+  else out[out.length-1].lines.push(...lines.slice(last+1));
+ }
+ for(let k=out.length-1;k>0;k--)if(out[k].kind===out[k-1].kind)out[k-1].lines.push(...out.splice(k,1)[0].lines);
+ const shown=new Set();
+ return out.map(b=>{
+  const items=b.lines.map(l=>lineHtml(turn,l,b.kind==='doc',flagged,shown)).filter(Boolean);
+  let body='',open=null;
+  items.forEach((it,k)=>{
+   if(it.gap){   // a blank line between two items of the same list doesn't end the list
+    const next=items.slice(k+1).find(x=>!x.gap);
+    if(open&&next&&next.list===open)return;
+   }
+   if(it.list!==open){if(open)body+=`</${open}>`;if(it.list)body+=`<${it.list}>`;open=it.list}
+   body+=it.html;
+  });
+  if(open)body+=`</${open}>`;
+  return body.replace(/<div class="ln gap"><\/div>/g,'').trim()?`<div class="grp ${b.kind}">${body}</div>`:'';
+ }).join('');
+}
+// Models sometimes write "1. Do this. 2. Then this." on one line; give each step its own line.
+function splitSteps(text){
+ const out=[];
+ text.split('\n').forEach((raw,i)=>{
+  const marks=[...raw.matchAll(/(^|\s)(\d{1,2})[.)]\s+(?=[A-Z*])/g)];
+  const seq=marks.length>=2&&marks.every((m,k)=>k===0||+m[2]===+marks[k-1][2]+1);
+  if(!seq){out.push({i,raw});return}
+  const head=raw.slice(0,marks[0].index+marks[0][1].length).trim();
+  if(head)out.push({i,raw:head});
+  marks.forEach((m,k)=>out.push({i,raw:raw.slice(m.index+m[1].length,k+1<marks.length?marks[k+1].index:undefined).trim()}));
+ });
+ return out;
+}
+function lineHtml(turn,{i,line,good},cite,flagged,shown){
+ if(!line)return{gap:true,list:null,html:'<div class="ln gap"></div>'};
+ let body=line.replace(/\s*\[(\d+)\]/g,'');
+ if(!body)return null;
+ const num=body.match(/^(\d+)[.)]\s+/),bul=body.match(/^[-*•]\s+/);
+ const list=num?'ol':bul?'ul':null;
+ if(list)body=body.slice((num||bul)[0].length);
+ const label=!list&&body.length<70&&(/:$/.test(body)||/^\*\*[^*]+\*\*:?$/.test(body));
+ const chips=cite&&good.length?' '+[...new Set(good)].map(n=>`<button class="cite" data-n="${n}" title="${esc(srcLabel(turn.sources.find(s=>s.n===n)))}">${n}</button>`).join(''):'';
+ const flag=flagged.has(i)&&!shown.has(i);
+ const cls=[label?'neutral':'',flag?'unverified':''].join(' ').trim();
+ let html=inline(body)+chips;
+ if(flag){shown.add(i);html+=`<span class="flag">Not found on the cited page: ${esc(flagged.get(i).join(', '))}. Check the source before relying on these numbers.</span>`}
+ if(list)return{list,html:`<li${num?` value="${num[1]}"`:''}${cls?` class="${cls}"`:''}>${html}</li>`};
+ return{list:null,html:`<div class="ln ${cls}">${html}</div>`};
+}
+function srcLabel(s){if(!s)return'';return s.title+(s.page?`, p. ${s.page}`:'')+(yearText(s)?` (${yearText(s)})`:'')}
+// "2002", "saved 2026" for web pages, "c. 2019" when only the PDF file's date is known.
+function yearText(s){if(!s||!s.year)return'';return s.dated==='retrieved'?'saved '+s.year:s.dated==='file'?'c. '+s.year:String(s.year)}
+
+// Follow the streaming answer only if the reader hasn't scrolled up to read something earlier.
+function nearBottom(){const m=$('#messages');return m.scrollHeight-m.scrollTop-m.clientHeight<80}
+function toBottom(){const m=$('#messages');m.scrollTop=m.scrollHeight}
+function addMessage(role,html){
+ $('#empty')?.remove();
+ const el=document.createElement('div');el.className='msg '+role;
+ el.innerHTML=role==='user'?`<div class="bubble">${esc(html)}</div>`:`<div class="answer"></div><div class="srclist"></div><div class="meta"></div>`;
+ $('#messages').appendChild(el);toBottom();return el;
+}
+
+function showSources(turn,focusN,user=false){
+ state.selected=turn;
+ document.querySelectorAll('.msg.assistant').forEach(m=>m.classList.toggle('selected',m===turn.el));
+ const used=new Set([...turn.text.matchAll(/\[(\d+)\]/g)].map(m=>+m[1]));
+ const box=$('#sources');
+ if(!turn.sources.length){box.innerHTML='<span class="nosrc">No library pages matched this question — the answer is model knowledge only.</span>';$('#excerpt').hidden=true;$('#view').innerHTML='<div class="placeholder">Nothing from the library to show for this answer.</div>';return}
+ box.innerHTML=turn.sources.map(s=>`<button class="src ${used.has(s.n)||!turn.done?'':'unused'}" data-n="${s.n}" title="${esc(srcLabel(s))}${used.has(s.n)?'':' (retrieved, not cited)'}"><span class="t"><b>${s.n}</b>${esc(s.title)}${s.url?.startsWith('https://www.nhs.uk/')?' — Information from the NHS website, as at 171126':''}</span><span class="p">${s.mine?'<span class="mine">Your document</span> · ':''}${s.page?'Page '+s.page:(s.kind==='web'?'Web page':s.kind==='text'?'Text':'Guide section')}${yearText(s)?' · '+yearText(s):''}</span></button>`).join('');
+ box.querySelectorAll('.src').forEach(b=>b.onclick=()=>openSource(turn,+b.dataset.n,true));
+ if(focusN)openSource(turn,focusN,user);
+ else if(!state.activeSrc||state.activeSrc.turn!==turn){const first=turn.sources.find(s=>used.has(s.n))||turn.sources[0];openSource(turn,first.n)}
+}
+
+// user=true only for clicks: on narrow screens the reader slides over the chat, so never open it unprompted.
+// Saved sources start with an acquisition header (Title:, Source:, Status: ...). It's bookkeeping, not content.
+const HEAD_RE=/^(?:(?:Title|Source|Retrieved|Status|Page-date-as-captured):.*\n|\s*\n)+/;
+// The library index stores the same header run together on one line ("Page-date-as-captured: May 15, 2024 Status: ... approval Key points").
+const stripHead=x=>(x||'').replace(HEAD_RE,'')
+ .replace(/^Page-date-as-captured:\s*[A-Za-z]+\.?\s+\d{1,2},\s+\d{4}\s*/,'')
+ .replace(/^Status:[^\n]*?(?:rights approval|approved procedure|baseline-reference(?:-UK)?|clinical-review-required|selection-required)\s*/,'');
+function openSource(turn,n,user=false){
+ const s=turn.sources.find(x=>x.n===n);if(!s)return;
+ if(state.selected!==turn){showSources(turn,n,user);return}
+ state.activeSrc={turn,n};
+ document.querySelectorAll('.src').forEach(b=>b.classList.toggle('active',+b.dataset.n===n));
+ $('#excerpt').hidden=s.kind!=='pdf';$('#excerptText').textContent=stripHead(s.text);
+ $('#readerInfo').textContent=srcLabel(s);
+ const view=$('#view');
+ const url='/files/'+s.path.split('/').map(encodeURIComponent).join('/');
+ if(s.kind==='pdf'){
+  // Query string forces a reload so the built-in PDF viewer honors a new #page on the same file.
+  view.innerHTML=`<iframe title="${esc(srcLabel(s))}" src="${url}?p=${s.page}#page=${s.page}&view=FitH"></iframe>`;
+ }else{
+  view.innerHTML=`<div class="text"></div>`;
+  const t=view.firstChild;
+  // Saved web pages include site navigation; lead with the matched passage, full text on request.
+  t.innerHTML=`<h3 style="margin:0 0 4px;white-space:normal">${esc(s.title)}</h3>`+
+   (s.url?`<div style="font-size:12px;margin-bottom:14px">Saved offline copy of <a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a></div>`:'')+
+   `<div class="passage"></div>`+(s.kind==='web'?`<details style="margin-top:18px"><summary style="cursor:pointer;color:var(--muted)">Full saved page text</summary><div class="full" style="margin-top:8px;color:var(--muted)">Loading…</div></details>`:'');
+  t.querySelector('.passage').textContent=stripHead(s.text);
+  if(s.kind==='web')fetch(url).then(r=>r.text()).then(txt=>{t.querySelector('.full').textContent=stripHead(txt)});
+ }
+ if(user)$('.app').classList.add('reading')
+}
+// ---- turns: one object per assistant answer, used for live streaming and for restored chats ----
+function makeTurn(el,data={}){
+ const turn={el,text:data.content||'',sources:data.sources||[],unverified:data.unverified||[],done:true,stopped:!!data.stopped,stats:data.stats||null};
+ el.addEventListener('click',e=>{const c=e.target.closest('.cite,.srcchip');if(c)openSource(turn,+c.dataset.n,true);else if(state.selected!==turn&&turn.sources.length)showSources(turn)});
+ state.turns.push(turn);return turn;
+}
+function paintTurn(turn){
+ // Sources this answer actually cited, listed under it; clicking one opens that page in the Sources panel.
+ const cited=new Set([...turn.text.matchAll(/\[(\d+)\]/g)].map(m=>+m[1]));
+ const list=turn.sources.filter(s=>cited.has(s.n));
+ turn.el.querySelector('.srclist').innerHTML=list.length?`<div class="srchead">Sources</div>`+list.map(s=>`<button class="srcchip" data-n="${s.n}" title="${esc(srcLabel(s))}"><b>${s.n}</b><span class="st">${esc(s.title)}${s.url?.startsWith('https://www.nhs.uk/')?' — Information from the NHS website, as at 171126':''}</span><span class="sp">${s.mine?'<span class="mine">your document</span> · ':''}${s.page?'p. '+s.page:(s.kind==='web'?'web page':s.kind==='text'?'text':'guide')}${yearText(s)?' · '+yearText(s):''}</span></button>`).join(''):'';
+ turn.el.querySelector('.answer').innerHTML=turn.text?render(turn):(turn.stopped?'':'');
+ const st=turn.stats||{};
+ turn.el.querySelector('.meta').textContent=[turn.stopped?'Stopped.':'',turn.truncated?'Answer hit the length limit and may be cut off.':'',st.seconds?`${st.seconds}s`:''].filter(Boolean).join(' ');
+}
+
+// ---- saving: each chat is a JSON file in app/data/chats, written after every answer ----
+function newId(){return (crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2)).toLowerCase()}
+// Answers still being written, by chat id. Switching chats leaves them running; each saves to its own chat when done.
+const live=new Map();
+async function saveChat(chat){
+ if(!chat.id||!chat.saved.length||chat.deleted)return;
+ const first=chat.saved.find(t=>t.role==='user');
+ const title=first?first.content.slice(0,80):'Untitled';
+ try{await fetch('/api/chats/'+chat.id,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,turns:chat.saved})})}
+ catch(e){console.warn('Could not save chat',e)}
+ refreshHistory();
+}
+
+async function ask(q){
+ if(state.busy||!q.trim())return;
+ if(!state.chatId){state.chatId=newId();history.replaceState(null,'','#chat='+state.chatId);$('#chatTitle').textContent=q.slice(0,80)}
+ // These arrays belong to this chat. Opening another chat gives state fresh ones, so the answer keeps writing here.
+ const chat={id:state.chatId,saved:state.saved,messages:state.messages,title:$('#chatTitle').textContent||q.slice(0,80)};
+ const here=()=>state.chatId===chat.id;
+ setBusy(true);
+ addMessage('user',q);chat.messages.push({role:'user',content:q});
+ const el=addMessage('assistant');const ans=el.querySelector('.answer');ans.classList.add('cursor');ans.innerHTML='<span class="meta">Searching the library…</span>';
+ const turn=makeTurn(el);turn.done=false;
+ const ctrl=new AbortController();state.ctrl=ctrl;
+ live.set(chat.id,{chat,q,el,turn,ctrl});refreshHistory();
+ try{
+  const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chat.messages}),signal:ctrl.signal});
+  if(!r.ok)throw new Error('Server error '+r.status);
+  const reader=r.body.getReader();const dec=new TextDecoder();let buf='';
+  while(true){
+   const {value,done}=await reader.read();if(done)break;
+   buf+=dec.decode(value,{stream:true});
+   let i;while((i=buf.indexOf('\n'))>=0){
+    const line=buf.slice(0,i);buf=buf.slice(i+1);if(!line.trim())continue;
+    const ev=JSON.parse(line);
+    if(ev.type==='sources'){turn.sources=ev.sources;if(here())showSources(turn);ans.innerHTML='<span class="meta">'+(ev.sources.length?`Found ${ev.sources.length} relevant sources. Writing…`:'Nothing in the library matched. Answering from model knowledge…')+'</span>'}
+    else if(ev.type==='token'){const stick=here()&&nearBottom();turn.text+=ev.text;ans.innerHTML=render(turn);if(stick)toBottom()}
+    else if(ev.type==='done'){turn.done=true;turn.unverified=ev.unverified;turn.truncated=ev.truncated;turn.stats=ev.stats;paintTurn(turn);
+     if(here()&&state.selected===turn)showSources(turn,state.activeSrc?.turn===turn?state.activeSrc.n:null)}
+    else if(ev.type==='error'){throw new Error(ev.message)}
+   }
+  }
+  live.delete(chat.id);record(chat,q,turn);
+ }catch(e){
+  live.delete(chat.id);
+  if(e.name==='AbortError'){
+   // Keep whatever was written so far; the conversation can continue from it.
+   turn.done=true;turn.stopped=true;paintTurn(turn);
+   if(!turn.text)ans.innerHTML='<span class="meta">Stopped before the answer started.</span>';
+   if(here()&&state.selected===turn&&turn.sources.length)showSources(turn);
+   record(chat,q,turn);
+  }else{
+   ans.innerHTML+=`<div class="err">${esc(e.message||String(e))}</div>`;
+   chat.messages.pop();refreshHistory();
+  }
+ }finally{
+  ans.classList.remove('cursor');
+  if(here()){state.ctrl=null;setBusy(false);$('#input').focus()}
+ }
+}
+function record(chat,q,turn){
+ chat.messages.push({role:'assistant',content:turn.text||'(Stopped before answering.)'});
+ chat.saved.push({role:'user',content:q},{role:'assistant',content:turn.text,sources:turn.sources,unverified:turn.unverified,stopped:turn.stopped,stats:turn.stats});
+ saveChat(chat);
+}
+const SEND_ICON='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 16V4M4.5 9.5L10 4l5.5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const STOP_ICON='<svg viewBox="0 0 20 20" aria-hidden="true"><rect x="5.5" y="5.5" width="9" height="9" rx="1.5" fill="currentColor"/></svg>';
+function setBusy(b){
+ state.busy=b;const s=$('#send');
+ s.innerHTML=b?STOP_ICON:SEND_ICON;s.classList.toggle('stop',b);s.title=b?'Stop generating':'Send';s.setAttribute('aria-label',s.title);
+}
+
+// ---- chat switching ----
+const EMPTY_HTML=$('#empty').outerHTML;
+function resetView(){
+ // An answer being written keeps going in the background (see `live`); this view just stops showing it.
+ Object.assign(state,{messages:[],turns:[],saved:[],selected:null,activeSrc:null,chatId:null,ctrl:null});setBusy(false);
+ $('#messages').innerHTML=EMPTY_HTML;
+ document.querySelectorAll('.suggest button').forEach(b=>b.onclick=()=>ask(b.textContent));
+ $('#sources').innerHTML='<span class="nosrc">Sources for the selected answer appear here.</span>';
+ $('#excerpt').hidden=true;$('#readerInfo').textContent='';
+ $('#view').innerHTML='<div class="placeholder">Click a source number in an answer to open the page here.</div>';
+ $('#chatTitle').textContent='';$('.app').classList.remove('reading');
+}
+function newChat(){resetView();history.replaceState(null,'',location.pathname);showView('chat');refreshHistory();closeSideOnPhone();$('#input').focus()}
+async function loadChat(id){
+ // A chat with an answer still being written is shown from memory, with the live answer reattached.
+ const run=live.get(id);
+ let saved,title;
+ if(run){saved=run.chat.saved;title=run.chat.title}
+ else{
+  const r=await fetch('/api/chats/'+encodeURIComponent(id));
+  if(!r.ok){newChat();return}
+  const d=await r.json();saved=d.turns||[];title=d.title||'';
+ }
+ resetView();state.chatId=id;state.saved=saved;history.replaceState(null,'','#chat='+id);$('#chatTitle').textContent=title;
+ let last=null;const msgs=[];
+ for(const t of saved){
+  if(t.role==='user'){addMessage('user',t.content);msgs.push({role:'user',content:t.content})}
+  else{const el=addMessage('assistant');last=makeTurn(el,t);paintTurn(last);msgs.push({role:'assistant',content:t.content||'(Stopped before answering.)'})}
+ }
+ if(run){
+  state.messages=run.chat.messages;
+  addMessage('user',run.q);$('#messages').appendChild(run.el);state.turns.push(run.turn);
+  state.ctrl=run.ctrl;setBusy(true);last=run.turn;
+ }else state.messages=msgs;
+ if(last&&last.sources.length)showSources(last);
+ showView('chat');refreshHistory();closeSideOnPhone();toBottom();
+}
+// Chat list in the sidebar, newest first, grouped by day like other chat apps.
+function dayGroup(ts){
+ const d=new Date(ts*1000),now=new Date(),start=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime()/1000;
+ if(ts>=start)return 'Today';if(ts>=start-86400)return 'Yesterday';if(ts>=start-6*86400)return 'Previous 7 days';if(ts>=start-29*86400)return 'Previous 30 days';
+ return d.toLocaleDateString(undefined,{month:'long',year:'numeric'});
+}
+async function refreshHistory(){
+ const list=await fetch('/api/chats').then(r=>r.json()).catch(()=>[]);
+ // A brand-new chat isn't saved until its first answer finishes; list it anyway so it can be reopened.
+ for(const [id,run] of live)if(!list.some(c=>c.id===id))list.unshift({id,title:run.chat.title,updated:Date.now()/1000});
+ const box=$('#historyList');
+ if(!list.length){box.innerHTML='<div class="hnone">No chats yet. Chats save automatically.</div>';return}
+ let html='',last='';
+ for(const c of list){
+  const g=dayGroup(c.updated);if(g!==last){html+=`<div class="hday">${esc(g)}</div>`;last=g}
+  html+=`<div class="hrow ${c.id===state.chatId?'current':''}" data-id="${esc(c.id)}" title="${esc(c.title)}"><span class="ht">${esc(c.title)}</span>${live.has(c.id)?'<span class="hlive" title="Writing an answer…" aria-label="Writing an answer"></span>':''}<button class="del" title="Delete chat" aria-label="Delete chat">✕</button></div>`;
+ }
+ box.innerHTML=html;
+ box.querySelectorAll('.hrow').forEach(row=>row.onclick=async e=>{
+  const id=row.dataset.id;
+  if(e.target.closest('.del')){
+   if(!await appConfirm({title:'Delete this chat?',message:'This can\'t be undone.',ok:'Delete'}))return;
+   const run=live.get(id);if(run){run.chat.deleted=true;run.ctrl.abort()}
+   await fetch('/api/chats/'+encodeURIComponent(id),{method:'DELETE'});
+   if(id===state.chatId)newChat();else refreshHistory();
+   return;
+  }
+  if(id!==state.chatId)loadChat(id);
+ });
+}
+
+$('#form').onsubmit=e=>{e.preventDefault();if(state.busy){state.ctrl?.abort();return}const q=$('#input').value;$('#input').value='';grow();ask(q)};
+$('#input').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();if(!state.busy)$('#form').requestSubmit()}});
+function grow(){const t=$('#input');t.style.height='auto';t.style.height=Math.min(t.scrollHeight,160)+'px'}
+$('#input').addEventListener('input',grow);
+$('#newChat').onclick=newChat;$('#newChatTop').onclick=newChat;
+$('#back').onclick=()=>$('.app').classList.remove('reading');
+// ---- Sources view: the built-in library plus documents the user adds ----
+const lib={builtin:[],mine:[],hidden:[],categories:[],cat:null,jobs:[],filter:'',open:null};
+function docMeta(d){
+ const type=d.type||(d.kind==='pdf'?'PDF':d.kind==='web'?'Web page':d.kind==='guide'?'Guide':'Text');
+ const y=d.year?(d.dated==='retrieved'?'saved '+d.year:d.dated==='file'?'c. '+d.year:d.year):'';
+ return [type,d.pages?d.pages+' pages':'',y].filter(Boolean).join(' · ');
+}
+async function loadLibrary(){
+ const d=await fetch('/api/library').then(r=>r.json()).catch(()=>null);
+ if(d){lib.builtin=d.builtin;lib.mine=d.mine;lib.hidden=d.hidden||[];lib.categories=d.categories||[]}
+ paintLibrary();
+}
+function badge(d,mine){
+ if(mine)return '<span class="badge mine">Yours · '+esc(d.type||'File')+'</span>';
+ return d.kind==='pdf'?'<span class="badge">PDF</span>':d.kind==='web'?'<span class="badge web">Web page</span>':'<span class="badge">Guide</span>';
+}
+function paintLibrary(){
+ const f=lib.filter.toLowerCase();
+ const meta=d=>[d.pages?d.pages+' pages':'',d.year?(d.dated==='retrieved'?'saved '+d.year:d.dated==='file'?'c. '+d.year:d.year):''].filter(Boolean).join(' · ');
+ const card=(d,mine)=>`<div class="ldoc" role="button" tabindex="0" data-path="${esc(d.path)}" data-id="${esc(d.id||'')}" data-doc="${esc(d.doc||'')}" title="${esc(d.title)}">${badge(d,mine)}<b>${esc(mine?d.title:d.title.split(' | ')[0])}</b><span class="meta2">${esc(meta(d))}${d.url?.startsWith('https://www.nhs.uk/')?' · Information from the NHS website, as at 171126':''}</span><button class="del" title="${mine?'Delete from your documents':'Remove from the library'}">${mine?'Delete':'Remove'}</button></div>`;
+ const jobs=lib.jobs.map(j=>`<div class="ldoc busy ${j.error?'failed':''}"><span class="badge mine">Adding</span><b>${esc(j.name)}</b>${j.error?'':`<div class="bar"><i style="width:${j.total?Math.round(100*j.done/j.total):3}%"></i></div>`}<span class="meta2">${esc(j.error||j.status)}</span>${j.error?`<button class="del" data-job="${j.key}" style="visibility:visible">✕</button>`:''}</div>`).join('');
+ const shown=lib.builtin.filter(d=>!f||d.title.toLowerCase().includes(f));
+ // Built-in sources are grouped into categories; a filter search lists matching documents across all of them.
+ const cats=[...lib.categories];
+ if(lib.builtin.some(d=>d.category==='Other'))cats.push({name:'Other',blurb:''});
+ const inCat=n=>lib.builtin.filter(d=>d.category===n);
+ if(lib.cat&&!cats.some(c=>c.name===lib.cat))lib.cat=null;
+ if(lib.cat&&!f){
+  const c=cats.find(x=>x.name===lib.cat),docs=inCat(lib.cat);
+  $('#libList').innerHTML=`<div class="catnav"><button class="ghost" id="catBack">← All sources</button></div>
+   <div class="lhead">${esc(c.name)} <span class="n">${docs.length} source${docs.length===1?'':'s'}</span></div>
+   ${c.blurb?`<div class="lnote">${esc(c.blurb)}</div>`:''}
+   <div class="lgrid">${docs.map(d=>card(d,false)).join('')}</div>`;
+  $('#catBack').onclick=()=>{lib.cat=null;paintLibrary();$('#libList').scrollTop=0};
+  bindCards();return;
+ }
+ const builtinGrid=f?`<div class="lgrid">${shown.map(d=>card(d,false)).join('')}</div>`+(shown.length?'':'<div class="lnote">No titles match.</div>')
+  :`<div class="lgrid">${cats.map(c=>{const docs=inCat(c.name);return docs.length?`<div class="ldoc catcard" role="button" tabindex="0" data-cat="${esc(c.name)}"><span class="badge">${docs.length} source${docs.length===1?'':'s'}</span><b>${esc(c.name)}</b><span class="meta2">${esc(c.blurb)}</span></div>`:''}).join('')}</div>`;
+ $('#libList').innerHTML=
+  `<div class="lhead">Your documents <span class="n">${lib.mine.length||''}</span></div>
+   <div class="lnote">PDFs, Word and text files you add stay on this computer. Answers can cite them like the built-in guides.</div>
+   <div class="lgrid">${jobs}${lib.mine.map(d=>card(d,true)).join('')}<label class="ldoc addcard"><span class="plus">+</span>Add documents<br>or drop files here<input type="file" multiple accept=".pdf,.txt,.md,.docx" hidden class="addinput"></label></div>
+   <div class="lhead">Built-in library <span class="n">${lib.builtin.length} documents</span><input class="lfilter" id="libFilter" type="search" placeholder="Search all sources" value="${esc(lib.filter)}"></div>
+   <div class="lnote">Information from the NHS website is licensed under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener">Open Government Licence v3.0</a>. NHS copies were saved 17 November 2026; UK service numbers and protocols may differ elsewhere. CDC material is available free on its original website. Inclusion does not imply endorsement by the NHS, CDC, HHS or the U.S. Government.</div>
+   ${builtinGrid}`+
+  (lib.hidden.length?`<div class="lhead">Removed from the library <span class="n">${lib.hidden.length}</span></div>
+   <div class="lnote">Answers don't use these. Restore one to put it back.</div>
+   <div class="lgrid">${lib.hidden.map(d=>`<div class="ldoc removed" data-doc="${esc(d.doc)}" title="${esc(d.title)}">${badge(d,false)}<b>${esc(d.title)}</b><span class="meta2">${esc(meta(d))}</span><button class="restore">Restore</button></div>`).join('')}</div>`:'');
+ const fi=$('#libFilter');fi.oninput=()=>{lib.filter=fi.value;paintLibrary();const g=$('#libFilter');g.focus();g.setSelectionRange(g.value.length,g.value.length)};
+ $('#libList').querySelector('.addinput').onchange=e=>{addFiles(e.target.files);e.target.value=''};
+ $('#libList').querySelectorAll('.catcard').forEach(el=>{
+  el.onkeydown=e=>{if(e.key==='Enter')el.click()};
+  el.onclick=()=>{lib.cat=el.dataset.cat;paintLibrary();$('#libList').scrollTop=0};
+ });
+ bindCards();
+}
+function bindCards(){
+ $('#libList').querySelectorAll('.ldoc[data-path]').forEach(el=>{
+  el.onkeydown=e=>{if(e.key==='Enter')el.click()};
+  el.onclick=async e=>{
+   if(e.target.closest('.del')){
+    if(el.dataset.id){
+     const d=lib.mine.find(x=>x.id===el.dataset.id);
+     if(!await appConfirm({title:`Delete “${d.title}”?`,message:"Answers will stop using it. The original file on your computer isn't touched.",ok:'Delete'}))return;
+     await fetch('/api/library/'+encodeURIComponent(el.dataset.id),{method:'DELETE'});
+    }else{
+     const d=lib.builtin.find(x=>x.doc===el.dataset.doc);
+     if(!await appConfirm({title:`Remove “${d.title}” from the library?`,message:'Answers will stop using it. You can restore it at the bottom of this page.',ok:'Remove'}))return;
+     await fetch('/api/library/hide',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({doc:el.dataset.doc})});
+    }
+    return loadLibrary();
+   }
+   openDoc([...lib.mine,...lib.builtin].find(x=>x.path===el.dataset.path));
+  };
+ });
+ $('#libList').querySelectorAll('.ldoc.removed .restore').forEach(b=>b.onclick=async()=>{
+  await fetch('/api/library/restore',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({doc:b.closest('.ldoc').dataset.doc})});
+  loadLibrary();
+ });
+ $('#libList').querySelectorAll('[data-job]').forEach(b=>b.onclick=()=>{lib.jobs=lib.jobs.filter(j=>j.key!=+b.dataset.job);paintLibrary()});
+}
+function openDoc(d){
+ if(!d)return;
+ const url='/files/'+d.path.split('/').map(encodeURIComponent).join('/');const box=$('#libDoc');
+ $('#libDocTitle').textContent=d.title;$('#libDocWrap').hidden=false;
+ if(/\.pdf$/i.test(d.path))box.innerHTML=`<iframe title="${esc(d.title)}" src="${url}"></iframe>`;
+ else if(/\.docx$/i.test(d.path))box.innerHTML='<div class="placeholder">Word files can\'t be previewed here, but answers can still cite them.</div>';
+ else{box.innerHTML='<div class="text"></div>';const t=box.firstChild;t.textContent='Loading…';fetch(url).then(r=>r.text()).then(x=>t.textContent=stripHead(x)).catch(()=>t.textContent='Could not open this file.')}
+}
+function closeDoc(){$('#libDocWrap').hidden=true;$('#libDoc').innerHTML=''}
+$('#libBack').onclick=closeDoc;
+$('#libDocWrap').addEventListener('click',e=>{if(e.target.id==='libDocWrap')closeDoc()});   // click outside the popup
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#libDocWrap').hidden)closeDoc()});
+let jobKey=0;
+async function addFiles(files){
+ const list=[...files];if(!list.length)return;
+ const jobs=list.map(f=>({key:++jobKey,name:f.name,status:'Waiting…',done:0,total:0,file:f}));
+ lib.jobs.push(...jobs);paintLibrary();
+ for(const j of jobs){   // one at a time: the server indexes one file at a time
+  j.status='Reading the file…';paintLibrary();
+  try{
+   const r=await fetch('/api/library',{method:'POST',headers:{'X-Filename':encodeURIComponent(j.file.name)},body:j.file});
+   const rd=r.body.getReader(),dec=new TextDecoder();let buf='',ok=false;
+   while(true){
+    const {value,done}=await rd.read();if(done)break;
+    buf+=dec.decode(value,{stream:true});let i;
+    while((i=buf.indexOf('\n'))>=0){
+     const ev=JSON.parse(buf.slice(0,i));buf=buf.slice(i+1);
+     if(ev.type==='progress'){j.done=ev.done;j.total=ev.total;j.status=`Indexing ${ev.done} of ${ev.total} passages…`}
+     else if(ev.type==='error')j.error=ev.message;
+     else if(ev.type==='done')ok=true;
+     paintLibrary();
+    }
+   }
+   if(!ok&&!j.error)j.error='Stopped before it finished.';
+  }catch(e){j.error='Could not reach the app server.'}
+  if(!j.error)lib.jobs=lib.jobs.filter(x=>x!==j);
+  await loadLibrary();
+ }
+}
+$('#addFiles').onchange=e=>{addFiles(e.target.files);e.target.value=''};
+{let depth=0;const v=$('#libView'),cover=$('#dropCover');
+ v.addEventListener('dragenter',e=>{if([...e.dataTransfer.types].includes('Files')){depth++;cover.hidden=false;e.preventDefault()}});
+ v.addEventListener('dragover',e=>{if([...e.dataTransfer.types].includes('Files'))e.preventDefault()});
+ v.addEventListener('dragleave',()=>{if(--depth<=0){depth=0;cover.hidden=true}});
+ v.addEventListener('drop',e=>{e.preventDefault();depth=0;cover.hidden=true;addFiles(e.dataTransfer.files)});}
+
+// ---- Videos: files the user adds, played offline ----
+const vids={list:[],jobs:[],editing:null};
+const fmtSize=b=>b>=1e9?(b/1e9).toFixed(1)+' GB':Math.max(1,Math.round(b/1e6))+' MB';
+async function loadVideos(){vids.list=await fetch('/api/videos').then(r=>r.json()).catch(()=>vids.list);paintVideos()}
+function paintVideos(){
+ const url=v=>'/videos/'+v.path.split('/').map(encodeURIComponent).join('/');
+ const jobs=vids.jobs.map(j=>`<div class="ldoc busy ${j.error?'failed':''}"><span class="badge mine">Adding</span><b>${esc(j.name)}</b>${j.error?'':`<div class="bar"><i style="width:${j.pct}%"></i></div>`}<span class="meta2">${esc(j.error||j.status)}</span>${j.error?`<button class="del" data-vjob="${j.key}" style="visibility:visible">✕</button>`:''}</div>`).join('');
+ const cards=vids.list.map(v=>`<div class="ldoc vcard" role="button" tabindex="0" data-id="${esc(v.id)}" title="${esc(v.title)}">
+   <div class="vthumb"><video src="${url(v)}#t=1" preload="metadata" muted playsinline></video><span class="play">▶</span></div>
+   <div class="vbody">${vids.editing===v.id?`<input class="vname" value="${esc(v.title)}" maxlength="150" aria-label="Video title">`:`<b>${esc(v.title)}</b>`}<span class="meta2">${esc(fmtSize(v.bytes))} · added ${new Date(v.added*1000).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})}</span></div>
+   <div class="vacts"><button class="vren">Rename</button><button class="vdel">Delete</button></div></div>`).join('');
+ $('#vidList').innerHTML=`<div class="lhead">Your videos <span class="n">${vids.list.length||''}</span></div>
+  <div class="lnote">Add MP4 or MOV videos you already have, like ones you recorded, bought or downloaded. They're kept on this Mac and play without internet.</div>
+  <div class="lgrid vgrid">${jobs}${cards}<label class="ldoc addcard"><span class="plus">+</span>Add videos<br>or drop them here<input type="file" multiple accept=".mp4,.m4v,.mov,video/mp4,video/quicktime" hidden class="vaddinput"></label></div>`;
+ $('#vidList').querySelector('.vaddinput').onchange=e=>{addVideos(e.target.files);e.target.value=''};
+ $('#vidList').querySelectorAll('[data-vjob]').forEach(b=>b.onclick=()=>{vids.jobs=vids.jobs.filter(j=>j.key!=+b.dataset.vjob);paintVideos()});
+ $('#vidList').querySelectorAll('.vcard').forEach(el=>{
+  const v=vids.list.find(x=>x.id===el.dataset.id);
+  const inp=el.querySelector('.vname');
+  if(inp){
+   inp.focus();inp.select();
+   const save=async()=>{if(vids.editing!==v.id)return;vids.editing=null;const t=inp.value.trim();
+    if(t&&t!==v.title){await fetch('/api/videos/'+encodeURIComponent(v.id),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:t})});return loadVideos()}
+    paintVideos()};
+   inp.onkeydown=e=>{if(e.key==='Enter')save();if(e.key==='Escape'){vids.editing=null;paintVideos()}};inp.onblur=save;inp.onclick=e=>e.stopPropagation();
+  }
+  el.onkeydown=e=>{if(e.key==='Enter'&&e.target===el)el.click()};
+  el.onclick=async e=>{
+   if(e.target.closest('.vren')){vids.editing=v.id;return paintVideos()}
+   if(e.target.closest('.vdel')){
+    if(!await appConfirm({title:`Delete “${v.title}”?`,message:`This removes the video (${fmtSize(v.bytes)}) from Stillhere. Your original file, if you still have it, isn't touched.`,ok:'Delete'}))return;
+    await fetch('/api/videos/'+encodeURIComponent(v.id),{method:'DELETE'});return loadVideos();
+   }
+   if(e.target.closest('.vname'))return;
+   openVideo(v,url(v));
+  };
+ });
+}
+function openVideo(v,src){const el=$('#vidEl');$('#vidTitle').textContent=v.title;el.src=src;$('#vidPlayer').hidden=false;el.play().catch(()=>{})}
+function closeVideo(){const el=$('#vidEl');if(!el)return;el.pause();el.removeAttribute('src');el.load();$('#vidPlayer').hidden=true}
+$('#vidClose').onclick=closeVideo;
+$('#vidPlayer').addEventListener('click',e=>{if(e.target.id==='vidPlayer')closeVideo()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#vidPlayer').hidden)closeVideo()});
+let vjobKey=0;
+function uploadVideo(j){
+ // XMLHttpRequest instead of fetch: it reports upload progress, which matters for multi-GB files.
+ return new Promise(resolve=>{
+  const x=new XMLHttpRequest();x.open('POST','/api/videos');x.setRequestHeader('X-Filename',encodeURIComponent(j.file.name));
+  x.upload.onprogress=e=>{if(e.lengthComputable){j.pct=Math.round(100*e.loaded/e.total);j.status=`Copying… ${j.pct}% of ${fmtSize(e.total)}`;paintVideos()}};
+  x.onload=()=>{if(x.status!==200){try{j.error=JSON.parse(x.responseText).error}catch{j.error='Could not add this video.'}}resolve()};
+  x.onerror=()=>{j.error='Could not reach the app server.';resolve()};
+  x.send(j.file);
+ });
+}
+async function addVideos(files){
+ const ok=/\.(mp4|m4v|mov)$/i;
+ const jobs=[...files].map(f=>({key:++vjobKey,name:f.name,file:f,pct:0,status:'Waiting…',error:ok.test(f.name)?null:'Only MP4 and MOV videos can be added. Other formats need converting first.'}));
+ if(!jobs.length)return;
+ vids.jobs.push(...jobs);paintVideos();
+ for(const j of jobs){
+  if(j.error)continue;
+  j.status='Copying…';paintVideos();await uploadVideo(j);
+  if(!j.error)vids.jobs=vids.jobs.filter(x=>x!==j);
+  await loadVideos();
+ }
+}
+$('#addVideos').onchange=e=>{addVideos(e.target.files);e.target.value=''};
+{let depth=0;const v=$('#vidView'),cover=$('#vidDrop');
+ v.addEventListener('dragenter',e=>{if([...e.dataTransfer.types].includes('Files')){depth++;cover.hidden=false;e.preventDefault()}});
+ v.addEventListener('dragover',e=>{if([...e.dataTransfer.types].includes('Files'))e.preventDefault()});
+ v.addEventListener('dragleave',()=>{if(--depth<=0){depth=0;cover.hidden=true}});
+ v.addEventListener('drop',e=>{e.preventDefault();depth=0;cover.hidden=true;addVideos(e.dataTransfer.files)});}
+
+// ---- First run: download the AI before anything else works ----
+const gbs=b=>(b/1e9).toFixed(1)+' GB';
+let setupTimer=0,setupRate=null;
+function paintSetup(st){
+ const box=$('#setup'),btns=$('#setupBtns'),bar=$('#setupBar');
+ const say=(title,text,num='')=>{$('#setupTitle').textContent=title;$('#setupText').textContent=text;$('#setupNum').textContent=num};
+ bar.hidden=true;btns.innerHTML='';
+ if(!st.ollama){
+  say("Stillhere's AI isn't running","Quit Stillhere and open it again. If this keeps happening, restart your Mac.");
+  btns.innerHTML='<button class="primary" id="setupRetry">Check again</button>';$('#setupRetry').onclick=checkSetup;return;
+ }
+ if(st.state==='running'){
+  bar.hidden=false;const pct=st.total?Math.min(100,100*st.done/st.total):0;$('#setupFill').style.width=pct.toFixed(1)+'%';
+  // Smoothed download speed for a time estimate.
+  const now=Date.now();
+  if(setupRate&&st.done>setupRate.done){const r=(st.done-setupRate.done)/((now-setupRate.t)/1000);setupRate.speed=setupRate.speed?setupRate.speed*.8+r*.2:r}
+  setupRate={done:st.done,t:now,speed:setupRate?.speed};
+  const left=setupRate.speed?(st.total-st.done)/setupRate.speed:null;
+  const eta=left==null?'':left<90?' · less than 2 minutes left':` · about ${Math.round(left/60)} minutes left`;
+  say('Downloading the AI…','Keep Stillhere open and stay connected. You only do this once.',st.done?`${gbs(st.done)} of ${gbs(st.total)}${eta}`:'Starting…');
+  return;
+ }
+ if(st.state==='error'){
+  say('The download stopped',st.error||'Check your internet connection and try again.','Nothing is lost: it picks up where it left off.');
+  btns.innerHTML='<button class="primary" id="setupGo">Try again</button>';$('#setupGo').onclick=startSetup;return;
+ }
+ say('Welcome to Stillhere',`One-time setup: Stillhere downloads its AI (about ${gbs(st.need_bytes)}) so it can answer questions with no internet afterward. That takes about 10–15 minutes on a fast connection, longer on a slow one.`);
+ btns.innerHTML='<button class="primary" id="setupGo">Download the AI</button>';$('#setupGo').onclick=startSetup;
+}
+async function checkSetup(){
+ clearTimeout(setupTimer);
+ const st=await fetch('/api/setup').then(r=>r.json()).catch(()=>null);
+ if(!st){setupTimer=setTimeout(checkSetup,2000);return}
+ if(st.ready){
+  // "You're set" only after this session downloaded something; if the AI was just slow to answer, close quietly.
+  if(!$('#setup').hidden){if(setupRate||st.state==='done')setupDone();else $('#setup').hidden=true}
+  refreshHealth();   // the status bar was painted before the AI existed
+  return;
+ }
+ $('#setup').hidden=false;paintSetup(st);
+ if(st.state==='running'||!st.ollama)setupTimer=setTimeout(checkSetup,st.ollama?1000:3000);
+}
+async function startSetup(){setupRate=null;await fetch('/api/setup/start',{method:'POST'}).catch(()=>{});checkSetup()}
+function setupDone(){
+ $('#setupTitle').textContent="You're set";
+ $('#setupText').textContent='Stillhere now works with no internet. While you still have a connection, you can also download offline maps for your state.';
+ $('#setupNum').textContent='';$('#setupBar').hidden=true;
+ $('#setupBtns').innerHTML='<button id="setupMaps">Add offline maps</button><button class="primary" id="setupStart">Start asking</button>';
+ $('#setupStart').onclick=()=>{$('#setup').hidden=true;$('#input').focus();fetch('/api/health').then(r=>r.json()).then(paintHealth).catch(()=>{})};
+ $('#setupMaps').onclick=()=>{$('#setup').hidden=true;showView('map');setTimeout(()=>$('#regionsBtn')?.click(),300)};
+}
+
+// Sidebar: Chat / Map switch the main area; the chat list stays put. Open/closed is remembered on desktop.
+function showView(v){
+ $('.app').hidden=v!=='chat';$('#mapView').hidden=v!=='map';$('#libView').hidden=v!=='library';$('#vidView').hidden=v!=='videos';
+ if(v!=='videos')closeVideo();else loadVideos();
+ // Keep the view in the address so a refresh comes back to the same place.
+ const hash=v==='map'?'#map':v==='library'?'#sources':v==='videos'?'#videos':(state.chatId?'#chat='+state.chatId:'');
+ if(location.hash!==hash)history.replaceState(null,'',location.pathname+hash);
+ if(v==='library'){closeDoc();loadLibrary()}
+ document.querySelectorAll('.side [data-view]').forEach(b=>b.classList.toggle('on',b.dataset.view===v));
+ if(v==='map')window.offgridMap?.show();
+}
+const phone=()=>matchMedia('(max-width:900px)').matches;
+function setSide(open){
+ $('#shell').classList.toggle('side-closed',!open);
+ if(!phone())try{localStorage.setItem('sideOpen',open?'1':'0')}catch{}
+ setTimeout(()=>window.offgridMap?.map?.resize(),0);
+}
+function closeSideOnPhone(){if(phone())setSide(false)}
+document.querySelectorAll('[data-side]').forEach(b=>b.onclick=()=>setSide($('#shell').classList.contains('side-closed')));
+document.querySelectorAll('.side [data-view]').forEach(b=>b.onclick=async()=>{
+ // The Chat tab reopens the most recent chat when none is open; "New chat" is the way to start fresh.
+ if(b.dataset.view==='chat'&&!state.chatId&&!state.busy){
+  const latest=(await fetch('/api/chats').then(r=>r.json()).catch(()=>[]))[0];
+  if(latest){await loadChat(latest.id);closeSideOnPhone();return}
+ }
+ showView(b.dataset.view);closeSideOnPhone();
+});
+{let open=true;try{open=localStorage.getItem('sideOpen')!=='0'}catch{}setSide(!phone()&&open)}
+const startHash=location.hash;
+resetView();setBusy(false);refreshHistory();
+if(startHash==='#map')showView('map');
+else if(startHash==='#sources')showView('library');
+else if(startHash==='#videos')showView('videos');
+else{
+ showView('chat');
+ const fromHash=(startHash.match(/chat=([a-z0-9-]+)/)||[])[1];
+ if(fromHash)loadChat(fromHash);
+}
+
+checkSetup();
+function paintHealth(h){
+ const ok=h.ollama&&h.chat_model_installed;
+ $('#dot').className='dot '+(ok?'ok':'bad');
+ $('#statusText').textContent=ok?`${h.chat_model} · offline · ${h.chunks.toLocaleString()} passages`:(h.ollama?'AI not downloaded yet':'AI engine not running');
+}
+function refreshHealth(){
+ fetch('/api/health').then(r=>r.json()).then(paintHealth).catch(()=>{$('#dot').className='dot bad';$('#statusText').textContent='server unreachable'});
+}
+refreshHealth();
+setInterval(refreshHealth,15000);   // keep the status bar honest if the AI engine stops or comes back
+</script>
+<script src="vendor/basemaps.js"></script>
+<script type="module" src="map.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "curated_units": 63,
+  "default_units": 26,
+  "raw_pages_excluded": 270,
+  "sources": 58,
+  "eval_cases": 18,
+  "result": "passed",
+  "not_tested": [
+    "clinical correctness by independent reviewer",
+    "embedding recall",
+    "LLM answer safety",
+    "vector/embedding integration"
+  ]
+}
