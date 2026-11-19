@@ -165,13 +165,16 @@ export function MapsScene() {
 
         {/* Bottom readouts */}
         <div className="absolute inset-x-2.5 bottom-2.5 flex items-end justify-between gap-2">
-          <span className="rounded border border-line bg-panel/90 px-1.5 py-0.5 font-mono text-[10px] text-fg/80">
+          <span className="whitespace-nowrap rounded border border-line bg-panel/90 px-1.5 py-0.5 font-mono text-[10px] text-fg/80">
             {COORDS}
           </span>
-          {stage === "done" && (
+          {stage === "done" ? (
             <span className="rounded-md border border-line bg-panel/95 px-2 py-1 text-[11px] shadow-lg">
               Pin saved · works offline
             </span>
+          ) : (
+            // Required credit for the map data, shown in the corner like the app does.
+            <span className="whitespace-nowrap rounded bg-panel/80 px-1 text-[9px] text-fg/70">© OpenStreetMap · Protomaps</span>
           )}
         </div>
       </div>

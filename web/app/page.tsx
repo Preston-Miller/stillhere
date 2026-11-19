@@ -98,16 +98,6 @@ export default function Home() {
                 <MapsScene />
               </Feature>
             </div>
-            <p className="mt-4 text-center text-xs text-muted">
-              Recreations of the real app: the AI answer is shortened from a real session, the guide titles
-              are real, and the map is a real screenshot. CDC does not endorse stillhere.
-              Map data © OpenStreetMap contributors, basemap by Protomaps.
-            </p>
-            <p className="mt-2 text-center text-xs">
-              <a href="/demo.mp4" target="_blank" rel="noopener" className="text-amber hover:brightness-110">
-                Watch a real recording of stillhere ↗
-              </a>
-            </p>
           </div>
         </section>
 
