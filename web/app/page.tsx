@@ -1,82 +1,43 @@
 import Image from "next/image";
+import { BookOpen, Map as MapIcon, MessageCircle, type LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { Suspense } from "react";
 import { CanceledBanner } from "./canceled-banner";
 import { BuyButton, Footer, Nav } from "./components";
 import { DemoVideo } from "./demo-video";
+import { DownloadButtons } from "./download-buttons";
 import { LOGO_CREAM, LogoMark } from "./logo";
-import { NoWifiIcon } from "./no-wifi";
 import { COMPATIBILITY, FAQ, INCLUDED, PRICE_DISPLAY, REVIEW_TOPICS, TOPIC_CARDS } from "@/lib/content";
 import mapShot from "@/public/app-map.jpg";
 import heroPhoto from "@/public/hero-photo.jpg";
 
 const CDC_URL = "https://www.cdc.gov/drinking-water/about/collecting-rainwater-and-your-health-an-overview.html";
 
-/* Tiny app-style vignettes for the hero cards */
-function ThumbAI() {
+/* Hero feature icons: soft cream Lucide shapes, the shelter mark's cream */
+function CardIcon({ Icon }: { Icon: LucideIcon }) {
   return (
-    <div className="flex h-full flex-col justify-center gap-1.5 p-2.5">
-      <div className="ml-auto whitespace-nowrap rounded-md rounded-br-sm bg-amber/90 px-1.5 py-1 text-[8px] leading-tight text-bg">
-        drink rainwater?
-      </div>
-      <div className="max-w-[90%] space-y-1 rounded-md rounded-bl-sm bg-fg/10 px-1.5 py-1.5">
-        <div className="h-1 w-full rounded bg-fg/40" />
-        <div className="h-1 w-4/5 rounded bg-fg/40" />
-        <div className="mt-1 inline-block rounded-sm border border-olive/60 px-1 text-[7px] leading-tight text-olive">
-          CDC ↗
-        </div>
-      </div>
+    <div className="flex items-center justify-center">
+      <Icon
+        aria-hidden
+        strokeWidth={2}
+        fill="currentColor"
+        fillOpacity={0.12}
+        className="h-10 w-10 sm:h-12 sm:w-12"
+        style={{ color: LOGO_CREAM }}
+      />
     </div>
-  );
-}
-
-function ThumbGuides() {
-  return (
-    <div className="flex h-full items-center justify-center p-2.5">
-      <div className="h-full w-[70%] rounded-sm bg-fg/90 p-1.5 shadow-md">
-        <div className="flex items-center gap-1">
-          <span className="flex h-2.5 w-2.5 items-center justify-center rounded-[2px] bg-[#c0392b] text-[7px] font-bold leading-none text-white">
-            +
-          </span>
-          <div className="h-1 flex-1 rounded bg-bg/70" />
-        </div>
-        <div className="mt-1.5 space-y-1">
-          {[1, 0.8, 0.9, 0.6].map((w, i) => (
-            <div key={i} className="flex items-center gap-0.5">
-              <span className="text-[6px] leading-none text-olive">✓</span>
-              <div className="h-[3px] rounded bg-bg/40" style={{ width: `${w * 100}%` }} />
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ThumbMaps() {
-  return (
-    <Image
-      src={mapShot}
-      alt=""
-      fill
-      sizes="240px"
-      className="scale-[2.2] object-cover object-center"
-      placeholder="blur"
-    />
   );
 }
 
 const HERO_THREE = [
-  { title: "AI", body: "Ask questions in plain words. It runs on your computer, with no cloud or account.", href: "#features", Thumb: ThumbAI },
-  { title: "Emergency guides", body: "CDC, FEMA and other public guides, saved on your computer with sources.", href: "#guides", Thumb: ThumbGuides },
-  { title: "Maps", body: "Street maps for any U.S. state you pick. Search them with no signal.", href: "#features", Thumb: ThumbMaps },
+  { title: "AI", Icon: MessageCircle },
+  { title: "Emergency guides", Icon: BookOpen },
+  { title: "Maps", Icon: MapIcon },
 ];
 
-function PriceLine({ dark = false, left = false }: { dark?: boolean; left?: boolean }) {
+function PriceLine({ dark = false }: { dark?: boolean }) {
   return (
-    <div
-      className={`space-y-1 text-sm ${left ? "text-center md:text-left" : "text-center"} ${dark ? "text-bg/80" : "text-muted"}`}
-    >
+    <div className={`space-y-1 text-sm text-center ${dark ? "text-bg/80" : "text-muted"}`}>
       <p>
         <span className={`font-semibold ${dark ? "text-bg" : "text-fg"}`}>{PRICE_DISPLAY}</span> · One-time purchase {" "}
         · 30-day money-back guarantee
@@ -126,7 +87,7 @@ export default function Home() {
         <CanceledBanner />
       </Suspense>
       <main className="flex-1">
-        {/* Hero: logo + buy on the left, the three things on the right */}
+        {/* Hero: logo, headline, the three things, then buy. Centered */}
         <section className="relative overflow-hidden">
           <Image
             src={heroPhoto}
@@ -136,8 +97,8 @@ export default function Home() {
             sizes="100vw"
             className="object-cover object-[30%_center] opacity-35 [mask-image:linear-gradient(to_bottom,black_40%,transparent_100%)]"
           />
-          <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 pb-20 pt-16 sm:px-6 sm:pt-24 md:grid-cols-2 md:gap-16">
-            <div className="flex flex-col items-center text-center md:items-start md:text-left">
+          <div className="relative mx-auto max-w-6xl px-4 pb-20 pt-16 sm:px-6 sm:pt-24">
+            <div className="flex flex-col items-center text-center">
               <h1 className="flex items-center gap-3 sm:gap-4">
                 <LogoMark className="h-12 w-auto sm:h-16" />
                 <span
@@ -147,35 +108,19 @@ export default function Home() {
                   stillhere
                 </span>
               </h1>
-              <p className="mt-4 flex items-center gap-2.5 font-brand text-2xl font-light tracking-[0.12em] sm:gap-3 sm:text-3xl">
-                Answers. Even offline.
+              <p className="mt-6 text-balance font-brand text-2xl font-medium tracking-tight sm:text-4xl">
+                No connection. Still prepared.
               </p>
-              <div className="mt-8 flex flex-col items-center gap-4 md:items-start">
-                <BuyButton>Get stillhere</BuyButton>
-                <PriceLine left />
-              </div>
+              <ul className="mt-10 grid w-full max-w-md grid-cols-3 gap-4">
+                {HERO_THREE.map(({ title, Icon }) => (
+                  <li key={title} className="flex flex-col items-center gap-2">
+                    <CardIcon Icon={Icon} />
+                    <p className="font-brand text-sm font-semibold sm:text-base">{title}</p>
+                  </li>
+                ))}
+              </ul>
+              <DownloadButtons />
             </div>
-            <ul className="space-y-3">
-              {HERO_THREE.map(({ title, body, href, Thumb }) => (
-                <li key={title}>
-                  <a
-                    href={href}
-                    className="group flex items-center gap-4 rounded-2xl border border-line bg-panel/80 p-3 pl-5 backdrop-blur-sm transition hover:border-amber/60"
-                  >
-                    <div className="flex-1">
-                      <p className="font-brand text-xl font-semibold">{title}</p>
-                      <p className="mt-1 text-sm text-fg/80 sm:text-base">{body}</p>
-                    </div>
-                    <div className="relative h-20 w-24 shrink-0 overflow-hidden rounded-xl border border-line bg-bg/60 transition group-hover:border-amber/40 sm:h-24 sm:w-28">
-                      <Thumb />
-                    </div>
-                  </a>
-                </li>
-              ))}
-              <li className="pt-1 text-center text-sm text-muted md:text-left">
-                All three keep working with no Wi-Fi or cell signal.
-              </li>
-            </ul>
           </div>
         </section>
 

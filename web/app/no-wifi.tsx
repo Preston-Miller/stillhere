@@ -9,7 +9,7 @@ export function NoWifiIcon({ className = "" }: { className?: string }) {
       </g>
       <circle cx="24" cy="34" r="3" fill="currentColor" opacity="0.75" />
       <g>
-        <circle cx="38" cy="30" r="9" fill="#d0563f" />
+        <circle cx="38" cy="30" r="9" fill="var(--amber)" />
         <path d="M34.5 26.5 L41.5 33.5 M41.5 26.5 L34.5 33.5" stroke="#0c0e0b" strokeWidth="2.6" strokeLinecap="round" />
       </g>
     </svg>

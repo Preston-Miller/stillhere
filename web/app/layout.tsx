@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     description:
       "An AI assistant on your computer, with built-in emergency guides and searchable offline maps. No internet required after setup.",
     images: [{
-      url: "/social-preview-v6.png",
+      url: "/social-preview-v7.png",
       width: 1200,
       height: 630,
       alt: "stillhere: AI. Maps. Even offline. Emergency guides and offline maps on your computer, with utility workers repairing power lines at night.",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     description:
       "An AI assistant on your computer, with built-in emergency guides and searchable offline maps. No internet required after setup.",
     images: [{
-      url: "/social-preview-v6.png",
+      url: "/social-preview-v7.png",
       alt: "stillhere: AI. Maps. Even offline. Emergency guides and offline maps on your computer.",
     }],
   },

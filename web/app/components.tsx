@@ -15,14 +15,12 @@ export function BuyButton({
 }) {
   const colors = tone === "dark" ? "bg-bg text-fg hover:bg-panel" : "bg-amber text-bg hover:brightness-110";
   return (
-    <form action="/api/checkout" method="POST">
-      <button
-        type="submit"
-        className={`inline-flex items-center justify-center rounded-md px-6 py-3 text-base font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber ${colors} ${className}`}
-      >
-        {children ?? "Get stillhere"}
-      </button>
-    </form>
+    <Link
+      href="/checkout"
+      className={`inline-flex items-center justify-center rounded-md px-6 py-3 text-base font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber ${colors} ${className}`}
+    >
+      {children ?? "Get stillhere"}
+    </Link>
   );
 }
 
@@ -56,13 +54,10 @@ export function Nav() {
           <Logo />
         </Link>
         <nav className="flex shrink-0 items-center gap-4 whitespace-nowrap text-sm sm:gap-5">
-          <a href={`mailto:${SUPPORT_EMAIL}`} className="hidden text-muted hover:text-fg md:inline">
-            {SUPPORT_EMAIL}
-          </a>
           <Link href="/install" className="text-muted hover:text-fg">
             Get help
           </Link>
-          <Link href="/#buy" className="text-amber hover:brightness-110">
+          <Link href="/checkout" className="text-amber hover:brightness-110">
             Get it
           </Link>
         </nav>

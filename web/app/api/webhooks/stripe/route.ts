@@ -1,5 +1,6 @@
 import type Stripe from "stripe";
-import { stripe } from "@/lib/stripe";
+import { getPaidSession, stripe } from "@/lib/stripe";
+import { sendDownloadEmail } from "@/lib/email";
 
 export async function POST(request: Request) {
   const secret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -16,11 +17,18 @@ export async function POST(request: Request) {
   }
 
   switch (event.type) {
-    case "checkout.session.completed": {
-      const session = event.data.object;
-      // TODO: email the download link (e.g. Resend):
-      //   `${siteUrl()}/download?session_id=${session.id}` → session.customer_details?.email
-      console.log("purchase", session.id, session.customer_details?.email, session.amount_total);
+    // "completed" fires for card payments; bank payments complete unpaid and send "async_payment_succeeded" later.
+    case "checkout.session.completed":
+    case "checkout.session.async_payment_succeeded": {
+      const session = await getPaidSession(event.data.object.id);
+      if (!session) break; // not paid (yet)
+      try {
+        const result = await sendDownloadEmail(session);
+        console.log("purchase", session.id, session.amount_total, "email:", result);
+      } catch (err) {
+        console.error("download email failed", session.id, err);
+        return new Response("Email failed", { status: 500 }); // Stripe retries the webhook
+      }
       break;
     }
     default:

@@ -43,6 +43,57 @@
         "8766"
       ],
       "port": 8766
+    },
+    {
+      "name": "app-picker",
+      "runtimeExecutable": "env",
+      "runtimeArgs": [
+        "STILLHERE_OLLAMA=127.0.0.1:47831",
+        "STILLHERE_DATA=/private/tmp/claude-501/-Users-prestonmiller--claude-spares-spare-yncBGO/5b27ba88-dfa2-4df0-85aa-5e6e77d9e575/scratchpad/picker-data",
+        "app-venv/bin/python",
+        "app/server.py",
+        "8767"
+      ],
+      "port": 8767
+    },
+    {
+      "name": "ollama-appmodels",
+      "runtimeExecutable": "env",
+      "runtimeArgs": [
+        "OLLAMA_HOST=127.0.0.1:47940",
+        "OLLAMA_MODELS=/Users/prestonmiller/Library/Application Support/Stillhere/models",
+        "OLLAMA_NOPRUNE=1",
+        "/usr/local/bin/ollama",
+        "serve"
+      ],
+      "port": 47940
+    },
+    {
+      "name": "app-light",
+      "runtimeExecutable": "env",
+      "runtimeArgs": [
+        "STILLHERE_LIGHT=1",
+        "STILLHERE_OLLAMA=127.0.0.1:47940",
+        "STILLHERE_DATA=/private/tmp/claude-501/-Users-prestonmiller--claude-spares-spare-yncBGO/5b27ba88-dfa2-4df0-85aa-5e6e77d9e575/scratchpad/light-data",
+        "app-venv/bin/python",
+        "app/server.py",
+        "47901"
+      ],
+      "port": 47901
+    },
+    {
+      "name": "web-prod-check",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "web",
+        "run",
+        "start",
+        "--",
+        "-p",
+        "3917"
+      ],
+      "port": 3917
     }
   ]
 }

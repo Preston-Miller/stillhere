@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { after } from "next/server";
 import { Suspense } from "react";
 import { Footer, Nav } from "../components";
 import { getPaidSession } from "@/lib/stripe";
+import { sendDownloadEmail } from "@/lib/email";
 import { SUPPORT_EMAIL } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -37,6 +39,12 @@ async function Receipt({
   const raw = (await searchParams).session_id;
   const sessionId = typeof raw === "string" ? raw : undefined;
   const session = await getPaidSession(sessionId);
+  // Backup for the webhook: make sure the download email goes out. Sends at most once per purchase.
+  if (session) {
+    after(() =>
+      sendDownloadEmail(session).catch((err) => console.error("download email failed", session.id, err)),
+    );
+  }
 
   return session ? (
     <>
@@ -77,13 +85,14 @@ async function Receipt({
       <div className="mt-10 space-y-3 border border-line bg-panel p-5 text-sm">
         <p className="label">Keep this page</p>
         <p className="text-muted">
-          Bookmark this URL. It&apos;s your receipt and re-download link.
-          {session.customer_details?.email && (
+          {session.customer_details?.email ? (
             <>
-              {" "}
-              A Stripe receipt was sent to{" "}
-              <span className="text-fg">{session.customer_details.email}</span>.
+              We emailed this download link to{" "}
+              <span className="text-fg">{session.customer_details.email}</span>. It&apos;s your receipt, and it works
+              any time you need to download stillhere again. On your phone? Open that email on your computer.
             </>
+          ) : (
+            <>Bookmark this URL. It&apos;s your receipt and re-download link.</>
           )}
         </p>
         <p className="text-muted">
