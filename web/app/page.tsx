@@ -88,6 +88,9 @@ export default function Home() {
               <p className="mt-6 text-balance font-brand text-2xl font-medium tracking-tight sm:text-4xl">
                 AI, emergency guides, and maps that work offline.
               </p>
+              <p className="mt-10 text-sm text-muted">
+                <span className="font-semibold text-fg">{PRICE_DISPLAY}</span> · One-time purchase · No subscription
+              </p>
               <DownloadButtons />
             </div>
           </div>

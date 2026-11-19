@@ -59,7 +59,7 @@ export function DownloadButtons() {
 
   if (platform === "other") {
     return (
-      <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
+      <div className="mt-4 flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
         {[MAC, WINDOWS].map(({ label, Icon, iconClass }) => (
           <BuyButton key={label} className="w-64 gap-2.5 whitespace-nowrap">
             <Icon className={iconClass} />
@@ -72,7 +72,7 @@ export function DownloadButtons() {
 
   const [main, alt] = platform === "mac" ? [MAC, WINDOWS] : [WINDOWS, MAC];
   return (
-    <div className="mt-10 flex flex-col items-center gap-3">
+    <div className="mt-4 flex flex-col items-center gap-3">
       <BuyButton className="w-64 gap-2.5 whitespace-nowrap">
         <main.Icon className={main.iconClass} />
         Download for {main.label}
