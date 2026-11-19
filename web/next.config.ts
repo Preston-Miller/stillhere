@@ -4,6 +4,18 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  async redirects() {
+    return [
+      {
+        // Send visitors on the default Vercel address to the real domain (one site for search
+        // engines). /api/ is left alone so anything posting there, like a webhook, keeps working.
+        source: "/:path((?!api/).*)",
+        has: [{ type: "host", value: "offgridai.vercel.app" }],
+        destination: "https://www.stillhereoffline.com/:path",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
