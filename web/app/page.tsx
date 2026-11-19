@@ -3,14 +3,13 @@ import type { ReactNode } from "react";
 import { Suspense } from "react";
 import { CanceledBanner } from "./canceled-banner";
 import { BuyButton, Footer, Nav } from "./components";
-import { DemoVideo } from "./demo-video";
+import { AiScene } from "./ai-scene";
+import { GuidesScene } from "./guides-scene";
+import { MapsScene } from "./maps-scene";
 import { DownloadButtons } from "./download-buttons";
 import { LOGO_CREAM, LogoMark } from "./logo";
 import { COMPATIBILITY, FAQ, INCLUDED, PRICE_DISPLAY, REVIEW_TOPICS, TOPIC_CARDS } from "@/lib/content";
-import mapShot from "@/public/app-map.jpg";
 import heroPhoto from "@/public/hero-photo.jpg";
-
-const CDC_URL = "https://www.cdc.gov/drinking-water/about/collecting-rainwater-and-your-health-an-overview.html";
 
 function PriceLine({ dark = false }: { dark?: boolean }) {
   return (
@@ -32,25 +31,11 @@ function SectionTitle({ children, sub }: { children: ReactNode; sub?: ReactNode 
   );
 }
 
-function Feature({
-  title,
-  tagline,
-  stat,
-  caption,
-  children,
-}: {
-  title: string;
-  tagline: string;
-  stat: string;
-  caption: string;
-  children: ReactNode;
-}) {
+function Feature({ title, tagline, children }: { title: string; tagline: string; children: ReactNode }) {
   return (
     <div className="flex flex-col px-6 py-8 text-center">
       <h3 className="font-brand text-2xl font-semibold">{title}</h3>
       <p className="mt-1 text-sm text-muted">{tagline}</p>
-      <p className="mt-5 font-brand text-4xl font-semibold text-amber">{stat}</p>
-      <p className="mt-1 text-sm text-muted">{caption}</p>
       <div className="mt-6 flex-1 overflow-hidden rounded-xl border border-line bg-panel text-left">{children}</div>
     </div>
   );
@@ -96,78 +81,32 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Demo: the "works offline" heading, then a real screen recording of the app */}
-        <section id="demo" className="scroll-mt-4">
-          <div className="mx-auto max-w-5xl px-4 pb-20 sm:px-6">
+        {/* Everything works offline: the three features, each with an animated walkthrough */}
+        <section id="features" className="scroll-mt-4">
+          <div className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
             <SectionTitle sub="Set it up once. There when you need it.">
               Everything works offline.
             </SectionTitle>
-            <div className="overflow-hidden rounded-xl border border-line bg-panel shadow-2xl shadow-black/50">
-              <div className="flex items-center gap-1.5 border-b border-line px-3 py-2" aria-hidden>
-                <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-                <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
-                <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-                <span className="ml-3 text-xs text-muted">stillhere</span>
-              </div>
-              <DemoVideo src="/demo.mp4" poster="/demo-poster.jpg" label="stillhere answering whether rainwater from a roof is safe to drink, citing a CDC guide, then zooming into Provo on the offline map and saving a pin named Home as a shelter" />
-            </div>
-            <p className="mt-3 text-center text-xs text-muted">
-              Real recording of stillhere on a Mac. The wait for the answer is sped up.
-            </p>
-          </div>
-        </section>
-
-        {/* Three things, side by side */}
-        <section id="features" className="scroll-mt-4 border-t border-line">
-          <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
             <div className="grid divide-y divide-line border-y border-line md:grid-cols-3 md:divide-x md:divide-y-0">
-              <Feature title="AI" tagline="Ask in plain words." stat="On your computer" caption="no cloud, no account">
-                <div className="space-y-3 p-4 text-sm">
-                  <p className="font-mono text-xs text-muted">
-                    <span className="text-amber">&gt;</span> can i drink rainwater off my roof?
-                  </p>
-                  <p className="leading-relaxed text-fg/90">
-                    Not without treating it first. Rainwater can carry germs and chemicals from the air, your roof
-                    and gutters, even when it looks clean.
-                  </p>
-                  <a
-                    href={CDC_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-md border border-olive/50 px-2.5 py-1 text-xs text-olive hover:bg-olive/10"
-                  >
-                    Source: CDC <span aria-hidden>↗</span>
-                  </a>
-                </div>
+              <Feature title="AI" tagline="Ask in plain words.">
+                <AiScene />
               </Feature>
-              <Feature title="Guides" tagline="Public emergency guides." stat="6 topics" caption="12 common questions ready today">
-                <ul className="divide-y divide-line text-sm">
-                  {TOPIC_CARDS.slice(0, 5).map((t) => (
-                    <li key={t.title} className="flex items-start gap-2 px-4 py-2.5 text-fg/90">
-                      <span className="text-olive" aria-hidden>
-                        ✓
-                      </span>
-                      {t.examples[0]}
-                    </li>
-                  ))}
-                </ul>
+              <Feature title="Guides" tagline="Public emergency guides.">
+                <GuidesScene />
               </Feature>
-              <Feature title="Maps" tagline="Search with no signal." stat="Every state" caption="U.S. street maps you choose">
-                <a href="/app-map.jpg" target="_blank" className="relative block aspect-[4/3]">
-                  <Image
-                    src={mapShot}
-                    alt="stillhere's offline map, showing a search result for Sanpete Valley Hospital in Utah"
-                    fill
-                    sizes="(min-width: 768px) 360px, 100vw"
-                    className="object-cover object-[60%_40%]"
-                    placeholder="blur"
-                  />
-                </a>
+              <Feature title="Maps" tagline="Search with no signal.">
+                <MapsScene />
               </Feature>
             </div>
             <p className="mt-4 text-center text-xs text-muted">
-              AI answer is an illustration; real answers vary. CDC does not endorse stillhere. Map: real app
-              screenshot, data © OpenStreetMap contributors, basemap by Protomaps.
+              Recreations of the real app: the AI answer is shortened from a real session, the guide titles
+              are real, and the map is a real screenshot. CDC does not endorse stillhere.
+              Map data © OpenStreetMap contributors, basemap by Protomaps.
+            </p>
+            <p className="mt-2 text-center text-xs">
+              <a href="/demo.mp4" target="_blank" rel="noopener" className="text-amber hover:brightness-110">
+                Watch a real recording of stillhere ↗
+              </a>
             </p>
           </div>
         </section>
