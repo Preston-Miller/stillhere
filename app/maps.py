@@ -124,10 +124,13 @@ class MapStore:
   return {code:{'bytes':a.path.stat().st_size,'bounds':a.bounds,'maxzoom':a.maxzoom,'search':(MAP_DIR/f'{code}.search.sqlite').exists()} for code,a in items}
 
  # ---- offline place search (index built by maps-build/make_search.py) ----
- def search(self,q,lon=None,lat=None,limit=8):
-  toks=re.findall(r'\w+',q.lower())[:6]
+ def search(self,q,lon=None,lat=None,limit=8,near=False):
+  """near=True: lon/lat is the person's saved location, and results are the closest matches to it."""
+  # Plurals: "hospitals" -> "hospital"*, "pharmacies" -> "pharmac"*. The stem is a prefix of both forms.
+  toks=[t[:-3] if len(t)>5 and t.endswith('ies') else t[:-1] if len(t)>3 and t.endswith('s') and not t.endswith('ss') else t
+        for t in re.findall(r'\w+',q.lower())[:6]]
   if not toks:return []
-  match=' '.join(f'"{t}"*' for t in toks);ql=' '.join(toks)
+  match=' '.join(f'"{t}"*' for t in toks);ql=' '.join(re.findall(r'\w+',q.lower())[:6])   # exact-name check uses the words as typed
   with self.lock:codes=list(self.archives)
   rows=[]
   for code in codes:
@@ -141,6 +144,8 @@ class MapStore:
           (f'SELECT {cols} FROM f WHERE name=? COLLATE NOCASE LIMIT 2000',(q.strip(),))]
    if lon is not None and lat is not None:
     pulls.append((f'SELECT {cols} FROM fts JOIN f ON f.id=fts.rowid WHERE fts MATCH ? AND f.lat BETWEEN ? AND ? AND f.lon BETWEEN ? AND ? LIMIT 3000',(match,lat-.6,lat+.6,lon-.8,lon+.8)))
+    if near:   # rural areas: the nearest hospital can be 100+ km away
+     pulls.append((f'SELECT {cols} FROM fts JOIN f ON f.id=fts.rowid WHERE fts MATCH ? AND f.lat BETWEEN ? AND ? AND f.lon BETWEEN ? AND ? LIMIT 5000',(match,lat-2,lat+2,lon-2.6,lon+2.6)))
    seen=set()
    try:
     for sql,args in pulls:
@@ -153,9 +158,16 @@ class MapStore:
   scored=[]
   for name,label,town,x,y,w,code in rows:
    n=' '.join(re.findall(r'\w+',name.lower()))
-   s=w+(40 if n==ql else 5 if n.startswith(ql) else 0)
-   if all(any(t.startswith(q) for t in label.lower().split()) for q in toks):s+=25   # "hospital", "gas station": nearest of that kind
-   if lon is not None and lat is not None:s-=12*math.log10(1+dist(lon,lat,x,y))   # nearby first
+   kind=all(any(t.startswith(q) for t in label.lower().split()) for q in toks)   # "hospital", "gas station": that kind of place
+   if near:
+    # "near me": closest first. A place of that kind counts its real distance; a name match alone (a hospital's
+    # museum, a pet hospital) counts as about 3x farther, and a partial match much farther still.
+    words=n.split()   # whole words here, so "hot springs" doesn't match "Hotel" or "SpringHill"
+    named=all(any(t in (q,q+'s',q+'es',q+'ies') for t in words) for q in toks);d=dist(lon,lat,x,y)
+    s=-(d if kind else 3*d+3 if named else 10*d+300)
+   else:
+    s=w+(40 if n==ql else 5 if n.startswith(ql) else 0)+(25 if kind else 0)
+    if lon is not None and lat is not None:s-=12*math.log10(1+dist(lon,lat,x,y))   # nearby first
    scored.append((s,name,label,town,x,y,code))
   scored.sort(key=lambda r:-r[0]);out=[]
   for s,name,label,town,x,y,code in scored:

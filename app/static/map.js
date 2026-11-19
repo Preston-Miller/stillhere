@@ -32,7 +32,7 @@ async function load(){
  // Tile cache key: which state files are installed, with their sizes, so a replaced file gets fresh tiles.
  const key=Object.keys(info.installed).sort().map(c=>c+info.installed[c].bytes).join(',');
  const any=key.length>0;
- $('#mapEmpty').hidden=any;
+ $('#mapEmpty').hidden=any;$('#mapChips').hidden=!any;
  if(any&&!map){
   // Come back to where the person left the map (survives a refresh); otherwise frame the downloaded states.
   let cam=null;try{cam=JSON.parse(localStorage.getItem('mapCamera'))}catch{}
@@ -47,8 +47,9 @@ async function load(){
   map.on('moveend',updateHint);
   map.on('click',onMapClick);
   bindPinEvents();
-  loadPins();
+  loadPins();loadMe();
   map.addControl(new maplibregl.NavigationControl({visualizePitch:false}),'top-right');
+  map.addControl({onAdd(){const r=$('#mapRail');r.hidden=false;return r},onRemove(){}},'top-right');   // tools column under the zoom buttons
   map.addControl(new maplibregl.ScaleControl({unit:'imperial'}),'bottom-left');
   map.addControl(readoutControl,'bottom-left');
   bindCoordEvents();
@@ -69,7 +70,9 @@ function renderRegions(){
  const cat=(info.catalog?.states)||[];
  const byCode=new Map(cat.map(s=>[s.code,s]));
  for(const c of Object.keys(inst))if(!byCode.has(c))byCode.set(c,{code:c,name:c,bytes:inst[c].bytes});
- const rows=[...byCode.values()].sort((a,b)=>a.name.localeCompare(b.name)).filter(s=>!filter||s.name.toLowerCase().includes(filter)||s.code.toLowerCase()===filter);
+ // Downloaded states first, then any downloading, then the rest; alphabetical within each.
+ const rank=s=>inst[s.code]?0:jobs[s.code]?.state==='downloading'?1:2;
+ const rows=[...byCode.values()].sort((a,b)=>rank(a)-rank(b)||a.name.localeCompare(b.name)).filter(s=>!filter||s.name.toLowerCase().includes(filter)||s.code.toLowerCase()===filter);
  const used=Object.values(inst).reduce((n,s)=>n+s.bytes,0);
  $('#regionsNote').innerHTML=info.catalog_error?`<span class="warn">${esc(info.catalog_error)}</span>`:
   `Street-level maps of the states you pick, stored on this computer. Internet is needed only while downloading. Using ${gb(used)}.`;
@@ -101,7 +104,7 @@ $('#regionsGo').onclick=async()=>{
  load();
 };
 $('#regionsSearch').oninput=e=>{filter=e.target.value.trim().toLowerCase();renderRegions()};
-function openRegions(open){$('#regions').hidden=!open;if(open)$('#pinsPanel').hidden=true;if(open){load().then(renderRegions);$('#regionsSearch').focus()}}
+function openRegions(open){$('#regions').hidden=!open;if(open){$('#pinsPanel').hidden=true;setPlacing(false)}if(open){load().then(renderRegions);$('#regionsSearch').focus()}}
 $('#regionsBtn').onclick=()=>openRegions($('#regions').hidden);
 $('#regionsClose').onclick=()=>openRegions(false);
 $('#mapEmptyBtn').onclick=()=>openRegions(true);
@@ -149,8 +152,48 @@ function updateHint(){
 // Drawn as a map layer (not DOM markers) so nearby pins group into a numbered bubble when zoomed out.
 const KINDS={meeting:['Meeting point','#2f6fd0'],water:['Water','#1b9ad6'],shelter:['Shelter','#2f8f4f'],supplies:['Supplies / cache','#8d6e3f'],
  medical:['Medical','#c0392b'],danger:['Danger','#e8590c'],other:['Other','#6a6d66']};
-let pins=[],placing=false,pinsLoaded=false,popup=null,drag=null;
+let pins=[],placing=false,pinsLoaded=false,popup=null,drag=null;   // placing: false, 'pin' or 'me'
 function newId(){return crypto.randomUUID?.()||Date.now().toString(36)+Math.random().toString(36).slice(2)}
+
+// ---------------- My location ----------------
+// Not a pin: one spot, saved on its own (location.json), drawn as a blue dot above the pins, never grouped.
+// Set by hand, since computers have no GPS and Wi-Fi location needs internet. "Hospitals near me" searches start
+// from it, and pins and search results show how far they are from it.
+let me=null;
+async function loadMe(){me=await fetch('/api/location').then(r=>r.json()).catch(()=>null);refreshPins();renderPinList();paintMeChip()}
+function saveMe(){
+ fetch('/api/location',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(me?{lng:me.lng,lat:me.lat}:null)})
+  .catch(e=>console.warn('Could not save your location',e));
+ refreshPins();renderPinList();paintMeChip();
+}
+function setMeAt(lng,lat){
+ const prev=me;me={lng:+lng.toFixed(6),lat:+lat.toFixed(6)};saveMe();
+ toast(prev?'Moved your location.':'Saved as your location. Searches like “hospitals near me” start here.',prev?()=>{me=prev;saveMe()}:null);
+}
+function clearMe(){const prev=me;me=null;saveMe();toast('Cleared your location.',()=>{me=prev;saveMe()})}
+// While no location is set, a chip above the map offers to set one. It can be hidden for good (this computer).
+let meChipHidden=false;try{meChipHidden=localStorage.getItem('meChipHidden')==='1'}catch{}
+function paintMeChip(){$('#meChip').hidden=!!me||meChipHidden}
+$('#meChipX').onclick=()=>{meChipHidden=true;try{localStorage.setItem('meChipHidden','1')}catch{};if(placing==='me')setPlacing(false);paintMeChip()};
+function goToMe(){if(!me)return;userMoved=true;map.flyTo({center:[me.lng,me.lat],zoom:Math.max(map.getZoom(),13)});map.once('moveend',openMe)}
+function openMe(){
+ if(!me)return;popup?.remove();
+ const box=document.createElement('div');box.className='spop mepop';
+ box.innerHTML=`<b>My location</b><span class="sub">“Near me” searches start here. Drag the dot to move it.</span><div class="ll">${esc(fmtCoord(me.lat,me.lng))}</div>`+
+  '<button type="button" data-a="copy">Copy</button><button type="button" data-a="move">Move</button><button type="button" data-a="clear">Clear</button>';
+ popup=new maplibregl.Popup({offset:12,maxWidth:'260px'}).setLngLat([me.lng,me.lat]).setDOMContent(box).addTo(map);
+ box.querySelector('[data-a=copy]').onclick=()=>{popup.remove();copyText(fmtCoord(me.lat,me.lng))};
+ box.querySelector('[data-a=move]').onclick=()=>{popup.remove();setPlacing('me')};
+ box.querySelector('[data-a=clear]').onclick=()=>{popup.remove();clearMe()};
+}
+$('#meBtn').onclick=()=>{if(!map){openRegions(true);return}$('#pinsPanel').hidden=true;setPlacing(placing==='me'?false:'me')};
+function fromMe(lng,lat){   // "2.3 mi NE" from My location, or ''
+ if(!me)return '';
+ const m=geo.distance([me.lng,me.lat],[lng,lat]),mi=m/1609.344;
+ if(m<30)return 'here';
+ const d=mi<0.1?`${Math.round(m*3.28084/10)*10} ft`:`${mi<10?mi.toFixed(1):Math.round(mi)} mi`;
+ return `${d} ${geo.compass(geo.bearing([me.lng,me.lat],[lng,lat]))}`;
+}
 
 async function loadPins(){
  if(pinsLoaded)return;pinsLoaded=true;
@@ -163,7 +206,8 @@ function savePins(){
  renderPinList();
 }
 function pinData(){return {type:'FeatureCollection',features:pins.map(p=>({type:'Feature',properties:{id:p.id,label:p.label||'',kind:KINDS[p.kind]?p.kind:'other'},geometry:{type:'Point',coordinates:[p.lng,p.lat]}}))}}
-function refreshPins(){map?.getSource('pins')?.setData(pinData())}
+function meData(){return {type:'FeatureCollection',features:me?[{type:'Feature',properties:{},geometry:{type:'Point',coordinates:[me.lng,me.lat]}}]:[]}}
+function refreshPins(){map?.getSource('pins')?.setData(pinData());map?.getSource('me')?.setData(meData())}
 function pinImage(color){
  const r=2,w=26,h=34,c=document.createElement('canvas');c.width=w*r;c.height=h*r;
  const g=c.getContext('2d');g.scale(r,r);
@@ -186,10 +230,14 @@ function addPinLayers(){
   layout:{'icon-image':['concat','pin-',['get','kind']],'icon-anchor':'bottom','icon-allow-overlap':true,'icon-size':1.25,
    'text-field':['get','label'],'text-font':['Noto Sans Medium'],'text-size':14,'text-anchor':'top','text-offset':[0,.25],'text-max-width':12,'text-optional':true},
   paint:{'text-color':d?'#e7e8e3':'#1d1f1c','text-halo-color':d?'#151714':'#fff','text-halo-width':1.6}});
+ map.addSource('me',{type:'geojson',data:meData()});   // after the pins, so it draws on top
+ map.addLayer({id:'me-halo',type:'circle',source:'me',paint:{'circle-radius':18,'circle-color':'#2f6fd0','circle-opacity':.2}});
+ map.addLayer({id:'me-dot',type:'circle',source:'me',paint:{'circle-radius':8,'circle-color':'#2f6fd0','circle-stroke-width':3,'circle-stroke-color':'#fff'}});
 }
 function bindPinEvents(){
  const cv=map.getCanvas();
- for(const id of ['pins','pin-clusters']){
+ const onMe=pt=>map.getLayer('me-dot')&&map.queryRenderedFeatures(pt,{layers:['me-dot']}).length>0;   // the dot wins over a pin under it
+ for(const id of ['pins','pin-clusters','me-dot']){
   map.on('mouseenter',id,()=>{if(!drag&&!placing&&!measuring)cv.style.cursor='pointer'});
   map.on('mouseleave',id,()=>{if(!drag&&!placing&&!measuring)cv.style.cursor=''});
  }
@@ -201,12 +249,17 @@ function bindPinEvents(){
   const cam=map.cameraForBounds(b,{padding:90,maxZoom:16});
   userMoved=true;map.easeTo({...cam,zoom:Math.max(cam.zoom,13)});   // pins stop grouping above zoom 12
  });
- map.on('click','pins',e=>{if(placing||measuring)return;const p=pins.find(x=>x.id===e.features[0].properties.id);if(p)editPin(p)});
+ map.on('click','me-dot',e=>{if(placing||measuring||drag?.moved)return;openMe()});
+ map.on('click','pins',e=>{if(placing||measuring||onMe(e.point))return;const p=pins.find(x=>x.id===e.features[0].properties.id);if(p)editPin(p)});
  // Drag a pin to move it; the move can be undone from the notice instead of confirming first.
  map.on('mousedown','pins',e=>{
-  if(placing||measuring||e.originalEvent.button!==0)return;
+  if(placing||measuring||e.originalEvent.button!==0||onMe(e.point))return;
   const p=pins.find(x=>x.id===e.features[0].properties.id);if(!p)return;
   e.preventDefault();drag={p,start:e.point,from:[p.lng,p.lat],moved:false};
+ });
+ map.on('mousedown','me-dot',e=>{
+  if(placing||measuring||e.originalEvent.button!==0||!me)return;
+  e.preventDefault();drag={p:me,me:true,start:e.point,from:[me.lng,me.lat],moved:false};
  });
  map.on('mousemove',e=>{
   if(!drag)return;
@@ -216,6 +269,7 @@ function bindPinEvents(){
  const end=()=>{
   if(!drag)return;const d=drag;drag=null;cv.style.cursor='';
   if(!d.moved||d.p._new)return;
+  if(d.me){me={lng:d.p.lng,lat:d.p.lat};saveMe();toast('Moved your location.',()=>{me={lng:d.from[0],lat:d.from[1]};saveMe()});return}
   savePins();
   toast(`Moved “${d.p.label||'Untitled pin'}”.`,()=>{[d.p.lng,d.p.lat]=d.from;refreshPins();savePins()});
  };
@@ -225,7 +279,7 @@ function removePin(p){pins=pins.filter(x=>x!==p);refreshPins();savePins()}
 function editPin(p){
  popup?.remove();
  const f=document.createElement('form');f.className='pinform';
- f.innerHTML=`<input name="label" maxlength="80" placeholder="Label (e.g. Family meeting spot)">
+ f.innerHTML=`<div class="ptitle">${p._new?'New pin':'Edit pin'}</div><input name="label" maxlength="80" placeholder="Label (e.g. Family meeting spot)">
   <select name="kind">${Object.entries(KINDS).map(([k,[n]])=>`<option value="${k}">${n}</option>`).join('')}</select>
   <textarea name="note" maxlength="1000" placeholder="Notes (optional)"></textarea>
   <div class="coords">${esc(fmtCoord(p.lat,p.lng))}</div>
@@ -234,7 +288,8 @@ function editPin(p){
  let saved=false;
  f.onsubmit=e=>{e.preventDefault();
   p.label=f.label.value.trim();p.kind=f.kind.value;p.note=f.note.value.trim();delete p._new;saved=true;
-  refreshPins();savePins();popup.remove()};
+  refreshPins();savePins();
+  popup.remove()};
  f.querySelector('.del').onclick=()=>{
   const wasNew=p._new;saved=true;removePin(p);popup.remove();
   if(!wasNew)toast(`Deleted “${p.label||'Untitled pin'}”.`,()=>{pins.push(p);refreshPins();savePins()});
@@ -253,16 +308,20 @@ function toast(msg,undo){
 }
 function setPlacing(on){
  if(on&&measuring)endMeasure();
- placing=on;$('#addPinBtn').classList.toggle('on',on);$('#pinHint').hidden=!on;
+ placing=on;$('#pinsBtn').classList.toggle('on',on==='pin');$('#meBtn').classList.toggle('on',on==='me');$('#meBtn').textContent=on==='me'?'Cancel':'Set location';$('#pinHint').hidden=!on;
+ $('#pinHint').textContent=on==='me'?'Click the map where you are · Esc to cancel':'Click the map to place the pin · Esc to cancel';
  if(map)map.getCanvas().style.cursor=on?'crosshair':'';
 }
 function renderPinList(){
  const saved=pins.filter(p=>!p._new);
- $('#pinsBtn').textContent=saved.length?`Pins (${saved.length})`:'Pins';
+ $('#pinsCount').hidden=!saved.length;$('#pinsCount').textContent=saved.length;
  const list=saved.sort((a,b)=>(a.label||'~').localeCompare(b.label||'~'));
- $('#pinsList').innerHTML=list.map(p=>`<div class="rrow" data-id="${esc(p.id)}"><span class="pdot" style="background:${KINDS[p.kind]?.[1]||KINDS.other[1]}"></span><span class="rname">${esc(p.label||'Untitled pin')}${p.note?`<br><span class="rsize">${esc(p.note.slice(0,80))}</span>`:''}</span><span class="rsize">${esc(KINDS[p.kind]?.[0]||'Other')}</span></div>`).join('')
-  ||'<div class="rnone">No pins yet. Use “+ Add pin” and click the map.</div>';
- $('#pinsList').querySelectorAll('.rrow').forEach(r=>r.onclick=()=>{
+ // My location isn't a pin or counted as one; it sits on top here so it can be found when it's off-screen.
+ const meRow=me?`<div class="rrow merow"><span class="medot"></span><span class="rname"><b>My location</b></span><span class="rsize">${esc(fmtCoord(me.lat,me.lng))}</span></div>`:'';
+ $('#pinsList').innerHTML=meRow+(list.map(p=>`<div class="rrow" data-id="${esc(p.id)}"><span class="pdot" style="background:${KINDS[p.kind]?.[1]||KINDS.other[1]}"></span><span class="rname">${esc(p.label||'Untitled pin')}${p.note?`<br><span class="rsize">${esc(p.note.slice(0,80))}</span>`:''}</span><span class="rsize">${esc([KINDS[p.kind]?.[0]||'Other',fromMe(p.lng,p.lat)].filter(Boolean).join(' · '))}</span></div>`).join('')
+  ||'<div class="rnone">No pins yet. Use “+ Add pin” and click the map.</div>');
+ const mr=$('#pinsList .merow');if(mr)mr.onclick=goToMe;
+ $('#pinsList').querySelectorAll('.rrow[data-id]').forEach(r=>r.onclick=()=>{
   const p=pins.find(x=>x.id===r.dataset.id);if(!p)return;
   userMoved=true;map.flyTo({center:[p.lng,p.lat],zoom:Math.max(map.getZoom(),14)});
   map.once('moveend',()=>editPin(p));
@@ -271,12 +330,13 @@ function renderPinList(){
 function onMapClick(e){
  if(measuring){addMeasurePoint([e.lngLat.lng,e.lngLat.lat]);return}
  if(!placing)return;
- setPlacing(false);
+ const mode=placing;setPlacing(false);
+ if(mode==='me'){setMeAt(e.lngLat.lng,e.lngLat.lat);return}
  const p={id:newId(),lng:+e.lngLat.lng.toFixed(6),lat:+e.lngLat.lat.toFixed(6),label:'',kind:'other',note:'',_new:true};
  pins.push(p);refreshPins();editPin(p);
 }
-$('#addPinBtn').onclick=()=>{if(!map){openRegions(true);return}$('#pinsPanel').hidden=true;setPlacing(!placing)};
-$('#pinsBtn').onclick=()=>{if(!map)return;const open=$('#pinsPanel').hidden;$('#pinsPanel').hidden=!open;$('#regions').hidden=true;if(open)renderPinList()};
+$('#addPinBtn').onclick=()=>{if(!map){openRegions(true);return}$('#pinsPanel').hidden=true;setPlacing(placing==='pin'?false:'pin')};
+$('#pinsBtn').onclick=()=>{if(!map)return;if(placing==='pin'){setPlacing(false);return}const open=$('#pinsPanel').hidden;$('#pinsPanel').hidden=!open;$('#regions').hidden=true;if(open)renderPinList()};
 $('#pinsClose').onclick=()=>{$('#pinsPanel').hidden=true};
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&placing)setPlacing(false)});
 
@@ -312,10 +372,11 @@ function openSpotMenu(ll){
  const box=document.createElement('div');box.className='spotmenu';
  box.innerHTML='<div class="h">Copy this spot</div>'+Object.entries(FORMATS).map(([k,[,name]])=>
   `<button type="button" data-copy="${k}"><span class="v">${esc(fmtCoord(ll.lat,ll.lng,k))}</span><span class="n">${esc(name)}</span></button>`).join('')+
-  '<div class="sep"></div><button type="button" data-a="measure">Measure from here</button><button type="button" data-a="pin">Add pin here</button>';
+  '<div class="sep"></div><button type="button" data-a="measure">Measure from here</button><button type="button" data-a="pin">Add pin here</button><button type="button" data-a="me">Set as my location</button>';
  popup=new maplibregl.Popup({closeButton:false,maxWidth:'320px',offset:6}).setLngLat(ll).setDOMContent(box).addTo(map);
  box.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>{popup.remove();copyText(fmtCoord(ll.lat,ll.lng,b.dataset.copy))});
  box.querySelector('[data-a=measure]').onclick=()=>{popup.remove();startMeasure([ll.lng,ll.lat])};
+ box.querySelector('[data-a=me]').onclick=()=>{popup.remove();setMeAt(ll.lng,ll.lat)};
  box.querySelector('[data-a=pin]').onclick=()=>{
   popup.remove();
   const p={id:newId(),lng:+ll.lng.toFixed(6),lat:+ll.lat.toFixed(6),label:'',kind:'other',note:'',_new:true};
@@ -409,14 +470,18 @@ function parseCoords(s){
 }
 const ZOOM_FOR={City:12,Town:13,Village:14,Hamlet:14,Place:14,Neighborhood:15,District:14,County:10,River:13,Stream:14,Water:13,Lake:13,Reservoir:13,Highway:13,Road:15,Street:16,Trail:15};
 const PIN_KIND=l=>/hospital|clinic|doctor|pharmacy|dentist|first aid/i.test(l)?'medical':/spring|water|lake|reservoir|river|stream/i.test(l)?'water':/camp|shelter|hut/i.test(l)?'shelter':/fuel|gas|supermarket|grocery|convenience|hardware/i.test(l)?'supplies':'other';
+// "hospitals near me", "nearest gas station", "campgrounds nearby": the place words, and whether to search from My location.
+const NEAR=/\b(?:(?:near|close to|around|by)\s+(?:me|here|us|my location)|nearby|near ?by|nearest|closest)\b/gi;
+function nearQuery(q){const t=q.replace(NEAR,' ');return t===q?null:t.replace(/\b(?:the|a|an|to|is|where|whats?|what's|find|show)\b/gi,' ').replace(/[?!.,]/g,' ').replace(/\s+/g,' ').trim()}
 let sTimer=0,sSeq=0,sItems=[],sOn=-1,sMarker=null;
 const sBox=$('#mapSearch'),sList=$('#mapResults');
 function fmt(v){return v.toFixed(5)}
+let nearNote='';
 function renderResults(items,q){
  sItems=items;sOn=items.length?0:-1;
  if(!q){sList.hidden=true;return}
- sList.innerHTML=items.length?items.map((r,i)=>`<button role="option" data-i="${i}" class="${i===sOn?'on':''}">${esc(r.name)}<span class="sub">${esc(r.sub)}</span></button>`).join('')
-  :`<div class="none">${map?'No matches in your downloaded states. Street addresses aren’t searchable; try the street or town name.':'Download a state to search the map.'}</div>`;
+ sList.innerHTML=nearNote+(items.length?items.map((r,i)=>`<button role="option" data-i="${i}" class="${i===sOn?'on':''}">${esc(r.name)}<span class="sub">${esc(r.sub)}</span></button>`).join('')
+  :`<div class="none">${map?'No matches in your downloaded states. Street addresses aren’t searchable; try the street or town name.':'Download a state to search the map.'}</div>`);
  sList.hidden=false;
  sList.querySelectorAll('button').forEach(b=>b.onmousedown=e=>{e.preventDefault();pick(sItems[+b.dataset.i])});
 }
@@ -432,11 +497,20 @@ async function runSearch(){
   items.push({name:`Go to ${g.text}`,sub:[g.kind,sq].filter(Boolean).join(' · '),lat:g.lat,lng:g.lng,label:'Coordinates',
    zoom:g.precision>=1e5?8:g.precision>=1e4?11:g.precision>=1e3?13:g.precision>=100?15:16,coords:true,title:g.text});
  }
+ nearNote='';
  if(map&&q.length>=2&&!c){
-  const ctr=map.getCenter();
-  const r=await fetch(`/api/search?q=${encodeURIComponent(q)}&lon=${ctr.lng.toFixed(4)}&lat=${ctr.lat.toFixed(4)}`).then(r=>r.json()).catch(()=>({results:[]}));
+  const ctr=map.getCenter(),nq=nearQuery(q);
+  let url=`/api/search?q=${encodeURIComponent(q)}&lon=${ctr.lng.toFixed(4)}&lat=${ctr.lat.toFixed(4)}`;
+  if(nq!==null){
+   if(!nq){renderResults([],'');return}   // just "near me" so far: nothing to search yet
+   const from=me||{lng:ctr.lng,lat:ctr.lat};
+   url=`/api/search?q=${encodeURIComponent(nq)}&lon=${from.lng.toFixed(5)}&lat=${from.lat.toFixed(5)}&near=1`;
+   nearNote=me?`<div class="nearnote">Closest to your location</div>`
+    :`<div class="nearnote">No location set, so this is near the map center. ${meChipHidden?'To set one, right-click your spot on the map and choose “Set as my location”.':'Use “Set location” at the top right of the map.'}</div>`;
+  }
+  const r=await fetch(url).then(r=>r.json()).catch(()=>({results:[]}));
   if(seq!==sSeq)return;   // a newer keystroke already ran
-  for(const x of r.results)items.push({name:x.name,sub:[x.label,x.town||x.state].filter(Boolean).join(' · '),lat:x.lat,lng:x.lon,label:x.label,zoom:ZOOM_FOR[x.label]||16});
+  for(const x of r.results)items.push({name:x.name,sub:[x.label,x.town||x.state,fromMe(x.lon,x.lat)].filter(Boolean).join(' · '),lat:x.lat,lng:x.lon,label:x.label,zoom:ZOOM_FOR[x.label]||16});
  }
  renderResults(items,q);
 }
@@ -457,6 +531,11 @@ function pick(r){
   pins.push(p);refreshPins();savePins();editPin(p);
  };
 }
+// Shortcut chips under the search bar: one tap runs a "near me" search.
+const CHIPS=[['Hospitals','hospitals near me'],['Pharmacies','pharmacies near me'],['Gas','gas stations near me'],['Groceries','supermarkets near me'],
+ ['Police','police near me'],['Fire stations','fire stations near me'],['Campgrounds','campgrounds near me'],['Hardware','hardware near me']];
+$('#mapChips').innerHTML=CHIPS.map(([n,q])=>`<button type="button" data-q="${esc(q)}">${esc(n)}</button>`).join('');
+$('#mapChips').querySelectorAll('button').forEach(b=>b.onclick=()=>{sBox.value=b.dataset.q;sBox.focus();clearTimeout(sTimer);runSearch()});
 sBox.addEventListener('input',()=>{clearTimeout(sTimer);sTimer=setTimeout(runSearch,140)});
 sBox.addEventListener('focus',()=>{if(sBox.value.trim())runSearch()});
 sBox.addEventListener('blur',()=>setTimeout(()=>{sList.hidden=true},120));

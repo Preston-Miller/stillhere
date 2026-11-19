@@ -262,9 +262,21 @@ button{font:inherit;cursor:pointer}
 .pane{flex:1;display:flex;flex-direction:column;min-height:0;position:relative}
 .pane[hidden]{display:none}
 #map{position:absolute;inset:0}
-.maptools{position:absolute;top:10px;left:10px;z-index:2;display:flex;gap:6px}
-.maptools .ghost{background:var(--panel);box-shadow:0 1px 4px rgba(0,0,0,.15)}
-.maptools .ghost.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.maprail{display:flex;flex-direction:column;background:var(--panel);border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,.2);overflow:hidden}
+.maprail[hidden]{display:none}
+.maprail button{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;width:62px;padding:9px 2px 8px;border:none;background:none;color:var(--ink);font:inherit;font-size:11.5px;cursor:pointer}
+.maprail button+button{border-top:1px solid var(--line)}
+.maprail button:hover{background:var(--hover)}
+.maprail button.on{background:var(--accent);color:#fff}
+.maprail svg{width:22px;height:22px}
+.maprail .badge{position:absolute;top:5px;right:9px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--accent);color:#fff;font:600 10.5px/17px var(--font);font-style:normal}
+.maprail .badge[hidden]{display:none}
+.radd{padding:0 14px 12px}.radd .send{width:100%}
+.mchips{position:absolute;top:66px;left:12px;z-index:2;width:min(460px,calc(100% - 100px));display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0 4px}
+.mchips::-webkit-scrollbar{display:none}
+.mchips[hidden]{display:none}
+.mchips button{flex:none;font:inherit;font-size:13.5px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.14);cursor:pointer;white-space:nowrap}
+.mchips button:hover{background:var(--hover)}
 .maphint{position:absolute;top:52px;left:10px;z-index:2;background:var(--ink);color:var(--panel);font-size:12px;padding:5px 10px;border-radius:6px}
 .coverhint,.maptoast{position:absolute;left:50%;transform:translateX(-50%);z-index:2;display:flex;align-items:center;gap:10px;max-width:calc(100% - 32px);background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px 10px 8px 14px;font-size:13px;box-shadow:0 4px 16px rgba(0,0,0,.18)}
 .coverhint{top:56px}.maptoast{bottom:88px}
@@ -291,13 +303,29 @@ button{font:inherit;cursor:pointer}
 .pinform input,.pinform select,.pinform textarea{font:inherit;padding:5px 7px;border:1px solid #d6d4cc;border-radius:6px;width:100%}
 .pinform textarea{resize:vertical;min-height:48px}
 .pinform .row{display:flex;gap:6px;justify-content:space-between;align-items:center}
+.pinform .ptitle{font-weight:600;font-size:15px;min-height:24px;margin-top:-4px;padding-right:34px;display:flex;align-items:center}   /* the popup's × sits beside this, not over the label box */
 .pinform .coords{font-size:11px;color:#6a6d66}
 .pinform button{font:inherit;border-radius:6px;padding:4px 10px;border:1px solid #d6d4cc;background:#fff;cursor:pointer}
 .pinform .save{background:#2f6f4f;color:#fff;border-color:#2f6f4f}
 .pinform .del{color:#b3261e}
 .pdot{width:12px;height:12px;border-radius:50%;flex:0 0 12px}
+/* "Set your location" notice: top right, beside the zoom buttons, only while no location is set */
+.menote{position:absolute;top:112px;left:12px;z-index:2;width:min(290px,calc(100% - 100px));display:grid;grid-template-columns:auto 1fr auto;gap:2px 10px;align-items:start;
+ background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:11px 8px 12px 13px;font-size:13px;box-shadow:0 4px 16px rgba(0,0,0,.18)}
+.menote[hidden]{display:none}
+.menote .medot{margin-top:4px}
+.menote b{font-size:14px}
+.menote p{grid-column:2;margin:0;color:var(--muted);font-size:12.5px;line-height:1.4}
+.menote .acts{grid-column:2;margin-top:8px}
+.menote #meBtn{font:inherit;font-size:13px;border-radius:7px;padding:5px 12px;border:1px solid #2f6fd0;background:#2f6fd0;color:#fff;cursor:pointer}
+.menote #meBtn.on{background:none;color:#2f6fd0}
+.menote #meChipX{grid-row:1;grid-column:3;border:none;background:none;color:var(--muted);font-size:17px;line-height:1;padding:0 4px;cursor:pointer}
+.medot{width:10px;height:10px;border-radius:50%;background:#2f6fd0;box-shadow:0 0 0 2px #fff,0 0 0 5px rgba(47,111,208,.25);flex:0 0 10px;margin:0 2px}
+.mepop .sub{display:block;margin-top:2px}
+.nearnote{font-size:12px;color:var(--muted);padding:6px 12px 4px}
 .regions{position:absolute;top:0;left:0;bottom:0;width:min(380px,100%);z-index:3;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;box-shadow:2px 0 12px rgba(0,0,0,.12)}
 .rhead{display:flex;align-items:center;padding:12px 14px 4px}
+.rhead .spacer{flex:1}
 .rnote{padding:0 14px 10px;font-size:12px;color:var(--muted)}
 .rnote .warn,.regions .warn{color:var(--warn)}
 .rsearch{margin:0 14px 8px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
@@ -319,8 +347,6 @@ button{font:inherit;cursor:pointer}
 #mapView .msearch input{font-size:15px;padding:9px 12px}
 #mapView .mresults button{font-size:15px;padding:10px 12px}
 #mapView .mresults .sub{font-size:13px}
-.maptools{top:12px;left:12px;gap:8px;flex-wrap:wrap;right:70px}
-.maptools .ghost{font-size:15px;padding:9px 15px;min-height:40px;border-radius:9px}
 .maphint{top:66px;left:12px;font-size:14px;padding:7px 12px}
 .coverhint{top:66px}
 .coverhint,.maptoast,.measurebar{font-size:15px}
@@ -329,6 +355,13 @@ button{font:inherit;cursor:pointer}
 .coordread .k{font-size:11px}
 #mapView .maplibregl-ctrl-group button{width:40px;height:40px}
 #mapView .maplibregl-ctrl-icon{background-size:34px}
+/* Search floats on the map as a rounded bar, with the map tools on a row beneath it. */
+#mapPane .msearch{position:absolute;top:12px;left:12px;z-index:3;width:min(460px,calc(100% - 86px));max-width:none;margin:0}
+#mapPane .msearch input{-webkit-appearance:none;appearance:none;border-radius:999px;padding:11px 18px 11px 42px;background:var(--panel) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='8.5' cy='8.5' r='5.5' fill='none' stroke='%23888' stroke-width='1.8'/%3E%3Cpath d='M12.8 12.8 17 17' stroke='%23888' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 15px center/18px;border:1px solid var(--line);box-shadow:0 2px 10px rgba(0,0,0,.18)}
+#mapPane .msearch input:focus{outline:2px solid var(--accent);outline-offset:-1px}
+#mapPane .mresults{top:calc(100% + 6px);border-radius:16px}
+#mapPane .maphint{top:112px;left:50%;transform:translateX(-50%);z-index:3}
+#mapPane .coverhint{top:112px}
 #mapView .maplibregl-popup-close-button{font-size:22px;width:32px;height:32px}
 .spotmenu{font-size:14px;min-width:270px}
 .spotmenu button{padding:8px 8px}
@@ -416,23 +449,30 @@ button{font:inherit;cursor:pointer}
  <header class="topbar">
   <button class="iconbtn sideopen" data-side title="Open sidebar" aria-label="Open sidebar"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 3.5v13" stroke="currentColor" stroke-width="1.6"/></svg></button>
   <h1>Map</h1>
-  <div class="msearch">
-   <input id="mapSearch" type="search" placeholder="Search places, coordinates, or a grid reference" autocomplete="off" spellcheck="false" aria-label="Search the map" aria-controls="mapResults">
-   <div class="mresults" id="mapResults" role="listbox" hidden></div>
-  </div>
  </header>
   <div class="pane" id="mapPane">
    <div id="map"></div>
-   <div class="maptools">
-    <button class="ghost" id="addPinBtn" title="Click the map to drop a pin">+ Add pin</button>
-    <button class="ghost" id="pinsBtn">Pins</button>
-    <button class="ghost" id="measureBtn" title="Click points on the map to measure distance and bearing">Measure</button>
-    <button class="ghost" id="regionsBtn">Map regions</button>
+    <div class="msearch">
+     <input id="mapSearch" type="search" placeholder="Search places (try “hospitals near me”), coordinates, or a grid reference" autocomplete="off" spellcheck="false" aria-label="Search the map" aria-controls="mapResults">
+     <div class="mresults" id="mapResults" role="listbox" hidden></div>
+    </div>
+   <div class="mchips" id="mapChips" aria-label="Find nearby" hidden></div>
+   <!-- Tools: a column under the zoom buttons (added to the map as a control in map.js) -->
+   <div class="maplibregl-ctrl maprail" id="mapRail" hidden>
+    <button type="button" id="pinsBtn" title="Your saved pins; add a pin"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg><span>Pins</span><i class="badge" id="pinsCount" hidden></i></button>
+    <button type="button" id="measureBtn" title="Click points on the map to measure distance and bearing"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8" width="19" height="8" rx="1.5" transform="rotate(-35 12 12)"/><path d="M8.2 8.6l1.3 1.8M11 6.6l1.8 2.6M13.8 4.6l1.3 1.8" transform="translate(-1.2 2.4)"/></svg><span>Measure</span></button>
+    <button type="button" id="regionsBtn" title="Download or remove state maps"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3.5 6v14L9 18l6 2 5.5-2V4L15 6 9 4z"/><path d="M9 4v14M15 6v14"/></svg><span>Maps</span></button>
+   </div>
+   <div class="menote" id="meChip" role="note" hidden>
+    <span class="medot" aria-hidden="true"></span><b>Set your location</b><button type="button" id="meChipX" title="Don’t show this again" aria-label="Dismiss">×</button>
+    <p>So searches like “hospitals near me” start from where you are.</p>
+    <div class="acts"><button type="button" id="meBtn">Set location</button></div>
    </div>
    <div class="maphint" id="pinHint" hidden>Click the map to place the pin · Esc to cancel</div>
    <div class="regions" id="pinsPanel" hidden>
     <div class="rhead"><b>Pins</b><span class="spacer"></span><button class="ghost" id="pinsClose" aria-label="Close">×</button></div>
-    <div class="rnote">Saved on this computer. Click a pin to go to it; drag a pin on the map to move it.</div>
+    <div class="rnote">Saved on this computer. Click a pin to go to it; drag a pin on the map to move it. You can also right-click any spot to pin it.</div>
+    <div class="radd"><button type="button" class="send" id="addPinBtn">+ Add pin</button></div>
     <div class="rlist" id="pinsList"></div>
    </div>
    <div class="placeholder" id="mapEmpty" hidden><div><b>No maps downloaded yet.</b><br>Pick the states you want available offline.<br><br><button class="send" id="mapEmptyBtn">Choose states</button></div></div>

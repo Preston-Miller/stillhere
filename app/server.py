@@ -61,6 +61,32 @@ def clean_pins(raw):
   except (KeyError,TypeError,ValueError):continue
  return out
 
+ME=DATA/'location.json'   # "My location": one spot, set by hand. Not a pin.
+
+def clean_me(raw):
+ """{lng, lat} from the browser, or None to clear it."""
+ if not isinstance(raw,dict) or 'lng' not in raw:return None
+ lng,lat=float(raw['lng']),float(raw['lat'])
+ if not (-180<=lng<=180 and -90<=lat<=90):raise ValueError('out of range')
+ return {'lng':round(lng,6),'lat':round(lat,6),'set':time.time()}
+
+def migrate_me():
+ """Earlier builds kept My location as a pin flagged me:true. Move it to its own file; a pin the person named stays a pin."""
+ if ME.exists() or not PINS.exists():return
+ try:pins=json.loads(PINS.read_text())
+ except (OSError,ValueError):return
+ old=next((p for p in pins if isinstance(p,dict) and p.get('me')),None)
+ if not old:return
+ try:ME.write_text(json.dumps(clean_me(old)))
+ except (KeyError,TypeError,ValueError):pass
+ keep=[]
+ for p in pins:
+  if p is old and p.get('label')=='My location' and not p.get('note'):continue
+  if isinstance(p,dict):p.pop('me',None)
+  keep.append(p)
+ tmp=PINS.with_suffix('.tmp');tmp.write_text(json.dumps(keep,ensure_ascii=False));os.replace(tmp,PINS)
+migrate_me()
+
 def chat_path(cid):
  return CHATS/(cid+'.json') if CHAT_ID.match(cid or '') else None
 
@@ -196,8 +222,9 @@ class Handler(BaseHTTPRequestHandler):
    def num(k):
     try:return float(qs[k][0])
     except (KeyError,ValueError):return None
-   return self.send(200,{'results':MAPS.search(qs.get('q',[''])[0][:100],num('lon'),num('lat'))})
+   return self.send(200,{'results':MAPS.search(qs.get('q',[''])[0][:100],num('lon'),num('lat'),near=qs.get('near',[''])[0]=='1')})
   if path=='/api/pins':return self.send(200,PINS.read_bytes() if PINS.exists() else b'[]')
+  if path=='/api/location':return self.send(200,ME.read_bytes() if ME.exists() else b'null')
   if path=='/api/chats':return self.send(200,list_chats())
   if path=='/api/setup':return self.send(200,firstrun.status())
   if path=='/api/videos':return self.send(200,videos.list_videos())
@@ -233,6 +260,12 @@ class Handler(BaseHTTPRequestHandler):
    except ValueError:return self.send(400,{'error':'bad pins'})
    tmp=PINS.with_suffix('.tmp');tmp.write_text(json.dumps(pins,ensure_ascii=False));os.replace(tmp,PINS)   # atomic save
    return self.send(200,{'ok':True,'count':len(pins)})
+  if path=='/api/location':
+   try:me=clean_me(json.loads(self.rfile.read(int(self.headers.get('Content-Length',0)))))
+   except (ValueError,KeyError,TypeError):return self.send(400,{'error':'bad location'})
+   if me is None:ME.unlink(missing_ok=True)
+   else:tmp=ME.with_suffix('.tmp');tmp.write_text(json.dumps(me));os.replace(tmp,ME)
+   return self.send(200,{'ok':True})
   if path.startswith('/api/videos/'):
    try:title=json.loads(self.rfile.read(int(self.headers.get('Content-Length',0))))['title']
    except (ValueError,KeyError,TypeError):return self.send(400,{'error':'bad request'})
