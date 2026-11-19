@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { BookOpen, Map as MapIcon, MessageCircle, type LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { Suspense } from "react";
 import { CanceledBanner } from "./canceled-banner";
@@ -12,28 +11,6 @@ import mapShot from "@/public/app-map.jpg";
 import heroPhoto from "@/public/hero-photo.jpg";
 
 const CDC_URL = "https://www.cdc.gov/drinking-water/about/collecting-rainwater-and-your-health-an-overview.html";
-
-/* Hero feature icons: soft cream Lucide shapes, the shelter mark's cream */
-function CardIcon({ Icon }: { Icon: LucideIcon }) {
-  return (
-    <div className="flex items-center justify-center">
-      <Icon
-        aria-hidden
-        strokeWidth={2}
-        fill="currentColor"
-        fillOpacity={0.12}
-        className="h-10 w-10 sm:h-12 sm:w-12"
-        style={{ color: LOGO_CREAM }}
-      />
-    </div>
-  );
-}
-
-const HERO_THREE = [
-  { title: "AI", Icon: MessageCircle },
-  { title: "Emergency guides", Icon: BookOpen },
-  { title: "Maps", Icon: MapIcon },
-];
 
 function PriceLine({ dark = false }: { dark?: boolean }) {
   return (
@@ -87,7 +64,7 @@ export default function Home() {
         <CanceledBanner />
       </Suspense>
       <main className="flex-1">
-        {/* Hero: logo, headline, the three things, then buy. Centered */}
+        {/* Hero: logo, headline, then buy. Centered */}
         <section className="relative overflow-hidden">
           <Image
             src={heroPhoto}
@@ -109,16 +86,8 @@ export default function Home() {
                 </span>
               </h1>
               <p className="mt-6 text-balance font-brand text-2xl font-medium tracking-tight sm:text-4xl">
-                No connection. Still prepared.
+                AI, emergency guides, and maps that work offline.
               </p>
-              <ul className="mt-10 grid w-full max-w-md grid-cols-3 gap-4">
-                {HERO_THREE.map(({ title, Icon }) => (
-                  <li key={title} className="flex flex-col items-center gap-2">
-                    <CardIcon Icon={Icon} />
-                    <p className="font-brand text-sm font-semibold sm:text-base">{title}</p>
-                  </li>
-                ))}
-              </ul>
               <DownloadButtons />
             </div>
           </div>
