@@ -96,9 +96,12 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Demo: a real screen recording of the app */}
+        {/* Demo: the "works offline" heading, then a real screen recording of the app */}
         <section id="demo" className="scroll-mt-4">
           <div className="mx-auto max-w-5xl px-4 pb-20 sm:px-6">
+            <SectionTitle sub="Set it up once. There when you need it.">
+              Everything works offline.
+            </SectionTitle>
             <div className="overflow-hidden rounded-xl border border-line bg-panel shadow-2xl shadow-black/50">
               <div className="flex items-center gap-1.5 border-b border-line px-3 py-2" aria-hidden>
                 <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
@@ -117,9 +120,6 @@ export default function Home() {
         {/* Three things, side by side */}
         <section id="features" className="scroll-mt-4 border-t border-line">
           <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-            <SectionTitle sub="Set it up once while you have internet. After that, none of this needs a connection.">
-              Everything works offline.
-            </SectionTitle>
             <div className="grid divide-y divide-line border-y border-line md:grid-cols-3 md:divide-x md:divide-y-0">
               <Feature title="AI" tagline="Ask in plain words." stat="On your computer" caption="no cloud, no account">
                 <div className="space-y-3 p-4 text-sm">
