@@ -3,18 +3,19 @@
   "source_id": "src-037ecbe5f65ae0",
   "url": "https://www.weather.gov/safety/tornado-during",
   "offline_asset": "../reference-sources/web/src-037ecbe5f65ae0.txt",
-  "sha256": "6b67977ac4f309fabd1b4ec458afd14460ed183e7ca6fa3ed914cde2a65cc479",
+  "sha256": "a6efbae773baed28b05b1ea92d9e6880c152d7711a02febf91478a63f85459ac",
   "title": "What to do During a Tornado",
-  "status": "cached plain-text reference; layout unverified"
+  "status": "cached plain-text reference; layout unverified",
+  "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
  },
  {
   "source_id": "src-06174d692f1b23",
   "url": "https://www.cdc.gov/epilepsy/first-aid-for-seizures/index.html",
   "offline_asset": "../reference-sources/web/src-06174d692f1b23.txt",
-  "sha256": "d1fdb84d20231ba7d7eb762fae28878b78c0e5a12a76e748d4180555b58185b9",
+  "sha256": "ec8120beb50bcc140d6e4d86d1c14b1666f0efbc1ce70f75b6f9733d123ec2ae",
   "title": "First Aid for Seizures | Epilepsy | CDC",
   "status": "cached plain-text reference; layout unverified",
-  "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+  "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
  },
  {
   "source_id": "src-0908cb50b8f14b",
@@ -38,28 +39,28 @@
   "source_id": "src-1e80d8463390e1",
   "url": "https://www.cdc.gov/food-safety/foods/keep-food-safe-after-emergency.html",
   "offline_asset": "../reference-sources/web/src-1e80d8463390e1.txt",
-  "sha256": "7e301e1d724b41654ae8aa23aeb75b0334c628223b39e17d9d6c846bd6d0b4fa",
+  "sha256": "a4db5e641c80990f48564db13741eb498481bf6b2c2cdb4eb9bcb81d430bf1de",
   "title": "Keep Food Safe After a Disaster or Emergency | Food Safety | CDC",
   "status": "cached plain-text reference; layout unverified",
-  "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+  "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
  },
  {
   "source_id": "src-237fcdfcd9ea69",
   "url": "https://www.fema.gov/print/pdf/node/503732",
   "offline_asset": "../reference-sources/web/src-237fcdfcd9ea69.txt",
-  "sha256": "3105d7522613d1287433b2be4ec2d949c724cfb0a3500d3a9b398295f5b78bd5",
+  "sha256": "ded9aea6ff7822012fa9555bf0d5e83238898f1e22643ab83a736f230f98c4ba",
   "title": "How to Build a Kit for Emergencies | FEMA",
   "status": "cached plain-text reference; layout unverified",
-  "extraction_cleanup": "2026-11-17: repaired_pdf_extraction"
+  "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
  },
  {
   "source_id": "src-2393c9c565ce55",
   "url": "https://www.cdc.gov/water-emergency/about/",
   "offline_asset": "../reference-sources/web/src-2393c9c565ce55.txt",
-  "sha256": "fcccac1da30c2a97cab7bcb5d62e3eb28864ddf134c5b84280922ce6c5021397",
+  "sha256": "5a96ce3d19836c8cdc5b92368c10ae9a5fefcd61659c15fd14904259d7c5f0c5",
   "title": "How to Make Water Safe in an Emergency | Water, Sanitation, and Hygiene (WASH)-related Emergencies and Outbreaks | CDC",
   "status": "cached plain-text reference; layout unverified",
-  "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+  "extraction_cleanup": "2026-11-19: formatted headings, lists and bleach measurements; removed related links and fact sheet listings; instructional text retained; not clinically reviewed"
  },
  {
   "source_id": "src-323357f676157e",
@@ -85,10 +86,10 @@
   "source_id": "src-40af8fc4603fe0",
   "url": "https://www.cdc.gov/natural-disasters/response/what-to-do-protect-yourself-during-a-power-outage.html",
   "offline_asset": "../reference-sources/web/src-40af8fc4603fe0.txt",
-  "sha256": "a94362954b8ff7c57c99da0c60e68062c678e7e3622c3a522eb29f1cf05d6701",
+  "sha256": "ccbb161ebf9c3fb26c1854ae8adc4b7604ee5ffa683ede9feb8e3362f63d216e",
   "title": "What to Do to Protect Yourself During a Power Outage | Natural Disasters | CDC",
   "status": "cached plain-text reference; layout unverified",
-  "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+  "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
  },
  {
   "source_id": "src-52d53f987b420e",
@@ -102,19 +103,19 @@
   "source_id": "src-7228150f0031bc",
   "url": "https://www.cdc.gov/water-emergency/about/how-to-create-and-store-an-emergency-water-supply.html",
   "offline_asset": "../reference-sources/web/src-7228150f0031bc.txt",
-  "sha256": "d8f7591330d8cab837aaabac7f2187bde54a0279b7b76e1461d732c29e092448",
+  "sha256": "77ce52f87b82f519366631a3456964b9b826cfa1c4fb2b843385a68ffd645cf4",
   "title": "How to Create an Emergency Water Supply | Water, Sanitation, and Hygiene (WASH)-related Emergencies and Outbreaks | CDC",
   "status": "cached plain-text reference; layout unverified",
-  "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+  "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
  },
  {
   "source_id": "src-72d658ee9dc459",
   "url": "https://www.cdc.gov/radiation-emergencies/prevention/self-decontaminate.html",
   "offline_asset": "../reference-sources/web/src-72d658ee9dc459.txt",
-  "sha256": "e98ed06d8c7f9bf2db3dd42811a8c99d5842c9a072f284a8ee5528dd3f6e0120",
+  "sha256": "9ddd6ecfc7e70370e9d2656e887960b6d4ae3a6c783d5690567f77a25f31a2df",
   "title": "How to Self-Decontaminate after a Radiation Emergency | Radiation Emergencies | CDC",
   "status": "cached plain-text reference; layout unverified",
-  "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+  "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
  },
  {
   "source_id": "src-7acf4b4f44606e",
@@ -137,19 +138,19 @@
   "source_id": "src-8c5567780f8de8",
   "url": "https://www.cdc.gov/overdose-prevention/reversing-overdose/about-Naloxone.html",
   "offline_asset": "../reference-sources/web/src-8c5567780f8de8.txt",
-  "sha256": "02e6cc32d0720e12428457cd13d207952a1b631ab6e6be6dce9963a370e2ed47",
+  "sha256": "21476f2c5f068cce42c21178d39901da758989858d2bfd29c95034bf766c6c67",
   "title": "5 Things to Know About Naloxone | Overdose Prevention | CDC",
   "status": "cached plain-text reference; layout unverified",
-  "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+  "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
  },
  {
   "source_id": "src-a18271af15b30f",
   "url": "https://www.cdc.gov/wildfires/safety/how-to-safely-stay-safe-during-a-wildfire.html",
   "offline_asset": "../reference-sources/web/src-a18271af15b30f.txt",
-  "sha256": "7fda2726dc94a48db205a4e6fd07cabed5df8d973f733bc168a5a10466664ea3",
+  "sha256": "97567b3cf6bac75dbe05b07439657f76f47ae26b97e48df5e813000b2943c597",
   "title": "Safety Guidelines: Wildfires and Wildfire Smoke | Wildfires | CDC",
   "status": "cached plain-text reference; layout unverified",
-  "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+  "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
  },
  {
   "source_id": "src-ae3ef0050d89a1",
@@ -163,27 +164,28 @@
   "source_id": "src-b74b256cd0f020",
   "url": "https://www.cdc.gov/clean-hands/about/index.html",
   "offline_asset": "../reference-sources/web/src-b74b256cd0f020.txt",
-  "sha256": "d5e3b065c07fee4dad943225350349f7c43453dd22b334895975cc0e98531e74",
+  "sha256": "7f0ce680b918e7b9076277d064527ddc7627f3bdba7f9a42ff2739dae19e8ffc",
   "title": "About Handwashing | Clean Hands | CDC",
   "status": "cached plain-text reference; layout unverified",
-  "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+  "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
  },
  {
   "source_id": "src-bde5b3bbb0075f",
   "url": "https://www.cdc.gov/hygiene/about/cleaning-and-disinfecting-with-bleach.html",
   "offline_asset": "../reference-sources/web/src-bde5b3bbb0075f.txt",
-  "sha256": "6d3d9239fca359d2fd652a4d8f83df1e13b3dab0a53a7cee9439930a9438c200",
+  "sha256": "88ba0347f8c10cffaa72d17e9bbb7448d8a9cacde878d5ef2bb663223731d702",
   "title": "Cleaning and Disinfecting with Bleach | Water, Sanitation, and Environmentally Related Hygiene (WASH) | CDC",
   "status": "cached plain-text reference; layout unverified",
-  "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+  "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
  },
  {
   "source_id": "src-bf709ea714e360",
   "url": "https://www.weather.gov/safety/winter-during",
   "offline_asset": "../reference-sources/web/src-bf709ea714e360.txt",
-  "sha256": "f8f1dabd24761a88d94b4824f549fe512aa63cd803f4acf25023aee4f23d8195",
+  "sha256": "3744858fac42b726c4fb292087b4b21a11a8bd9b929b2b7937f4db5897b514f0",
   "title": "What To Do If You're Caught in a Winter Storm",
-  "status": "cached plain-text reference; layout unverified"
+  "status": "cached plain-text reference; layout unverified",
+  "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
  },
  {
   "source_id": "src-c3cc1cfaad64d3",
@@ -207,19 +209,19 @@
   "source_id": "src-cd82c1a895ab11",
   "url": "https://www.cdc.gov/earthquakes/safety/stay-safe-during-an-earthquake.html",
   "offline_asset": "../reference-sources/web/src-cd82c1a895ab11.txt",
-  "sha256": "13ea506d53565c3b3148e313f596ffedee8824a91efbf49a93e3ce4b4da2e131",
+  "sha256": "0e70778819ff8f30b95f2f8f6c50b46d096ac7d4384082c6d190a9d2c5cb5da4",
   "title": "Safety Guidelines: During an Earthquake | Earthquakes | CDC",
   "status": "cached plain-text reference; layout unverified",
-  "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+  "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
  },
  {
   "source_id": "src-ce4e4288982d45",
   "url": "https://www.cdc.gov/stroke/signs-symptoms/index.html",
   "offline_asset": "../reference-sources/web/src-ce4e4288982d45.txt",
-  "sha256": "16a8bcae5f30fa109e75b4122371b501dddb3c4697e666aed693ba92f786c20f",
+  "sha256": "c7edcfdb29635c113f24bbaf0a5e4d921e04469390074eb8a18bf4cf474f1526",
   "title": "Signs and Symptoms of Stroke | Stroke | CDC",
   "status": "cached plain-text reference; layout unverified",
-  "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+  "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
  },
  {
   "source_id": "src-cfeb059483560c",
@@ -234,17 +236,18 @@
   "source_id": "src-de8fb0c0ae01fa",
   "url": "https://www.weather.gov/safety/flood-turn-around-dont-drown",
   "offline_asset": "../reference-sources/web/src-de8fb0c0ae01fa.txt",
-  "sha256": "89be39374c109a2a00f12686179f311c1ad2456d40e8f800ec193562ab87038e",
-  "title": "Turn Around Don't Drown\u00ae",
-  "status": "cached plain-text reference; layout unverified"
+  "sha256": "ad4f956b58fcbc02a3893ae0a44e94f02d017db93a651e4fe1964e9ea8258997",
+  "title": "Turn Around Don't Drown®",
+  "status": "cached plain-text reference; layout unverified",
+  "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
  },
  {
   "source_id": "src-fe5c1e7b306918",
   "url": "https://www.cdc.gov/radiation-emergencies/faq/index.html",
   "offline_asset": "../reference-sources/web/src-fe5c1e7b306918.txt",
-  "sha256": "de927988bccf37fb8baa8c5b34725056b4207eab4324dcff906e30e1221b227b",
+  "sha256": "91de1ba92700652c3792ebaeaabed9d8fc0f7f364a5fe4e7249074ebbb46fc23",
   "title": "Frequently Asked Questions about Radiation Emergencies | Radiation Emergencies | CDC",
   "status": "cached plain-text reference; layout unverified",
-  "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+  "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
  }
 ]

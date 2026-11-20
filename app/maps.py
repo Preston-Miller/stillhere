@@ -180,6 +180,28 @@ class MapStore:
    if len(out)>=limit:break
   return out
 
+ def nearest(self,lon,lat,labels,limit=4,radius_km=160):
+  """Closest places with one of these labels (e.g. ['Hospital']), straight-line, within radius_km. For the chat."""
+  dlat=radius_km/111.2;dlon=dlat/max(.2,math.cos(math.radians(lat)))
+  with self.lock:codes=list(self.archives)
+  marks=','.join('?'*len(labels));rows=[]
+  for code in codes:
+   p=MAP_DIR/f'{code}.search.sqlite'
+   if not p.exists():continue
+   con=sqlite3.connect(f'file:{p}?mode=ro',uri=True)
+   try:rows+=[(*r,code) for r in con.execute(f'SELECT name,label,town,lon,lat FROM f WHERE label IN ({marks}) AND lat BETWEEN ? AND ? AND lon BETWEEN ? AND ?',
+                                               (*labels,lat-dlat,lat+dlat,lon-dlon,lon+dlon))]
+   except sqlite3.OperationalError:pass
+   finally:con.close()
+  def d(x,y):return math.hypot((x-lon)*math.cos(math.radians((y+lat)/2)),y-lat)*111.2
+  out=[]
+  for name,label,town,x,y,code in sorted(rows,key=lambda r:d(r[3],r[4])):
+   if d(x,y)>radius_km:break
+   if any(o['name'].lower()==name.lower() and d(x,y)-o['km']<2 for o in out):continue   # one place tagged twice
+   out.append({'name':name,'label':label,'town':town,'state':code,'lon':round(x,6),'lat':round(y,6),'km':d(x,y)})
+   if len(out)>=limit:break
+  return out
+
  # ---- catalog and downloads ----
  def _open(self,name):
   src=MAPS_SOURCE.rstrip('/')

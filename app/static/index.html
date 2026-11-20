@@ -9,13 +9,13 @@
 <style>
 :root{
  --bg:#f6f5f1;--panel:#ffffff;--ink:#1d1f1c;--muted:#6a6d66;--line:#e2e0d8;
- --doc:#2f6f4f;--doc-bg:#eef6f1;--model:#a86a12;--model-bg:#fdf5e8;--warn:#b3261e;
+ --doc:#2f6f4f;--doc-bg:#eef6f1;--model:#a86a12;--model-bg:#fdf5e8;--warn:#b3261e;--map:#2f6fd0;--map-bg:#edf3fc;
  --accent:#2f6f4f;--user-bg:#efede7;--chip:#2f6f4f;--chip-ink:#fff;--side:#f3f2ed;--hover:#e7e5de;
  --radius:10px;--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 }
 @media (prefers-color-scheme:dark){:root{
  --bg:#151714;--panel:#1d201c;--ink:#e7e8e3;--muted:#9a9e95;--line:#30342e;
- --doc:#7cc59e;--doc-bg:#1b2a21;--model:#e2ac5a;--model-bg:#2b2416;--warn:#f2827a;
+ --doc:#7cc59e;--doc-bg:#1b2a21;--model:#e2ac5a;--model-bg:#2b2416;--warn:#f2827a;--map:#8fb4f0;--map-bg:#182130;
  --accent:#7cc59e;--user-bg:#2a2e28;--chip:#3f8a63;--chip-ink:#fff;--side:#181a17;--hover:#262924;
 }}
 *{box-sizing:border-box}
@@ -109,10 +109,18 @@ button{font:inherit;cursor:pointer}
 .answer .flag{display:block;font-size:12px;color:var(--warn);margin:2px 0 4px}
 .cite{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:18px;padding:0 5px;margin:0 1px;border:none;border-radius:5px;background:var(--chip);color:var(--chip-ink);font-size:11px;font-weight:650;vertical-align:1px}
 .cite:hover{filter:brightness(1.15)}
+/* Map items the answer used (your location, pins, nearby places): blue, and clicking opens the spot on the map. */
+.answer .grp.map{border-color:var(--map);background:var(--map-bg)}
+.answer .grp.map::before{content:"From your map";display:block;font-size:11px;font-weight:600;color:var(--map);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px}
+.answer .grp.doc.withmap::before{content:"From your library and map"}
+.cite.mapcite{background:var(--map);gap:2px}
+.cite svg,.srcchip.mapchip b svg{width:9px;height:11px}
+.srcchip.mapchip b{background:var(--map);gap:2px;padding:0 3px}
 .meta{font-size:12px;color:var(--muted);margin-top:4px}
 .srclist{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .srclist:empty{display:none}
 .srchead{width:100%;font-size:12px;font-weight:600;color:var(--muted)}
+.srcnote{width:100%;font-size:12px;color:var(--muted);margin:-2px 0 6px}
 .srcchip{display:inline-flex;align-items:center;gap:6px;max-width:100%;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:4px 9px 4px 5px;font-size:12px;text-align:left}
 .srcchip:hover{border-color:var(--muted)}
 .srcchip b{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:17px;border-radius:4px;background:var(--chip);color:var(--chip-ink);font-size:11px}
@@ -562,7 +570,7 @@ function inline(s){return esc(s).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace
 const MODEL_MARK=/^[\s*_#]*(beyond the library|(general|model|my own|own) knowledge)[\s*_]*:?[\s*_]*/i;
 const DOC_MARK=/^[\s*_#]*from (the|your) library[\s*_]*:?[\s*_]*/i;
 function render(turn){
- const valid=new Set(turn.sources.map(s=>s.n));
+ const valid=new Set([...turn.sources.map(s=>String(s.n)),...(turn.places||[]).map(p=>'M'+p.m)]);
  const flagged=new Map((turn.unverified||[]).map(f=>[f.line,f.numbers]));
  const sections=[];let sec={kind:null,lines:[]};
  splitSteps(turn.text).forEach(({i,raw})=>{
@@ -577,9 +585,21 @@ function render(turn){
  sections.push(sec);
  const out=[];
  for(const s of sections){
-  const lines=s.lines.map(l=>({...l,good:[...l.line.matchAll(/\[(\d+)\]/g)].map(m=>+m[1]).filter(n=>valid.has(n))}));
+  const lines=s.lines.map(l=>({...l,good:[...l.line.matchAll(/\[(M?\d+)\]/g)].map(m=>m[1]).filter(n=>valid.has(n))}));
   const last=lines.map(l=>l.good.length>0).lastIndexOf(true);
-  if(s.kind==='model'||last<0){out.push({kind:'model',lines});continue}
+  if(s.kind==='model'||last<0){
+   // Lines citing a map item are from the map even where the model put them under "Beyond the library:".
+   // A heading line ("The nearest hospitals are:") right before them goes with them.
+   const isMap=l=>l.good.some(n=>n[0]==='M');
+   lines.forEach((l,k)=>{
+    if(!l.line&&out.length&&out[out.length-1].run===s){out[out.length-1].lines.push(l);return}   // a blank line stays with its run
+    let m=isMap(l);
+    if(!m&&/:\s*$/.test(l.line)){const nx=lines.slice(k+1).find(x=>x.line);m=!!nx&&isMap(nx)}
+    const kind=m?'doc':'model',prev=out[out.length-1];
+    if(prev&&prev.kind===kind&&prev.run===s)prev.lines.push(l);else out.push({kind,lines:[l],run:s});
+   });
+   continue;
+  }
   out.push({kind:'doc',lines:lines.slice(0,last+1)});
   if(sections.length===1)out.push({kind:'model',lines:lines.slice(last+1)});   // no marker at all: trailing uncited text is the model's
   else out[out.length-1].lines.push(...lines.slice(last+1));
@@ -598,7 +618,10 @@ function render(turn){
    body+=it.html;
   });
   if(open)body+=`</${open}>`;
-  return body.replace(/<div class="ln gap"><\/div>/g,'').trim()?`<div class="grp ${b.kind}">${body}</div>`:'';
+  // A cited block is labeled by what it cites: library pages, map items, or both.
+  const cites=b.kind==='doc'?b.lines.flatMap(l=>l.good):[],lib=cites.some(n=>n[0]!=='M'),mp=cites.some(n=>n[0]==='M');
+  const kind=b.kind==='doc'&&mp?(lib?'doc withmap':'map'):b.kind;
+  return body.replace(/<div class="ln gap"><\/div>/g,'').trim()?`<div class="grp ${kind}">${body}</div>`:'';
  }).join('');
 }
 // Models sometimes write "1. Do this. 2. Then this." on one line; give each step its own line.
@@ -616,13 +639,13 @@ function splitSteps(text){
 }
 function lineHtml(turn,{i,line,good},cite,flagged,shown){
  if(!line)return{gap:true,list:null,html:'<div class="ln gap"></div>'};
- let body=line.replace(/\s*\[(\d+)\]/g,'');
+ let body=line.replace(/\s*\[(M?\d+)\]/g,'');
  if(!body)return null;
  const num=body.match(/^(\d+)[.)]\s+/),bul=body.match(/^[-*•]\s+/);
  const list=num?'ol':bul?'ul':null;
  if(list)body=body.slice((num||bul)[0].length);
  const label=!list&&body.length<70&&(/:$/.test(body)||/^\*\*[^*]+\*\*:?$/.test(body));
- const chips=cite&&good.length?' '+[...new Set(good)].map(n=>`<button class="cite" data-n="${n}" title="${esc(srcLabel(turn.sources.find(s=>s.n===n)))}">${n}</button>`).join(''):'';
+ const chips=cite&&good.length?' '+[...new Set(good)].map(n=>n[0]==='M'?mapCite(turn,+n.slice(1)):`<button class="cite" data-n="${n}" title="${esc(srcLabel(turn.sources.find(s=>s.n===+n)))}">${n}</button>`).join(''):'';
  const flag=flagged.has(i)&&!shown.has(i);
  const cls=[label?'neutral':'',flag?'unverified':''].join(' ').trim();
  let html=inline(body)+chips;
@@ -630,6 +653,11 @@ function lineHtml(turn,{i,line,good},cite,flagged,shown){
  if(list)return{list,html:`<li${num?` value="${num[1]}"`:''}${cls?` class="${cls}"`:''}>${html}</li>`};
  return{list:null,html:`<div class="ln ${cls}">${html}</div>`};
 }
+const PIN_SVG='<svg viewBox="0 0 10 13" aria-hidden="true"><path d="M5 12.5S1 8 1 5a4 4 0 0 1 8 0c0 3-4 7.5-4 7.5z" fill="currentColor"/></svg>';
+function placeLabel(p){return p?p.name+(p.sub?' — '+p.sub:''):''}
+function mapCite(turn,m){const p=(turn.places||[]).find(x=>x.m===m);return `<button class="cite mapcite" data-m="${m}" title="Show on map: ${esc(placeLabel(p))}">${PIN_SVG}${m}</button>`}
+// Open the map tab on a place the answer used.
+function showPlace(turn,m){const p=(turn.places||[]).find(x=>x.m===m);if(!p)return;showView('map');window.offgridMap?.focus(p)}
 function srcLabel(s){if(!s)return'';return s.title+(s.page?`, p. ${s.page}`:'')+(yearText(s)?` (${yearText(s)})`:'')}
 // "2002", "saved 2026" for web pages, "c. 2019" when only the PDF file's date is known.
 function yearText(s){if(!s||!s.year)return'';return s.dated==='retrieved'?'saved '+s.year:s.dated==='file'?'c. '+s.year:String(s.year)}
@@ -689,15 +717,20 @@ function openSource(turn,n,user=false){
 }
 // ---- turns: one object per assistant answer, used for live streaming and for restored chats ----
 function makeTurn(el,data={}){
- const turn={el,text:data.content||'',sources:data.sources||[],unverified:data.unverified||[],done:true,stopped:!!data.stopped,stats:data.stats||null};
- el.addEventListener('click',e=>{const c=e.target.closest('.cite,.srcchip');if(c)openSource(turn,+c.dataset.n,true);else if(state.selected!==turn&&turn.sources.length)showSources(turn)});
+ const turn={el,text:data.content||'',sources:data.sources||[],places:data.places||[],unverified:data.unverified||[],done:true,stopped:!!data.stopped,stats:data.stats||null};
+ el.addEventListener('click',e=>{const c=e.target.closest('.cite,.srcchip');if(c&&c.dataset.m)showPlace(turn,+c.dataset.m);else if(c)openSource(turn,+c.dataset.n,true);else if(state.selected!==turn&&turn.sources.length)showSources(turn)});
  state.turns.push(turn);return turn;
 }
 function paintTurn(turn){
  // Sources this answer actually cited, listed under it; clicking one opens that page in the Sources panel.
  const cited=new Set([...turn.text.matchAll(/\[(\d+)\]/g)].map(m=>+m[1]));
- const list=turn.sources.filter(s=>cited.has(s.n));
- turn.el.querySelector('.srclist').innerHTML=list.length?`<div class="srchead">Sources</div>`+list.map(s=>`<button class="srcchip" data-n="${s.n}" title="${esc(srcLabel(s))}"><b>${s.n}</b><span class="st">${esc(s.title)}${s.url?.startsWith('https://www.nhs.uk/')?' — Information from the NHS website, as at 171126':''}</span><span class="sp">${s.mine?'<span class="mine">your document</span> · ':''}${s.page?'p. '+s.page:(s.kind==='web'?'web page':s.kind==='text'?'text':'guide')}${yearText(s)?' · '+yearText(s):''}</span></button>`).join(''):'';
+ // An answer that cites nothing although the library found pages: list what was searched, so it can still be checked.
+ const onMap=(turn.places||[]).filter(p=>turn.text.includes(`[M${p.m}]`));
+ const uncited=!cited.size&&!onMap.length&&turn.done&&!!turn.text&&turn.sources.length>0;
+ const list=uncited?turn.sources:turn.sources.filter(s=>cited.has(s.n));
+ const head=uncited?`<div class="srchead">Sources searched</div><div class="srcnote">This answer doesn’t point to specific pages, so it may mix these with the AI’s own knowledge. Check them before relying on it.</div>`:`<div class="srchead">Sources</div>`;
+ turn.el.querySelector('.srclist').innerHTML=list.length?head+list.map(s=>`<button class="srcchip" data-n="${s.n}" title="${esc(srcLabel(s))}"><b>${s.n}</b><span class="st">${esc(s.title)}${s.url?.startsWith('https://www.nhs.uk/')?' — Information from the NHS website, as at 171126':''}</span><span class="sp">${s.mine?'<span class="mine">your document</span> · ':''}${s.page?'p. '+s.page:(s.kind==='web'?'web page':s.kind==='text'?'text':'guide')}${yearText(s)?' · '+yearText(s):''}</span></button>`).join(''):'';
+ if(onMap.length)turn.el.querySelector('.srclist').insertAdjacentHTML('beforeend',`<div class="srchead">On your map</div>`+onMap.map(p=>`<button class="srcchip mapchip" data-m="${p.m}" title="Show on map"><b>${PIN_SVG}${p.m}</b><span class="st">${esc(p.name)}</span><span class="sp">${esc(p.sub||'')}</span></button>`).join(''));
  turn.el.querySelector('.answer').innerHTML=turn.text?render(turn):(turn.stopped?'':'');
  const st=turn.stats||{};
  turn.el.querySelector('.meta').textContent=[turn.stopped?'Stopped.':'',turn.truncated?'Answer hit the length limit and may be cut off.':'',st.seconds?`${st.seconds}s`:''].filter(Boolean).join(' ');
@@ -738,7 +771,8 @@ async function ask(q){
    let i;while((i=buf.indexOf('\n'))>=0){
     const line=buf.slice(0,i);buf=buf.slice(i+1);if(!line.trim())continue;
     const ev=JSON.parse(line);
-    if(ev.type==='sources'){turn.sources=ev.sources;if(here())showSources(turn);ans.innerHTML='<span class="meta">'+(ev.sources.length?`Found ${ev.sources.length} relevant sources. Writing…`:'Nothing in the library matched. Answering from model knowledge…')+'</span>'}
+    if(ev.type==='places'){turn.places=ev.places}
+    else if(ev.type==='sources'){turn.sources=ev.sources;if(here())showSources(turn);ans.innerHTML='<span class="meta">'+(ev.sources.length?`Found ${ev.sources.length} relevant sources. Writing…`:'Nothing in the library matched. Answering from model knowledge…')+'</span>'}
     else if(ev.type==='token'){const stick=here()&&nearBottom();turn.text+=ev.text;ans.innerHTML=render(turn);if(stick)toBottom()}
     else if(ev.type==='done'){if(typeof ev.text==='string')turn.text=ev.text;turn.done=true;turn.unverified=ev.unverified;turn.truncated=ev.truncated;turn.stats=ev.stats;paintTurn(turn);
      if(here()&&state.selected===turn)showSources(turn,state.activeSrc?.turn===turn?state.activeSrc.n:null)}
@@ -765,7 +799,7 @@ async function ask(q){
 }
 function record(chat,q,turn){
  chat.messages.push({role:'assistant',content:turn.text||'(Stopped before answering.)'});
- chat.saved.push({role:'user',content:q},{role:'assistant',content:turn.text,sources:turn.sources,unverified:turn.unverified,stopped:turn.stopped,stats:turn.stats});
+ chat.saved.push({role:'user',content:q},{role:'assistant',content:turn.text,sources:turn.sources,places:turn.places,unverified:turn.unverified,stopped:turn.stopped,stats:turn.stats});
  saveChat(chat);
 }
 const SEND_ICON='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 16V4M4.5 9.5L10 4l5.5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';

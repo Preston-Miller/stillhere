@@ -94,6 +94,18 @@
         "3917"
       ],
       "port": 3917
+    },
+    {
+      "name": "app-mylocation",
+      "runtimeExecutable": "env",
+      "runtimeArgs": [
+        "STILLHERE_DATA=/private/tmp/claude-501/-Users-prestonmiller--claude-spares-spare-yncBGO/5b27ba88-dfa2-4df0-85aa-5e6e77d9e575/scratchpad/sh-data",
+        "STILLHERE_OLLAMA=127.0.0.1:47831",
+        "app-venv/bin/python",
+        "app/server.py",
+        "8768"
+      ],
+      "port": 8768
     }
   ]
 }

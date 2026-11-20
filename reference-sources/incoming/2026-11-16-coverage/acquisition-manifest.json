@@ -304,10 +304,11 @@
       "field-shelter-and-rescue/NPS-Ten-Essentials.txt",
       "field-shelter-and-rescue/NPS-Ten-Essentials.html.source"
     ],
-    "sha256": "0fd607009cb31146b56f733e241eeee8c56f62dbd8a2ed309718e6912227e8cb",
-    "bytes": 6536,
+    "sha256": "48d01391c730d163e340b26dbf3f146dd97ffd5d5d1c19ae864c6d494ab10c63",
+    "bytes": 5275,
     "title": "Ten Essentials (U.S. National Park Service)Lock",
-    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified"
+    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified",
+    "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
   },
   {
     "category": "medication-continuity",
@@ -348,10 +349,11 @@
       "medication-continuity/FDA-Safe-Drug-Use-After-Disaster.txt",
       "medication-continuity/FDA-Safe-Drug-Use-After-Disaster.html.source"
     ],
-    "sha256": "466bf0c08080e969cf7751115a124bad0f8d7796eb035399585eaa2e94ad8f7a",
-    "bytes": 6532,
+    "sha256": "54c2641ed918f4cb53beb12c9fd63d1097387a146aab6dffdfa85144ad65eebd",
+    "bytes": 3853,
     "title": "Safe Drug Use After a Natural Disaster | FDA",
-    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified"
+    "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified",
+    "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
   },
   {
     "category": "power-and-utilities",
@@ -568,11 +570,11 @@
       "water-assessment/CDC-Choosing-Home-Water-Filters.txt",
       "water-assessment/CDC-Choosing-Home-Water-Filters.html.source"
     ],
-    "sha256": "50673943ecde257ac708fd4bac7ed56dbf8c6985850030a1e21e646e93885660",
-    "bytes": 8761,
+    "sha256": "8e4982a2060446e383891d77db5c74995c9e0f607f6514d375052ecad09c78b7",
+    "bytes": 8828,
     "title": "About Choosing Home Water Filters | Drinking Water | CDC",
     "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified",
-    "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+    "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
   },
   {
     "category": "water-assessment",
@@ -591,11 +593,11 @@
       "water-assessment/CDC-Cistern-Safety-and-Disasters.txt",
       "water-assessment/CDC-Cistern-Safety-and-Disasters.html.source"
     ],
-    "sha256": "4d4c81b440c0ea77be147c4cd5772493343ded4501bc4a73d7033664f734da3c",
-    "bytes": 6694,
+    "sha256": "44f550d5ea7348a57dc96bdbf433f7c22de0dfea804ba7efe5d89e7002aa06ba",
+    "bytes": 6744,
     "title": "Cistern Safety and Disasters: Before, During, and After | Water, Sanitation, and Hygiene (WASH)-related Emergencies and Outbreaks | CDC",
     "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified",
-    "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+    "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
   },
   {
     "category": "water-assessment",
@@ -637,11 +639,11 @@
       "water-assessment/CDC-Rainwater-Collection-and-Health.txt",
       "water-assessment/CDC-Rainwater-Collection-and-Health.html.source"
     ],
-    "sha256": "157e2c728fc73d545a046932ec1a04ce47381fcc8bd705fe2db2aef9b0afc81f",
-    "bytes": 5349,
+    "sha256": "458fb0a23bd6e36a80459a9ae94e093b44791b3ea7012a958d307134cc71d857",
+    "bytes": 5419,
     "title": "Collecting Rainwater and Your Health: An Overview | Drinking Water | CDC",
     "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified",
-    "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+    "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
   },
   {
     "category": "water-assessment",
@@ -682,11 +684,11 @@
       "water-assessment/CDC-Well-Water-Testing.txt",
       "water-assessment/CDC-Well-Water-Testing.html.source"
     ],
-    "sha256": "dcf7519a05d7e26725a93a56a82ad5e302d48c4fcdce0c1a2c354d077a974f01",
-    "bytes": 7388,
+    "sha256": "497866975f5c449b0e6ae9adf632e8ddd5e4ebefbe82e1fc50ad789951dafeba",
+    "bytes": 7452,
     "title": "Guidelines for Testing Well Water | Drinking Water | CDC",
     "extraction_status": "Readable offline text; original HTML archived; table/figure layout unverified",
-    "extraction_cleanup": "2026-11-17: cleaned_cdc_article"
+    "extraction_cleanup": "2026-11-19: removed site navigation and display controls; formatted for readability; safety content not clinically reviewed"
   },
   {
     "category": "water-assessment",

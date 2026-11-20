@@ -7,6 +7,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const gb=b=>b>=1e9?(b/1e9).toFixed(1)+' GB':Math.round(b/1e6)+' MB';
 let map=null,info=null,poll=null,installedKey='',selected=new Set(),filter='';
+let mapReady=null;    // resolves once the map's first 'load' event has fired
 let userMoved=false;   // until the person pans/zooms, keep the downloaded states framed as the window settles
 let outlines=null;     // simplified state outlines (vendor/states.geojson, built by maps-build/make_outlines.py)
 const outlinesReady=fetch('/vendor/states.geojson').then(r=>r.json()).then(d=>{outlines=d;updateOverlays();updateHint()}).catch(e=>console.warn('No state outlines',e));
@@ -38,6 +39,7 @@ async function load(){
   let cam=null;try{cam=JSON.parse(localStorage.getItem('mapCamera'))}catch{}
   if(cam&&Array.isArray(cam.center))userMoved=true;else cam=null;
   map=new maplibregl.Map({container:'map',style:style(key),...(cam?{center:cam.center,zoom:cam.zoom,bearing:cam.bearing||0}:{bounds:unionBounds(info.installed),fitBoundsOptions:{padding:20}}),attributionControl:{compact:true},maxZoom:17});
+  mapReady=new Promise(r=>map.once('load',r));
   map.on('moveend',()=>{if(!userMoved)return;const c=map.getCenter();try{localStorage.setItem('mapCamera',JSON.stringify({center:[+c.lng.toFixed(5),+c.lat.toFixed(5)],zoom:+map.getZoom().toFixed(2),bearing:+map.getBearing().toFixed(1)}))}catch{}});
   // The map is often created while the window or sidebar is still settling; refit until the person moves it themselves.
   new ResizeObserver(()=>{map.resize();if(!userMoved&&info&&Object.keys(info.installed).length)map.fitBounds(unionBounds(info.installed),{padding:20,duration:0})}).observe(document.getElementById('map'));
@@ -195,10 +197,9 @@ function fromMe(lng,lat){   // "2.3 mi NE" from My location, or ''
  return `${d} ${geo.compass(geo.bearing([me.lng,me.lat],[lng,lat]))}`;
 }
 
-async function loadPins(){
- if(pinsLoaded)return;pinsLoaded=true;
- pins=await fetch('/api/pins').then(r=>r.json()).catch(()=>[]);
- refreshPins();renderPinList();
+function loadPins(){   // one fetch; later callers wait on the same one
+ if(!pinsLoaded)pinsLoaded=fetch('/api/pins').then(r=>r.json()).catch(()=>[]).then(d=>{pins=d;refreshPins();renderPinList()});
+ return pinsLoaded;
 }
 function savePins(){
  fetch('/api/pins',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(pins.filter(p=>!p._new).map(({_new,...p})=>p))})
@@ -549,6 +550,19 @@ sBox.addEventListener('keydown',e=>{
  else if(e.key==='Escape'){sList.hidden=true}
 });
 
-window.offgridMap={show(){load().then(()=>map&&map.resize())},get map(){return map}};
+// From the chat: an answer cited a map item (My location, a pin, or a nearby place). Fly there and show it.
+async function focusPlace(p){
+ await load();if(!map)return;
+ await mapReady;
+ await loadPins();userMoved=true;
+ // The tab has just been shown, so the map is resizing, and a resize cancels a fly animation. Let it settle, then jump.
+ await new Promise(r=>setTimeout(r,80));
+ map.resize();map.jumpTo({center:[p.lng,p.lat],zoom:Math.max(map.getZoom(),p.kind==='me'?13:14)});
+ if(p.kind==='me'){map.flyTo({center:[p.lng,p.lat],zoom:Math.max(map.getZoom(),13),essential:true});map.once('moveend',openMe);return}
+ const pin=p.kind==='pin'&&pins.find(x=>x.id===p.pin);
+ if(pin){map.flyTo({center:[pin.lng,pin.lat],zoom:Math.max(map.getZoom(),14),essential:true});map.once('moveend',()=>editPin(pin));return}
+ pick({name:p.name,sub:p.sub||'',lng:p.lng,lat:p.lat,label:'',zoom:15});   // a place, or a pin since moved or deleted
+}
+window.offgridMap={show(){load().then(()=>map&&map.resize())},focus:focusPlace,get map(){return map}};
 // The page may have opened straight onto the map (refresh on #map) before this module loaded.
 if(!document.getElementById('mapView').hidden)window.offgridMap.show();
