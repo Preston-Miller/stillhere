@@ -136,6 +136,11 @@ button{font:inherit;cursor:pointer}
 .send{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;flex:0 0 36px;background:var(--ink);color:var(--panel);border:none;border-radius:50%}
 .send svg{width:18px;height:18px}
 .send:disabled{opacity:.5;cursor:default}
+/* Fast answers: reads fewer library pages, so the answer starts sooner and is shorter. Off by default. */
+.fastbtn{display:inline-flex;align-items:center;gap:4px;height:36px;flex:0 0 auto;padding:0 11px;border:1px solid var(--line);border-radius:18px;background:none;color:var(--muted);font-size:13px;font-weight:600}
+.fastbtn svg{width:13px;height:13px}
+.fastbtn:hover{color:var(--ink);border-color:var(--muted)}
+.fastbtn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
 .fineprint{text-align:center;font-size:12px;color:var(--muted);padding-top:8px}
 .regions .send,.placeholder .send{width:auto;height:auto;border-radius:var(--radius);padding:10px 16px;background:var(--accent);color:#fff;font-weight:600}
 .rfoot .send{width:100%}
@@ -437,6 +442,7 @@ button{font:inherit;cursor:pointer}
   <div class="composer-wrap">
    <form class="composer" id="form">
     <textarea id="input" rows="1" placeholder="Ask a question…" autofocus></textarea>
+    <button class="fastbtn" id="fast" type="button" aria-pressed="false" title="Fast answers: reads fewer library pages, so answers start sooner and are shorter. Turn off for detailed questions."><svg viewBox="0 0 12 14" aria-hidden="true"><path d="M7 0L1 8h4l-1 6 6-8H6z" fill="currentColor"/></svg>Fast</button>
     <button class="send" id="send" type="submit" aria-label="Send"></button>
    </form>
    <div class="fineprint">It can make mistakes. Check the sources, especially for anything medical.</div>
@@ -717,7 +723,7 @@ function openSource(turn,n,user=false){
 }
 // ---- turns: one object per assistant answer, used for live streaming and for restored chats ----
 function makeTurn(el,data={}){
- const turn={el,text:data.content||'',sources:data.sources||[],places:data.places||[],unverified:data.unverified||[],done:true,stopped:!!data.stopped,stats:data.stats||null};
+ const turn={el,text:data.content||'',sources:data.sources||[],places:data.places||[],unverified:data.unverified||[],fast:!!data.fast,done:true,stopped:!!data.stopped,stats:data.stats||null};
  el.addEventListener('click',e=>{const c=e.target.closest('.cite,.srcchip');if(c&&c.dataset.m)showPlace(turn,+c.dataset.m);else if(c)openSource(turn,+c.dataset.n,true);else if(state.selected!==turn&&turn.sources.length)showSources(turn)});
  state.turns.push(turn);return turn;
 }
@@ -733,7 +739,7 @@ function paintTurn(turn){
  if(onMap.length)turn.el.querySelector('.srclist').insertAdjacentHTML('beforeend',`<div class="srchead">On your map</div>`+onMap.map(p=>`<button class="srcchip mapchip" data-m="${p.m}" title="Show on map"><b>${PIN_SVG}${p.m}</b><span class="st">${esc(p.name)}</span><span class="sp">${esc(p.sub||'')}</span></button>`).join(''));
  turn.el.querySelector('.answer').innerHTML=turn.text?render(turn):(turn.stopped?'':'');
  const st=turn.stats||{};
- turn.el.querySelector('.meta').textContent=[turn.stopped?'Stopped.':'',turn.truncated?'Answer hit the length limit and may be cut off.':'',st.seconds?`${st.seconds}s`:''].filter(Boolean).join(' ');
+ turn.el.querySelector('.meta').textContent=[turn.stopped?'Stopped.':'',turn.truncated?'Answer hit the length limit and may be cut off.':'',st.seconds?`${st.seconds}s${turn.fast?' · fast answer':''}`:''].filter(Boolean).join(' ');
 }
 
 // ---- saving: each chat is a JSON file in app/data/chats, written after every answer ----
@@ -762,7 +768,7 @@ async function ask(q){
  const ctrl=new AbortController();state.ctrl=ctrl;
  live.set(chat.id,{chat,q,el,turn,ctrl});refreshHistory();
  try{
-  const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chat.messages}),signal:ctrl.signal});
+  const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chat.messages,fast:fastOn}),signal:ctrl.signal});
   if(!r.ok)throw new Error('Server error '+r.status);
   const reader=r.body.getReader();const dec=new TextDecoder();let buf='';
   while(true){
@@ -774,7 +780,7 @@ async function ask(q){
     if(ev.type==='places'){turn.places=ev.places}
     else if(ev.type==='sources'){turn.sources=ev.sources;if(here())showSources(turn);ans.innerHTML='<span class="meta">'+(ev.sources.length?`Found ${ev.sources.length} relevant sources. Writing…`:'Nothing in the library matched. Answering from model knowledge…')+'</span>'}
     else if(ev.type==='token'){const stick=here()&&nearBottom();turn.text+=ev.text;ans.innerHTML=render(turn);if(stick)toBottom()}
-    else if(ev.type==='done'){if(typeof ev.text==='string')turn.text=ev.text;turn.done=true;turn.unverified=ev.unverified;turn.truncated=ev.truncated;turn.stats=ev.stats;paintTurn(turn);
+    else if(ev.type==='done'){if(typeof ev.text==='string')turn.text=ev.text;turn.done=true;turn.unverified=ev.unverified;turn.truncated=ev.truncated;turn.stats=ev.stats;turn.fast=ev.fast;paintTurn(turn);
      if(here()&&state.selected===turn)showSources(turn,state.activeSrc?.turn===turn?state.activeSrc.n:null)}
     else if(ev.type==='error'){throw new Error(ev.message)}
    }
@@ -799,7 +805,7 @@ async function ask(q){
 }
 function record(chat,q,turn){
  chat.messages.push({role:'assistant',content:turn.text||'(Stopped before answering.)'});
- chat.saved.push({role:'user',content:q},{role:'assistant',content:turn.text,sources:turn.sources,places:turn.places,unverified:turn.unverified,stopped:turn.stopped,stats:turn.stats});
+ chat.saved.push({role:'user',content:q},{role:'assistant',content:turn.text,sources:turn.sources,places:turn.places,unverified:turn.unverified,stopped:turn.stopped,stats:turn.stats,fast:turn.fast});
  saveChat(chat);
 }
 const SEND_ICON='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 16V4M4.5 9.5L10 4l5.5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -877,6 +883,11 @@ async function refreshHistory(){
  });
 }
 
+// Fast answers on/off, remembered on this computer.
+let fastOn=false;try{fastOn=localStorage.getItem('fastAnswers')==='1'}catch{}
+function paintFast(){$('#fast').setAttribute('aria-pressed',String(fastOn))}
+$('#fast').onclick=()=>{fastOn=!fastOn;try{localStorage.setItem('fastAnswers',fastOn?'1':'0')}catch{};paintFast();$('#input').focus()};
+paintFast();
 $('#form').onsubmit=e=>{e.preventDefault();if(state.busy){state.ctrl?.abort();return}const q=$('#input').value;$('#input').value='';grow();ask(q)};
 $('#input').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();if(!state.busy)$('#form').requestSubmit()}});
 function grow(){const t=$('#input');t.style.height='auto';t.style.height=Math.min(t.scrollHeight,160)+'px'}

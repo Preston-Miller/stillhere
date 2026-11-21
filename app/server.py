@@ -133,6 +133,9 @@ MAP DATA comes from the user's own offline maps and the pins they saved, numbere
 
 NO_SOURCES_MAP='No excerpts from the library matched this question. Use the map data (with its [M] numbers) for places; put anything from your own general knowledge after a line that says exactly "Beyond the library:".'
 
+FAST=('\n\n(Quick answer, please: at most about 120 words. Only the key steps or facts, no background or extra sections. '
+      'Keep the citation numbers. Immediate life-saving steps still come first.)')
+
 def dated(s):
  y=s.get('year')
  if not y:return ''
@@ -366,12 +369,15 @@ class Handler(BaseHTTPRequestHandler):
   def emit(obj):self.wfile.write((json.dumps(obj)+'\n').encode());self.wfile.flush()
   c=None
   try:
-   light=models.cpu_only()
-   # No graphics card: half the excerpts, and only the top one widened to its full page. Roughly halves the wait.
-   hits=LIB.search(retrieval_query(messages),limit=4,widen=1) if light else LIB.search(retrieval_query(messages))
+   light=models.cpu_only();fast=req.get('fast') is True
+   # Reading the excerpts is most of the wait before the first word, so fewer and shorter excerpts start sooner.
+   # No graphics card: half the excerpts, only the top one widened to its full page. Fast answers: four excerpts,
+   # none widened (a widened page is most of the prompt). Both together: three excerpts, none widened.
+   q=retrieval_query(messages)
+   hits=LIB.search(q,limit=3,widen=0) if light and fast else LIB.search(q,limit=4,widen=0) if fast else LIB.search(q,limit=4,widen=1) if light else LIB.search(q)
    sources=[{'n':i,'id':h['id'],'kind':h['kind'],'title':h['title'],'path':h['path'],'page':h['page'],'url':h['url'],'text':h['text'],'cosine':h['cosine'],'year':h.get('year'),'dated':h.get('dated'),'mine':h['path'].startswith(USER_PREFIX)} for i,h in enumerate(hits,1)]
    # Map items: where the user is, their pins, and nearby places, only when the question is about places.
-   places,map_text=mapctx.build(retrieval_query(messages),MAPS,PINS,ME)
+   places,map_text=mapctx.build(q,MAPS,PINS,ME)
    emit({'type':'places','places':places})
    emit({'type':'sources','sources':sources})
    evidence='\n\n'.join(f"[{s['n']}] {s['title']}"+(f", page {s['page']}" if s['page'] else '')+dated(s)+(" (a document the user added)" if s['mine'] else '')+'\n'+s['text'] for s in sources)
@@ -382,6 +388,8 @@ class Handler(BaseHTTPRequestHandler):
     # Small models tend to copy their previous answer for a follow-up; a reminder right next to the new
     # message works where the same rule in the system prompt alone doesn't.
     history[-1]={'role':'user','content':history[-1]['content']+FOLLOWUP+(FOLLOWUP_CITE if sources else '')}
+   # Like the follow-up reminder: the small model honors "keep it short" next to the question, not in the system prompt.
+   if fast:history[-1]={'role':'user','content':history[-1]['content']+FAST}
    payload={'model':models.current(),'messages':[{'role':'system','content':system}]+history,'stream':True,'think':False,
             # A light presence penalty: with none, the small model can loop,
             # writing the same bullets over and over until it hits num_predict.
@@ -408,7 +416,9 @@ class Handler(BaseHTTPRequestHandler):
      if looped:break
     if part.get('done'):final=part
    emit({'type':'done','text':answer if looped else None,'unverified':unverified_numbers(answer,sources,places),'truncated':final.get('done_reason')=='length',
-         'stats':{'prompt_tokens':final.get('prompt_eval_count'),'answer_tokens':final.get('eval_count'),'seconds':round((final.get('total_duration') or 0)/1e9,1)}})
+         'stats':{'prompt_tokens':final.get('prompt_eval_count'),'answer_tokens':final.get('eval_count'),'seconds':round((final.get('total_duration') or 0)/1e9,1),
+                  # Where the time went: reading the prompt (mostly excerpts) vs writing the answer.
+                  'read_seconds':round((final.get('prompt_eval_duration') or 0)/1e9,1),'write_seconds':round((final.get('eval_duration') or 0)/1e9,1)},'fast':fast})
   except (BrokenPipeError,ConnectionResetError):pass   # user pressed Stop or closed the tab
   except Exception as e:
    traceback.print_exc()
