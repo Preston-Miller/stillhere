@@ -36,3 +36,7 @@ archives/
 
 # OS
 .DS_Store
+
+# iOS (Xcode per-user state)
+ios/**/xcuserdata/
+ios/build/
