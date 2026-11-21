@@ -60,4 +60,26 @@ sync
 hdiutil detach -quiet "$MOUNT" || hdiutil detach -quiet -force "$MOUNT"
 hdiutil convert -quiet "$RW" -format UDZO -imagekey zlib-level=9 -o "$DMG"
 rm -f "$RW"
+
+# Sign, notarize and staple when the app carries a Developer ID signature (build.sh release does this by default).
+# Uses the notarytool keychain profile "stillhere" (xcrun notarytool store-credentials stillhere ...).
+# NOTARIZE=0 skips the Apple upload, e.g. for a quick local test of a signed build.
+SIGNER=$(codesign -dvv "$APP" 2>&1 | awk -F= '/^Authority=Developer ID Application/ && !n++{print $2}')
+if [[ -n "$SIGNER" ]]; then
+  echo "• signing DMG ($SIGNER)"
+  codesign --force --sign "$SIGNER" --timestamp "$DMG"
+  if [[ "${NOTARIZE:-1}" == 1 ]]; then
+    echo "• notarizing (uploads to Apple, usually a few minutes)"
+    OUT=$(xcrun notarytool submit "$DMG" --keychain-profile "${NOTARY_PROFILE:-stillhere}" --wait 2>&1) || true
+    echo "$OUT"
+    if ! grep -q 'status: Accepted' <<<"$OUT"; then
+      ID=$(awk '/^  id: /{print $2; exit}' <<<"$OUT")
+      [[ -n "$ID" ]] && xcrun notarytool log "$ID" --keychain-profile "${NOTARY_PROFILE:-stillhere}" build/notary-log.json \
+        && echo "Apple's report: desktop/build/notary-log.json" >&2
+      echo "error: notarization was not accepted" >&2; exit 1
+    fi
+    xcrun stapler staple "$DMG"
+    spctl -a -t open --context context:primary-signature -vv "$DMG"
+  fi
+fi
 echo "✓ $DMG ($(du -h "$DMG" | cut -f1))"

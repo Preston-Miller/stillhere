@@ -92,13 +92,38 @@ if [[ "$MODE" == release ]]; then
   cp -R build/pyi-dist/stillhere-server "$APP/Contents/Resources/server"
 fi
 
-# Signing. Without any signature covering the whole bundle, a downloaded copy is reported as "damaged" with no way
-# to open it. Ad-hoc signing (no Apple account) turns that into the normal "unverified developer" prompt, which users
-# get past with System Settings > Privacy & Security > Open Anyway. With SIGN_ID set (a Developer ID), the same step
-# becomes the real signature; notarizing comes after.
-echo "• signing (${SIGN_ID:-ad-hoc})"
+# Signing.
+#   release: signed with the Developer ID found in the keychain (override with SIGN_ID=..., or SIGN_ID=- for ad-hoc).
+#            Every nested Mach-O (Ollama, its dylibs, the frozen Python server and its .so/.dylib files) is signed
+#            on its own, innermost first, with hardened runtime and a secure timestamp. Notarization requires this;
+#            `codesign --deep` doesn't apply the options reliably to nested code.
+#   dev:     ad-hoc. Without any signature covering the whole bundle, a downloaded copy is reported as "damaged".
+if [[ "$MODE" == release && -z "${SIGN_ID:-}" ]]; then
+  SIGN_ID=$(security find-identity -v -p codesigning | awk -F'"' '/Developer ID Application/ && !n++{print $2}')
+  [[ -z "$SIGN_ID" ]] && { echo "error: no Developer ID Application identity in the keychain (SIGN_ID=- for ad-hoc)" >&2; exit 1; }
+fi
+SIGN_ID="${SIGN_ID:--}"
+echo "• signing ($SIGN_ID)"
 xattr -cr "$APP"
-codesign --force --deep --sign "${SIGN_ID:--}" ${SIGN_ID:+--options runtime --timestamp} "$APP"
+if [[ "$SIGN_ID" == - ]]; then
+  codesign --force --deep --sign - "$APP"
+else
+  SIGN=(codesign --force --sign "$SIGN_ID" --options runtime --timestamp)
+  R="$APP/Contents/Resources"
+  # 1. Loose Mach-O files outside any .framework (dylibs, .so modules, helper executables), deepest path first.
+  #    The two programs the app starts are signed in step 3, with entitlements.
+  find "$R" -type f ! -path '*.framework/*' ! -path "$R/library/*" -print0 | xargs -0 file \
+    | grep -v '(for architecture' | awk -F': ' '/Mach-O/{print $1}' \
+    | grep -vxF -e "$R/ollama/ollama" -e "$R/server/stillhere-server" \
+    | awk -F/ '{print NF"\t"$0}' | sort -rn | cut -f2- \
+    | while IFS= read -r f; do "${SIGN[@]}" "$f" >/dev/null 2>&1 || { echo "signing failed: $f" >&2; "${SIGN[@]}" "$f"; exit 1; }; done
+  # 2. Framework bundles (PyInstaller's Python.framework) as bundles.
+  find "$R" -type d -name '*.framework' -prune -print0 | while IFS= read -r -d '' fw; do "${SIGN[@]}" "$fw"; done
+  # 3. The helper programs, then the app itself (no --deep: everything inside is already signed).
+  "${SIGN[@]}" --entitlements entitlements/server.plist "$R/server/stillhere-server"
+  [[ -f "$R/ollama/ollama" ]] && "${SIGN[@]}" "$R/ollama/ollama"
+  "${SIGN[@]}" "$APP"
+fi
 codesign --verify --deep --strict "$APP"
 
 if [[ "$MODE" == release ]]; then
