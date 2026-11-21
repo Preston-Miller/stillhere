@@ -5,7 +5,7 @@ import { SUPPORT_EMAIL } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "How to open stillhere — stillhere",
-  description: "Install stillhere on a Mac or Windows PC and get past the one-time security warning.",
+  description: "Install stillhere on a Mac or Windows PC, step by step.",
 };
 
 const HELP_MAILTO = `mailto:${SUPPORT_EMAIL}?subject=Help%20opening%20stillhere`;
@@ -61,28 +61,14 @@ export default function InstallPage() {
           <Step n={2} title="Drag stillhere into Applications">
             <p>In the window that opens, drag the stillhere icon onto the Applications folder.</p>
           </Step>
-          <Step n={3} title="Open it once. Your Mac will block it.">
+          <Step n={3} title="Open it">
             <p>
-              Open your Applications folder and double-click stillhere. Your Mac shows a warning that it
-              can&apos;t check stillhere for malicious software. Click <Key>Done</Key> (or <Key>OK</Key>).
+              Open your Applications folder and double-click stillhere. Your Mac asks whether you&apos;re sure
+              you want to open an app downloaded from the internet. Click <Key>Open</Key>.
             </p>
-            <p>
-              This is normal. It shows for any app that isn&apos;t registered with Apple yet, and you only
-              do this once.
-            </p>
+            <p>That question only comes up the first time.</p>
           </Step>
-          <Step n={4} title="Allow it in System Settings">
-            <p>
-              Click the Apple menu in the top-left corner → <Key>System Settings</Key> →{" "}
-              <Key>Privacy &amp; Security</Key>.
-            </p>
-            <p>
-              Scroll down to the line that says stillhere was blocked, and click <Key>Open Anyway</Key>.
-              Enter your Mac password if asked, then click <Key>Open Anyway</Key> (or <Key>Open</Key>) once
-              more.
-            </p>
-          </Step>
-          <Step n={5} title="Download the AI">
+          <Step n={4} title="Download the AI">
             <p>
               stillhere opens to a welcome screen. Pick an AI size (the one that fits your Mac is marked{" "}
               <Key>Recommended</Key>) and start the download, 3 to 7 GB. Keep the Mac awake and online until it
@@ -143,12 +129,8 @@ export default function InstallPage() {
 
         <div className="mt-8 space-y-3 text-sm text-muted">
           <p>
-            <Key>Mac: no Open Anyway button?</Key> It only shows for about an hour after you try to open stillhere.
-            Double-click stillhere again, then go back to Privacy &amp; Security.
-          </p>
-          <p>
-            <Key>Mac: &ldquo;stillhere is damaged&rdquo;?</Key> The download was cut short. Delete it and download
-            again from your purchase page.
+            <Key>Mac: the download won&apos;t open?</Key> It was probably cut short. Delete it and download again
+            from your purchase page.
           </p>
           <p>
             <Key>Requirements:</Key> a Mac with Apple silicon (M1 or newer) and macOS 14 or later, or a 64-bit

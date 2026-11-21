@@ -66,7 +66,7 @@ function text(first: string | undefined, link: string): string {
     "Open it once while you still have internet. The first launch downloads the AI (3 to 7 GB) and lets you add",
     "offline maps. After that it works with no connection. Don't wait for an emergency to open it the first time.",
     "",
-    `Your computer will show a warning the first time you open it. Here's the one-time fix: ${siteUrl()}/install`,
+    `Step-by-step install help (on Windows there's a one-time warning to click past): ${siteUrl()}/install`,
     "",
     "Questions, or want a refund within 30 days? Just reply to this email.",
     "",
@@ -86,7 +86,7 @@ ${p("Download it on your <b>Mac or Windows computer</b>, not your phone:")}
 <p style="margin:0 0 24px"><a href="${esc(link)}" style="display:inline-block;background:#e3a72a;color:#0c0e0b;text-decoration:none;font-weight:600;font-size:16px;padding:12px 22px;border-radius:8px">Go to your download</a></p>
 ${p("Keep this email. That link is your receipt, and you can use it to download stillhere again any time.")}
 ${p("<b>Open it once while you still have internet.</b> The first launch downloads the AI (3 to 7 GB) and lets you add offline maps. After that it works with no connection. Don't wait for an emergency to open it the first time.")}
-${p(`Your computer will show a warning the first time you open it. <a href="${siteUrl()}/install" style="color:#9a6b00">Here's the one-time fix.</a>`)}
+${p(`<a href="${siteUrl()}/install" style="color:#9a6b00">Step-by-step install help</a>, including the one-time warning Windows shows.`)}
 ${p("Questions, or want a refund within 30 days? Just reply to this email.")}
 </div></body></html>`;
 }

@@ -75,11 +75,11 @@ async function Receipt({
         ))}
       </div>
       <p className="mt-4 text-sm text-muted">
-        The first time you open it, your computer will show a warning.{" "}
+        Need a hand?{" "}
         <Link href="/install" className="text-amber hover:brightness-110">
-          Here&apos;s the one-time fix
-        </Link>
-        .
+          Step-by-step install help
+        </Link>{" "}
+        for Mac and Windows.
       </p>
 
       <div className="mt-10 space-y-3 border border-line bg-panel p-5 text-sm">
