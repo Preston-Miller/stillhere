@@ -62,14 +62,15 @@ export default function Home() {
           <div className="relative mx-auto max-w-6xl px-4 pb-20 pt-16 sm:px-6 sm:pt-24">
             <div className="flex flex-col items-center text-center">
               {/* The headline is the loudest thing in the hero: three things, then the beat with the logo's light */}
-              {/* Sized to the screen on phones so the first line never wraps; 60px from tablet up */}
-              <h1 className="font-brand text-[min(7.2vw,3.75rem)] font-semibold leading-tight tracking-tight">
-                <span className="block whitespace-nowrap" style={{ color: LOGO_CREAM }}>
-                  Ai. Emergency guides. Maps.
+              {/* Phones: the three phrases stacked at up to 36px. Wider: one line, sized to the screen so it never
+                  wraps (it is about 19em wide), 52px max */}
+              <h1 className="font-brand text-[length:min(2.25rem,10.5vw)] font-semibold leading-tight tracking-tight sm:text-[length:min(calc((100vw_-_2.5rem)/19),3.25rem)]">
+                <span className="flex flex-col whitespace-nowrap sm:block" style={{ color: LOGO_CREAM }}>
+                  <span>Ai Chat.</span> <span>Safety Guides.</span> <span>Maps.</span>
                 </span>
                 <span className="mt-1 flex items-center justify-center gap-[0.25em] text-amber sm:mt-2">
                   <LogoMark className="h-[0.7em] w-auto" />
-                  All offline.
+                  No internet.
                 </span>
               </h1>
               <p className="mt-10 text-sm text-muted">
@@ -80,17 +81,20 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Everything works offline: the three features, each with an animated walkthrough */}
+        {/* The three features, each with a picture of the app */}
         <section id="features" className="scroll-mt-4">
           <div className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
             <SectionTitle sub="Set it up once. There when you need it.">
-              Everything works offline.
+              {/* One line at every width: shrinks with the screen on phones (the line is about 12.6em wide) */}
+              <span className="block whitespace-nowrap text-[length:min(2.25rem,calc((100vw_-_2.5rem)/12.8))]">
+                Download before lights go out.
+              </span>
             </SectionTitle>
             <div className="grid divide-y divide-line border-y border-line md:grid-cols-3 md:divide-x md:divide-y-0">
-              <Feature title="AI" tagline="Ask in plain words.">
+              <Feature title="Ai Chat" tagline="Ask in plain words.">
                 <AiScene />
               </Feature>
-              <Feature title="Guides" tagline="Public emergency guides.">
+              <Feature title="Safety Guides" tagline="Public emergency guides.">
                 <GuidesScene />
               </Feature>
               <Feature title="Maps" tagline="Search with no signal.">
@@ -161,7 +165,7 @@ export default function Home() {
         <section className="bg-amber text-bg">
           <div className="relative mx-auto flex max-w-3xl flex-col items-center px-4 py-20 text-center">
             <h2 className="text-balance font-brand text-3xl font-semibold tracking-tight sm:text-5xl">
-              Get it ready before the lights go out.
+              Download before the lights go out.
             </h2>
             <p className="mt-4 max-w-lg text-bg/80">
               Set it up once. There when you need it.

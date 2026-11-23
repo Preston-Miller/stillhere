@@ -90,7 +90,7 @@ export const REVIEW_TOPICS: string[] = [];
 
 export const INCLUDED = [
   "The stillhere app for Mac or Windows",
-  "Its AI model, downloaded once when you first open it (3 to 7 GB, sized to your computer)",
+  "An Ai model, downloaded once when you first open it (3 to 7 GB, sized to your computer)",
   "The saved library of emergency and survival guides",
   "Offline street maps for any U.S. states you choose, at no extra cost",
   "Help by email",
