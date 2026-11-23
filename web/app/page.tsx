@@ -8,7 +8,7 @@ import { GuidesScene } from "./guides-scene";
 import { MapsScene } from "./maps-scene";
 import { DownloadButtons } from "./download-buttons";
 import { LOGO_CREAM, LogoMark } from "./logo";
-import { COMPATIBILITY, FAQ, INCLUDED, PRICE_DISPLAY, REVIEW_TOPICS, TOPIC_CARDS } from "@/lib/content";
+import { COMPATIBILITY, FAQ, INCLUDED, PRICE_DISPLAY } from "@/lib/content";
 import heroPhoto from "@/public/hero-photo.jpg";
 
 function PriceLine({ dark = false }: { dark?: boolean }) {
@@ -49,7 +49,7 @@ export default function Home() {
         <CanceledBanner />
       </Suspense>
       <main className="flex-1">
-        {/* Hero: logo, headline, then buy. Centered */}
+        {/* Hero: headline, then buy. Centered */}
         <section className="relative overflow-hidden">
           <Image
             src={heroPhoto}
@@ -61,18 +61,17 @@ export default function Home() {
           />
           <div className="relative mx-auto max-w-6xl px-4 pb-20 pt-16 sm:px-6 sm:pt-24">
             <div className="flex flex-col items-center text-center">
-              <h1 className="flex items-center gap-3 sm:gap-4">
-                <LogoMark className="h-12 w-auto sm:h-16" />
-                <span
-                  className="font-brand text-6xl font-semibold tracking-tight sm:text-7xl"
-                  style={{ color: LOGO_CREAM }}
-                >
-                  stillhere
+              {/* The headline is the loudest thing in the hero: three things, then the beat with the logo's light */}
+              {/* Sized to the screen on phones so the first line never wraps; 60px from tablet up */}
+              <h1 className="font-brand text-[min(7.2vw,3.75rem)] font-semibold leading-tight tracking-tight">
+                <span className="block whitespace-nowrap" style={{ color: LOGO_CREAM }}>
+                  Ai. Emergency guides. Maps.
+                </span>
+                <span className="mt-1 flex items-center justify-center gap-[0.25em] text-amber sm:mt-2">
+                  <LogoMark className="h-[0.7em] w-auto" />
+                  All offline.
                 </span>
               </h1>
-              <p className="mt-6 text-balance font-brand text-2xl font-medium tracking-tight sm:text-4xl">
-                AI, emergency guides, and maps that work offline.
-              </p>
               <p className="mt-10 text-sm text-muted">
                 <span className="font-semibold text-fg">{PRICE_DISPLAY}</span> · One-time purchase · No subscription
               </p>
@@ -98,47 +97,6 @@ export default function Home() {
                 <MapsScene />
               </Feature>
             </div>
-          </div>
-        </section>
-
-        {/* Topic cards */}
-        <section id="guides" className="scroll-mt-4 border-t border-line">
-          <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-            <SectionTitle sub="Answers come from guides saved on your computer, with a link to the source. It can still be wrong, so check it.">
-              What it can help with
-            </SectionTitle>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {TOPIC_CARDS.map((t) => (
-                <div key={t.title} className="rounded-2xl border border-line bg-panel p-6">
-                  <h3 className="font-brand text-xl font-semibold">{t.title}</h3>
-                  <p className="mt-1 text-sm text-muted">{t.blurb}</p>
-                  <ul className="mt-4 space-y-2 text-sm text-fg/85">
-                    {t.examples.map((q) => (
-                      <li key={q} className="flex gap-2">
-                        <span className="text-amber" aria-hidden>
-                          ›
-                        </span>
-                        {q}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-            {REVIEW_TOPICS.length > 0 && (
-            <details className="group mx-auto mt-8 max-w-3xl text-center">
-              <summary className="inline-flex cursor-pointer list-none items-center gap-2 text-sm text-muted hover:text-fg">
-                <span className="text-amber transition group-open:rotate-90" aria-hidden>
-                  ›
-                </span>
-                Coverage before launch: {REVIEW_TOPICS.length} more topics still being checked
-              </summary>
-              <p className="mt-3 text-sm text-muted">
-                We&apos;re confirming we can include the guides for these, or replacing them, before launch.
-              </p>
-              <p className="mt-2 text-sm text-fg/80">{REVIEW_TOPICS.join(" · ")}</p>
-            </details>
-            )}
           </div>
         </section>
 
@@ -206,7 +164,7 @@ export default function Home() {
               Get it ready before the lights go out.
             </h2>
             <p className="mt-4 max-w-lg text-bg/80">
-              Setup needs internet once. After that, stillhere works whenever you need it.
+              Set it up once. There when you need it.
             </p>
             <div className="mt-8 flex flex-col items-center gap-4">
               <BuyButton tone="dark">Get stillhere</BuyButton>
