@@ -79,6 +79,10 @@ export function Footer() {
             {SUPPORT_EMAIL}
           </a>
         </p>
+        <p className="mt-3 flex gap-4">
+          <a href="/terms" className="hover:text-fg">Terms of sale</a>
+          <a href="/privacy" className="hover:text-fg">Privacy policy</a>
+        </p>
       </div>
     </footer>
   );

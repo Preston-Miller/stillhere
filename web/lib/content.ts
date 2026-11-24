@@ -112,7 +112,7 @@ export const FAQ: [string, string][] = [
   ],
   [
     "Where do the answers come from?",
-    "It searches a library of public emergency and survival guides saved on your computer, such as CDC and FEMA material, and shows which guide each part of the answer came from. Anything it adds from its own training is marked separately, so you can tell the difference.",
+    "It searches a library of public emergency and survival guides saved on your computer, such as CDC, FDA and U.S. Army material, and shows which guide each part of the answer came from. Anything it adds from its own training is marked separately, so you can tell the difference.",
   ],
   [
     "Can it be wrong?",

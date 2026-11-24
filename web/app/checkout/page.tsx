@@ -78,6 +78,11 @@ export default function CheckoutPage() {
             </a>{" "}
             · <Link href="/#faq" className="text-amber hover:brightness-110">FAQ</Link>
           </p>
+          <p className="text-xs text-muted">
+            By buying, you agree to the{" "}
+            <Link href="/terms" className="underline hover:text-fg">Terms of sale</Link>. See our{" "}
+            <Link href="/privacy" className="underline hover:text-fg">Privacy policy</Link>.
+          </p>
         </div>
       </main>
       <Footer />

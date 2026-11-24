@@ -31,6 +31,15 @@ const nextConfig: NextConfig = {
         ],
       },
       { source: "/api/admin", headers: [{ key: "X-Robots-Tag", value: "noindex" }] },
+      {
+        // Framed by /download (same site only) to report a purchase to Google Ads. Overrides the rule above.
+        source: "/ads-purchase",
+        headers: [
+          { key: "Content-Security-Policy", value: "frame-ancestors 'self'" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "X-Robots-Tag", value: "noindex" },
+        ],
+      },
     ];
   },
   turbopack: {

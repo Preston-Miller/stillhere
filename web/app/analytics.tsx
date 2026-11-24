@@ -8,6 +8,7 @@ export function SiteAnalytics() {
     <Analytics
       beforeSend={(event) => {
         const url = new URL(event.url);
+        if (url.pathname === "/ads-purchase") return null; // the hidden frame on /download, not a visit
         url.search = "";
         return { ...event, url: url.toString() };
       }}

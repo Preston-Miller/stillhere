@@ -5,24 +5,28 @@ import woundImg from "@/public/scene-wound-care.jpg";
 import { Caret, LIB_CHIP, LIB_GREEN, SceneFrame, useSceneLoop, type Next } from "./scene-kit";
 
 /*
+ * The site shows this scene as a still (STILL in scene-kit): the guide list. The animation below is off,
+ * and its page (CDC wound care) is from the old library; replace it before turning the animation back on.
+ *
  * Animated walkthrough of stillhere's offline library: the sources are searched for
  * "wound", CDC's wound care sheet opens as the real page, and the page scrolls down. Titles are real guides in the library; the page is the
  * CDC PDF itself (public domain), rendered to an image.
  */
 
+// Twelve of the 18 guides in the app's library (Final_Sources), with the app's own file types.
 const GUIDES = [
-  { title: "CDC Emergency Wound Care", from: "CDC" },
-  { title: "NLM CPR Summary", from: "National Library of Medicine" },
-  { title: "NHS Burns and Scalds", from: "NHS" },
-  { title: "CDC Hypothermia", from: "CDC" },
-  { title: "USFA Portable Generator Safety", from: "U.S. Fire Administration" },
-  { title: "CDC Winter Storm Safety", from: "CDC" },
-  { title: "NPS Ten Essentials", from: "National Park Service" },
-  { title: "FDA Safe Drug Use After Disaster", from: "FDA" },
-  { title: "CDC Heat Related Illness", from: "CDC" },
-  { title: "NHS Broken Arm or Wrist", from: "NHS" },
-  { title: "CDC Choosing Home Water Filters", from: "CDC" },
-  { title: "What to do During a Tornado", from: "CDC" },
+  { title: "Army First Aid (ATP 4-02.11)", from: "U.S. Army", kind: "PDF" },
+  { title: "Army Survival (ATP 3-50.21)", from: "U.S. Army", kind: "PDF" },
+  { title: "How to Make Water Safe", from: "CDC", kind: "TXT" },
+  { title: "How to Find Clean Water", from: "CDC", kind: "TXT" },
+  { title: "What to Do During a Power Outage", from: "CDC", kind: "TXT" },
+  { title: "Food Safety During a Power Outage", from: "FoodSafety.gov", kind: "TXT" },
+  { title: "Children's Ibuprofen Dosing Chart", from: "FDA label", kind: "TXT" },
+  { title: "Safe Drug Use After a Disaster", from: "FDA", kind: "TXT" },
+  { title: "During a Winter Storm", from: "National Weather Service", kind: "TXT" },
+  { title: "Severe Weather Safety", from: "National Weather Service", kind: "TXT" },
+  { title: "Generator Troubleshooting", from: "stillhere", kind: "TXT" },
+  { title: "How to Create an Emergency Toilet", from: "Public Health Seattle & King County", kind: "TXT" },
 ];
 const QUERY = "wound";
 
@@ -58,13 +62,13 @@ export function GuidesScene() {
   return (
     <SceneFrame
       sceneRef={ref}
-      label="Picture: stillhere's library of emergency guides saved offline, with a search box above a grid of guides from the CDC, NHS, National Park Service and others."
+      label="Picture: stillhere's library of emergency guides saved offline, with a search box above a grid of guides from the CDC, the U.S. Army, the FDA, the National Weather Service and others."
     >
       {!reading ? (
         <div className="flex flex-1 flex-col overflow-hidden p-3">
           <p className="mb-2 flex items-baseline justify-between">
             <span className="font-semibold">Sources</span>
-            <span className="text-[11px] text-muted">42 guides saved offline</span>
+            <span className="text-[11px] text-muted">18 guides saved offline</span>
           </p>
           <div className="mb-2.5 rounded-md border border-line px-2.5 py-1.5 text-xs">
             <span className={query ? "text-fg" : "text-muted"}>{query || "Search all sources"}</span>
@@ -82,7 +86,7 @@ export function GuidesScene() {
                   className="rounded-[3px] px-1 text-[9px] font-semibold tracking-wider text-white"
                   style={{ background: LIB_CHIP }}
                 >
-                  PDF
+                  {g.kind}
                 </span>
                 <p className="mt-1 text-[12px] font-semibold leading-tight">{g.title}</p>
                 <p className="mt-0.5 truncate text-[10.5px] text-muted">{g.from}</p>

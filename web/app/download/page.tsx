@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { cookies, headers } from "next/headers";
 import { after } from "next/server";
 import { Suspense } from "react";
 import { Footer, Nav } from "../components";
+import { GOOGLE_PURCHASE_ON } from "../ad-tags";
+import { claimPurchaseConversion, sendMetaPurchase, type BrowserInfo } from "@/lib/ads";
 import { getPaidSession } from "@/lib/stripe";
 import { sendDownloadEmail } from "@/lib/email";
 import { SUPPORT_EMAIL } from "@/lib/content";
@@ -45,9 +48,32 @@ async function Receipt({
       sendDownloadEmail(session).catch((err) => console.error("download email failed", session.id, err)),
     );
   }
+  // Ads: report a new purchase once. Meta gets it from the server; Google from a hidden frame whose
+  // address has only an opaque order ID (the ad tags never run on this page, whose address is the receipt).
+  const purchase = session ? await claimPurchaseConversion(session) : null;
+  if (session && purchase) {
+    const [h, c] = await Promise.all([headers(), cookies()]);
+    const browser: BrowserInfo = {
+      ip: h.get("x-forwarded-for")?.split(",")[0]?.trim() || undefined,
+      userAgent: h.get("user-agent") ?? undefined,
+      fbp: c.get("_fbp")?.value,
+      fbc: c.get("_fbc")?.value,
+    };
+    after(() => sendMetaPurchase(session, purchase, browser).catch((err) => console.error("meta purchase failed", err)));
+  }
 
   return session ? (
     <>
+      {purchase && GOOGLE_PURCHASE_ON && (
+        <iframe
+          src={`/ads-purchase?o=${purchase.orderId}&v=${purchase.value}&c=${purchase.currency}`}
+          referrerPolicy="no-referrer"
+          title=""
+          aria-hidden
+          tabIndex={-1}
+          className="hidden"
+        />
+      )}
       <p className="label mb-3 text-olive">● Payment confirmed</p>
       <h1 className="font-display text-5xl font-bold uppercase leading-none">
         You&apos;re set.
