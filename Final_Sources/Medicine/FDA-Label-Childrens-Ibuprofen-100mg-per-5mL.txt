@@ -1,11 +1,14 @@
 Title: Children's ibuprofen 100 mg per 5 mL, dosing chart (FDA drug label)
 Source: https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=7a6832f2-2d80-483c-bde3-e6cacb7c318a
 Retrieved: 2026-11-21
-Status: Drug Facts label text from DailyMed (U.S. National Library of Medicine). Other brands of the same strength use the same chart.
+Status: Drug Facts label text from DailyMed (U.S. National Library of Medicine). Directions apply to the specific product identified here; check the actual product label before use.
 
 Children's ibuprofen 100 mg per 5 mL, dosing chart (FDA drug label)
 Children's Ibuprofen Oral Suspension USP
 Drug Facts
+
+These directions apply to the specific product described below. Check the
+actual product label before use; do not assume another brand has the same directions.
 
 ACTIVE INGREDIENT (IN EACH 5 ML)
 IBUPROFEN 100 MG (NSAID)**…………………………………… PAIN RELIEVER/FEVER REDUCER **NONSTEROIDAL ANTI-INFLAMMATORY DRUG

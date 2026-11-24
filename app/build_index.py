@@ -39,7 +39,7 @@ def clean(t):
  return re.sub(r'[ \t]+',' ',t).strip()
 
 TITLES={
- 'Aerie-Wilderness-Medicine-15th.pdf':'Aerie Backcountry Medicine (15th edition)',
+ 'Army-ATP-3-50.21-Survival-2018.pdf':'Army Survival, ATP 3-50.21 (2018)',
  'Army-ATP-4-02.11-First-Aid-2026.pdf':'Army First Aid, ATP 4-02.11 (2026)',
  'CDC-Keep-Food-Safe-After-a-Disaster-or-Emergency.txt':'Keep Food Safe After a Disaster or Emergency (CDC)',
  'FoodSafety-gov-Food-Safety-During-Power-Outage.txt':'Food Safety During a Power Outage (FoodSafety.gov)',
@@ -48,9 +48,9 @@ TITLES={
  'FDA-Safe-Drug-Use-After-a-Natural-Disaster.txt':'Safe Drug Use After a Natural Disaster (FDA)',
  'Medicine-Quick-Guide.txt':'Medicine Quick Guide',
  'FDA-Label-Childrens-Ibuprofen-100mg-per-5mL.txt':"Children's Ibuprofen 100 mg per 5 mL, Dosing Chart (FDA label)",
- 'FDA-Label-Childrens-Acetaminophen-160mg-per-5mL.txt':"Children's Acetaminophen (Tylenol) 160 mg per 5 mL, Dosing Chart (FDA label)",
+ 'FDA-Label-Childrens-Acetaminophen-160mg-per-5mL.txt':"Children's Acetaminophen (up&up) 160 mg per 5 mL, Dosing Chart (Drug Facts)",
  'FDA-Label-Infants-Ibuprofen-50mg-per-1.25mL.txt':"Infants' Ibuprofen Drops 50 mg per 1.25 mL, Dosing Chart (FDA label)",
- 'FDA-Label-Infants-Acetaminophen-160mg-per-5mL.txt':"Infants' Acetaminophen (Tylenol) 160 mg per 5 mL, Dosing Chart (FDA label)",
+ 'FDA-Label-Infants-Acetaminophen-160mg-per-5mL.txt':"Infants' Acetaminophen (up&up) 160 mg per 5 mL, Dosing Chart (Drug Facts)",
  'CDC-What-to-Do-During-a-Power-Outage.txt':'What to Do During a Power Outage (CDC)',
  'Generator-Troubleshooting-Research-Summary.txt':'Generator Troubleshooting',
  'CDC-How-to-Find-Clean-Water-in-an-Emergency.txt':'How to Find Clean Water in an Emergency (CDC)',
@@ -59,7 +59,7 @@ TITLES={
  'NWS-Severe-Weather-Safety.txt':'Severe Weather Safety (National Weather Service)',
 }
 # PDFs carry no header to read a date from: (year, 'stated' = printed in it, 'file' = only the file's date).
-PDF_DATES={'Aerie-Wilderness-Medicine-15th.pdf':(2025,'file'),'Army-ATP-4-02.11-First-Aid-2026.pdf':(2026,'stated')}
+PDF_DATES={'Army-ATP-3-50.21-Survival-2018.pdf':(2018,'stated'),'Army-ATP-4-02.11-First-Aid-2026.pdf':(2026,'stated')}
 
 META=re.compile(r'^(title|source|original|publisher|retrieved|accessed|status|page[- ]date(?:-as-captured)?|date last reviewed|updated)\b[: ]',re.I)
 URL=re.compile(r'https?://\S+')
