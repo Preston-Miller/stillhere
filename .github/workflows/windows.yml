@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['windows/**', 'app/**', 'reference-sources/**', '.github/workflows/windows.yml']
+    paths: ['windows/**', 'app/**', 'Final_Sources/**', '.github/workflows/windows.yml']
 
 concurrency:
   group: windows-${{ github.ref }}

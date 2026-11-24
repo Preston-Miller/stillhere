@@ -1,9 +1,9 @@
 """Where Stillhere reads and writes. The Mac app sets these through environment variables; development uses
 the defaults, which point inside this repository.
 
-  STILLHERE_RESOURCES  read-only: knowledge/, reference-sources/ (the files sources link to)   default: repo root
+  STILLHERE_RESOURCES  read-only: Final_Sources/ (the files sources link to)           default: repo root
   STILLHERE_LIBRARY    read-only: the built library index                                     default: app/data/library.sqlite
-  STILLHERE_DATA       writable: chats, pins, maps, added documents and videos                default: app/data
+  STILLHERE_DATA       writable: chats, pins, maps, added documents                           default: app/data
                        (the Mac app uses ~/Library/Application Support/Stillhere, so updates never touch it)
   STILLHERE_OLLAMA     host:port of the Ollama server                                         default: 127.0.0.1:11434
 """

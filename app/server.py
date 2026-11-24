@@ -17,14 +17,19 @@ STATIC=Path(__file__).resolve().parent/'static'
 PORT=int(sys.argv[1]) if len(sys.argv)>1 else 8765
 LIB=Library()
 from userdocs import UserDocs,ImportError_,PREFIX as USER_PREFIX
-import videos,firstrun,models,mapctx
+import firstrun,models,mapctx
 USERDOCS=UserDocs(LIB)
 
 def categories():
- """[{name, blurb}] in display order, and {doc path: category name}. Read each time so edits show on refresh."""
- try:cats=json.loads((ROOT/'reference-sources'/'library-categories.json').read_text())['categories']
+ """[{name, blurb}] in display order, and {doc path: category name}. A document's category is its folder in
+ Final_Sources; Final_Sources/categories.json gives the order and blurbs. Read each time so edits show on refresh."""
+ try:cats=json.loads((ROOT/'Final_Sources'/'categories.json').read_text())['categories']
  except (OSError,ValueError,KeyError):cats=[]
- return [{'name':c['name'],'blurb':c.get('blurb','')} for c in cats],{d:c['name'] for c in cats for d in c['docs']}
+ docs={c['doc'] for c in LIB.chunks.values() if c['doc'].startswith('Final_Sources/')}
+ folder={d:d.split('/')[1] for d in docs if d.count('/')>=2}
+ out=[{'name':c['name'],'blurb':c.get('blurb','')} for c in cats]
+ for f in sorted(set(folder.values())-{c['name'] for c in out}):out.append({'name':f,'blurb':''})
+ return out,folder
 
 def builtin_docs():
  """One row per built-in document, for the Sources view."""
@@ -113,6 +118,24 @@ How to answer:
 - For a follow-up message, don't repeat your earlier answer. Answer what the new message changes or asks, using what it tells you (for example, if they say no doctor is available, give the care they can do themselves instead of telling them to see one).
 - Be practical and concise. Whenever you give steps or instructions to follow in order, write them as a numbered list, one step per line ("1. ...", "2. ..."), never as a paragraph. Use "- " bullets for lists where order doesn't matter, like supplies or warning signs. Otherwise use short paragraphs. **Bold** is fine; no tables, no headings larger than a bold line.'''
 
+# The user switched the library off for this chat: no excerpts are searched or sent, so the answer starts much
+# sooner. The app labels the whole answer as the AI's own knowledge.
+SYSTEM_NOLIB='''You are stillhere, an offline assistant for emergencies, preparedness and self-reliance. The user has turned off the reference library for this chat, so no excerpts are included. Answer from your own general knowledge.
+
+How to answer:
+- Don't use citation numbers like [1], and don't write "Beyond the library:". The app already labels this whole answer as your own knowledge.
+- Be honest about what you're unsure of, but don't refuse to help: the person may have no doctor, pharmacist or internet to ask.
+- Medicine doses: if the dose depends on something you don't know (a child's weight or age, the product's strength), ask for only that, in one short line. Once you have it, give the dose the standard package label gives for that age or weight; where the label and a weight-based formula differ, give the label dose. Always include how often it can be repeated, the most in one dose and in 24 hours, and anything important (with food, who should not take it). Say once, in one short line, that this is from memory and to check it against the package. Don't repeat that warning in later answers.
+- Assume help may not be coming: power, phones and internet may be down. If the question involves an immediate threat to life (not breathing, no pulse, heavy bleeding, choking, unresponsive, severe burns, poisoning, hypothermia or heatstroke), start with the immediate steps as a short numbered list before any explanation. After the steps, you may add at most one line: if they can reach emergency services by phone or radio, do it, but don't wait on that to start these steps. Never make contacting emergency services the first or main instruction.
+- Assume a hospital or doctor may be out of reach. Give what the person can do themselves, and mention professional care briefly, as something to reach when they can.
+- For a follow-up message, don't repeat your earlier answer. Answer what the new message changes or asks.
+- Be practical and concise. Whenever you give steps or instructions to follow in order, write them as a numbered list, one step per line ("1. ...", "2. ..."), never as a paragraph. Use "- " bullets for lists where order doesn't matter. Otherwise use short paragraphs. **Bold** is fine; no tables, no headings larger than a bold line.'''
+
+# Library off: the follow-up reminder without its "say what changes" framing, which made the model answer small talk
+# with "No new steps are needed".
+FOLLOWUP_NOLIB=('\n\n(Follow-up to the conversation above. Don\'t repeat your previous answer; respond to this message. '
+                'If it is just a comment or small talk, reply briefly and naturally.)')
+
 NO_SOURCES='No excerpts from the library matched this question. Answer from your own general knowledge only, with no citation numbers and no "Beyond the library:" line, and mention briefly that the library does not cover it.'
 
 FOLLOWUP=('\n\n(Follow-up to the conversation above. Do not repeat your previous answer or its list. '
@@ -147,6 +170,28 @@ def retrieval_query(messages):
  # Short follow-ups ("what about at night?") need the previous question for context.
  if len(users)>1 and len(q.split())<8:q=users[-2]+' '+q
  return q
+
+# Dosing charts: the small model tends to pick a row by age even when a weight is given (an 87 lb 8-year-old got the
+# 6-8 year dose). The app matches the weight to the chart rows itself and tells the model which row applies.
+WEIGHT=re.compile(r'(\d{1,3}(?:\.\d)?)\s*(lbs?|pounds?|kg|kilos?|kilograms?)\b',re.I)
+ROW=re.compile(r"- ([^-]+?), child weighing (\d+) to (\d+) lb \(or[^)]*\): (give [\d.]+ mL|ask a doctor)")   # excerpt text has its line breaks collapsed
+def dose_rows(messages,sources):
+ """A note naming the chart rows that match a weight the person gave, or ''. It goes right after the question:
+ the small model follows a note there, but not the same note in the system prompt (tested 2026-11-23)."""
+ w=None
+ for m in messages:
+  if m['role']!='user':continue
+  for n,unit in WEIGHT.findall(m['content']):
+   w=float(n)*(2.2046 if unit.lower().startswith('k') else 1)
+ if w is None:return ''
+ hits={}
+ for s in sources:
+  for name,lo,hi,dose in ROW.findall(s['text']):
+   if int(lo)<=round(w)<=int(hi):hits.setdefault((name,lo,hi),f"- {name}: the {lo} to {hi} lb row says {dose} [{s['n']}]")   # overlapping passages repeat rows
+ if not hits:return ''
+ return (f"\n\n(Weight check by the app: the child weighs about {round(w)} lb, so these are the correct chart rows:\n"+'\n'.join(hits.values())+
+         "\nGive exactly that dose for the medicine asked about, and name the weight row. The weight is known, so the age column "
+         "does not apply: don't give the dose for the child's age.)")
 
 def strip_citations(text):return re.sub(r'\s*\[M?\d+\]','',text)
 
@@ -187,29 +232,6 @@ class Handler(BaseHTTPRequestHandler):
   if not ctype.startswith('application/pdf'):self.send_header('Cache-Control','no-store')   # app updates load immediately
   self.end_headers();self.wfile.write(data)
 
- def send_range(self,target,ctype):
-  # Video players ask for byte ranges (to start mid-file and to seek); answer with 206 Partial Content.
-  size=target.stat().st_size;start,end,code=0,size-1,200
-  m=re.match(r'bytes=(\d*)-(\d*)$',self.headers.get('Range','') or '')
-  if m and (m.group(1) or m.group(2)):
-   if m.group(1):start=int(m.group(1));end=min(int(m.group(2)),size-1) if m.group(2) else size-1
-   else:start=max(0,size-int(m.group(2)))
-   if start>end or start>=size:
-    self.send_response(416);self.send_header('Content-Range',f'bytes */{size}');self.send_header('Content-Length','0');self.end_headers();return
-   code=206
-  self.send_response(code);self.send_header('Content-Type',ctype);self.send_header('Accept-Ranges','bytes')
-  self.send_header('Content-Length',str(end-start+1))
-  if code==206:self.send_header('Content-Range',f'bytes {start}-{end}/{size}')
-  self.end_headers()
-  try:
-   with target.open('rb') as f:
-    f.seek(start);left=end-start+1
-    while left>0:
-     chunk=f.read(min(1<<20,left))
-     if not chunk:break
-     self.wfile.write(chunk);left-=len(chunk)
-  except (BrokenPipeError,ConnectionResetError):pass   # player skipped ahead or closed
-
  def do_GET(self):
   if self.refused(False):return
   path=unquote(urlparse(self.path).path)
@@ -245,11 +267,6 @@ class Handler(BaseHTTPRequestHandler):
   if path=='/api/location':return self.send(200,ME.read_bytes() if ME.exists() else b'null')
   if path=='/api/chats':return self.send(200,list_chats())
   if path=='/api/setup':return self.send(200,firstrun.status())
-  if path=='/api/videos':return self.send(200,videos.list_videos())
-  if path.startswith('/videos/'):
-   target=videos.file(path[len('/videos/'):])
-   if not target:return self.send(404,{'error':'not found'})
-   return self.send_range(target,videos.TYPES.get(target.suffix.lower(),'application/octet-stream'))
   if path=='/api/library':return self.send(200,{'mine':USERDOCS.list(),'builtin':builtin_docs(),'hidden':USERDOCS.hidden(),'categories':categories()[0]})
   if path.startswith('/api/chats/'):
    f=chat_path(path.rsplit('/',1)[1])
@@ -284,18 +301,13 @@ class Handler(BaseHTTPRequestHandler):
    if me is None:ME.unlink(missing_ok=True)
    else:tmp=ME.with_suffix('.tmp');tmp.write_text(json.dumps(me));os.replace(tmp,ME)
    return self.send(200,{'ok':True})
-  if path.startswith('/api/videos/'):
-   try:title=json.loads(self.rfile.read(int(self.headers.get('Content-Length',0))))['title']
-   except (ValueError,KeyError,TypeError):return self.send(400,{'error':'bad request'})
-   v=videos.rename(path.rsplit('/',1)[1],title)
-   return self.send(200,v) if v else self.send(404,{'error':'not found'})
   f=chat_path(path.rsplit('/',1)[1]) if path.startswith('/api/chats/') else None
   if not f:return self.send(404,{'error':'not found'})
   try:
    d=json.loads(self.rfile.read(int(self.headers.get('Content-Length',0))))
    if not isinstance(d.get('turns'),list):raise ValueError
   except ValueError:return self.send(400,{'error':'bad chat'})
-  d={'title':str(d.get('title') or 'Untitled')[:120],'turns':d['turns'],'updated':time.time()}
+  d={'title':str(d.get('title') or 'Untitled')[:120],'turns':d['turns'],'nolib':d.get('nolib') is True,'updated':time.time()}
   tmp=f.with_suffix('.tmp');tmp.write_text(json.dumps(d,ensure_ascii=False));os.replace(tmp,f)   # atomic save
   self.send(200,{'ok':True})
 
@@ -304,8 +316,6 @@ class Handler(BaseHTTPRequestHandler):
   path=urlparse(self.path).path
   m=STATE.match(path)
   if m and not m.group(2):MAPS.remove(m.group(1));return self.send(200,{'ok':True})
-  if path.startswith('/api/videos/'):
-   return self.send(200,{'ok':True}) if videos.remove(path.rsplit('/',1)[1]) else self.send(404,{'error':'not found'})
   if path.startswith('/api/library/'):
    return self.send(200,{'ok':True}) if USERDOCS.remove(path.rsplit('/',1)[1]) else self.send(404,{'error':'not found'})
   f=chat_path(path.rsplit('/',1)[1]) if path.startswith('/api/chats/') else None
@@ -347,13 +357,6 @@ class Handler(BaseHTTPRequestHandler):
    except (RuntimeError,OSError) as e:return self.send(409,{'error':str(e) if isinstance(e,RuntimeError) else 'The AI engine isn\'t running.'})
    return self.send(200,firstrun.status())
   if urlparse(self.path).path=='/api/library':return self.add_document()
-  if urlparse(self.path).path=='/api/videos':
-   try:n=int(self.headers.get('Content-Length',0))
-   except ValueError:n=0
-   try:return self.send(200,videos.add(unquote(self.headers.get('X-Filename','')),n,self.rfile))
-   except videos.VideoError as e:
-    self.close_connection=True   # the unread upload body can't be reused for another request
-    return self.send(400,{'error':str(e)})
   if urlparse(self.path).path in ('/api/library/hide','/api/library/restore'):
    try:doc=json.loads(self.rfile.read(int(self.headers.get('Content-Length',0))))['doc']
    except (ValueError,KeyError,TypeError):return self.send(400,{'error':'bad request'})
@@ -369,26 +372,27 @@ class Handler(BaseHTTPRequestHandler):
   def emit(obj):self.wfile.write((json.dumps(obj)+'\n').encode());self.wfile.flush()
   c=None
   try:
-   light=models.cpu_only();fast=req.get('fast') is True
+   light=models.cpu_only();fast=req.get('fast') is True;nolib=req.get('library') is False
    # Reading the excerpts is most of the wait before the first word, so fewer and shorter excerpts start sooner.
    # No graphics card: half the excerpts, only the top one widened to its full page. Fast answers: four excerpts,
    # none widened (a widened page is most of the prompt). Both together: three excerpts, none widened.
    q=retrieval_query(messages)
-   hits=LIB.search(q,limit=3,widen=0) if light and fast else LIB.search(q,limit=4,widen=0) if fast else LIB.search(q,limit=4,widen=1) if light else LIB.search(q)
+   hits=[] if nolib else LIB.search(q,limit=3,widen=0) if light and fast else LIB.search(q,limit=4,widen=0) if fast else LIB.search(q,limit=4,widen=1) if light else LIB.search(q)
    sources=[{'n':i,'id':h['id'],'kind':h['kind'],'title':h['title'],'path':h['path'],'page':h['page'],'url':h['url'],'text':h['text'],'cosine':h['cosine'],'year':h.get('year'),'dated':h.get('dated'),'mine':h['path'].startswith(USER_PREFIX)} for i,h in enumerate(hits,1)]
    # Map items: where the user is, their pins, and nearby places, only when the question is about places.
    places,map_text=mapctx.build(q,MAPS,PINS,ME)
    emit({'type':'places','places':places})
    emit({'type':'sources','sources':sources})
    evidence='\n\n'.join(f"[{s['n']}] {s['title']}"+(f", page {s['page']}" if s['page'] else '')+dated(s)+(" (a document the user added)" if s['mine'] else '')+'\n'+s['text'] for s in sources)
-   system=SYSTEM+'\n\nLIBRARY EXCERPTS:\n\n'+(evidence or (NO_SOURCES_MAP if map_text else NO_SOURCES))
+   system=SYSTEM_NOLIB if nolib else SYSTEM+'\n\nLIBRARY EXCERPTS:\n\n'+(evidence or (NO_SOURCES_MAP if map_text else NO_SOURCES))
    if map_text:system+=MAP_RULES+'\n\nMAP DATA:\n\n'+map_text
    history=[{'role':m['role'],'content':strip_citations(m['content']) if m['role']=='assistant' else m['content']} for m in messages]
    if len(history)>1:
     # Small models tend to copy their previous answer for a follow-up; a reminder right next to the new
     # message works where the same rule in the system prompt alone doesn't.
-    history[-1]={'role':'user','content':history[-1]['content']+FOLLOWUP+(FOLLOWUP_CITE if sources else '')}
+    history[-1]={'role':'user','content':history[-1]['content']+(FOLLOWUP_NOLIB if nolib else FOLLOWUP+(FOLLOWUP_CITE if sources else ''))}
    # Like the follow-up reminder: the small model honors "keep it short" next to the question, not in the system prompt.
+   if sources:history[-1]={'role':'user','content':history[-1]['content']+dose_rows(messages,sources)}
    if fast:history[-1]={'role':'user','content':history[-1]['content']+FAST}
    payload={'model':models.current(),'messages':[{'role':'system','content':system}]+history,'stream':True,'think':False,
             # A light presence penalty: with none, the small model can loop,
@@ -418,7 +422,7 @@ class Handler(BaseHTTPRequestHandler):
    emit({'type':'done','text':answer if looped else None,'unverified':unverified_numbers(answer,sources,places),'truncated':final.get('done_reason')=='length',
          'stats':{'prompt_tokens':final.get('prompt_eval_count'),'answer_tokens':final.get('eval_count'),'seconds':round((final.get('total_duration') or 0)/1e9,1),
                   # Where the time went: reading the prompt (mostly excerpts) vs writing the answer.
-                  'read_seconds':round((final.get('prompt_eval_duration') or 0)/1e9,1),'write_seconds':round((final.get('eval_duration') or 0)/1e9,1)},'fast':fast})
+                  'read_seconds':round((final.get('prompt_eval_duration') or 0)/1e9,1),'write_seconds':round((final.get('eval_duration') or 0)/1e9,1)},'fast':fast,'nolib':nolib})
   except (BrokenPipeError,ConnectionResetError):pass   # user pressed Stop or closed the tab
   except Exception as e:
    traceback.print_exc()

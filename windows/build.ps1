@@ -27,7 +27,7 @@ python -m PyInstaller --noconfirm --clean --log-level WARN --windowed --name Sti
   --distpath $Out --workpath "$Out\pyi-work" --specpath "$Out" `
   --paths app --add-data "$Root\app\static;static" `
   --hidden-import server --hidden-import library --hidden-import maps --hidden-import userdocs `
-  --hidden-import videos --hidden-import firstrun --hidden-import models --hidden-import paths `
+  --hidden-import firstrun --hidden-import models --hidden-import paths `
   --hidden-import build_index --hidden-import pypdf `
   windows\launcher.py
 if ($LASTEXITCODE -ne 0) { throw "PyInstaller failed" }
@@ -36,8 +36,7 @@ Write-Host "• library"
 $L = "$App\library"
 New-Item -ItemType Directory -Force $L | Out-Null
 Copy-Item app\data\library.sqlite $L
-Copy-Item -Recurse reference-sources $L
-if (Test-Path knowledge) { Copy-Item -Recurse knowledge $L }
+Copy-Item -Recurse Final_Sources $L
 
 Write-Host "• Ollama $OllamaVersion"
 $Zip = "$Out\ollama-windows-amd64-$OllamaVersion.zip"

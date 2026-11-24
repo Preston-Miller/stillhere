@@ -76,8 +76,7 @@ if [[ "$MODE" == release ]]; then
   L="$APP/Contents/Resources/library"
   mkdir -p "$L"
   cp "$ROOT/app/data/library.sqlite" "$L/"
-  rsync -a --exclude '.DS_Store' "$ROOT/reference-sources" "$L/"
-  [[ -d "$ROOT/knowledge" ]] && rsync -a --exclude '.DS_Store' "$ROOT/knowledge" "$L/"
+  rsync -a --exclude '.DS_Store' "$ROOT/Final_Sources" "$L/"
 
   echo "• server"
   PY="$ROOT/app-venv/bin/python"

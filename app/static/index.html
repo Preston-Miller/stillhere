@@ -25,21 +25,6 @@ body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--font)}
 .shell{display:grid;grid-template-columns:260px 1fr;height:100vh;height:100dvh;overflow:hidden}
 .shell.side-closed{grid-template-columns:0 1fr}
 .shell>.app,.shell>.mapview,.shell>.libview{grid-column:2;grid-row:1;min-width:0}
-.vgrid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
-.vcard{padding:0;overflow:hidden;gap:0;min-height:0}
-.vthumb{position:relative;aspect-ratio:16/9;background:#111;display:flex;align-items:center;justify-content:center}
-.vthumb video{width:100%;height:100%;object-fit:cover;pointer-events:none}
-.vthumb .play{position:absolute;width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;padding-left:3px}
-.vcard .vbody{display:flex;flex-direction:column;gap:4px;padding:10px 12px 12px}
-.vcard .vbody input{font:inherit;font-weight:600;font-size:14px;padding:3px 6px;border:1px solid var(--accent);border-radius:6px;background:var(--bg);color:var(--ink)}
-.vcard .vacts{display:flex;gap:6px;position:absolute;top:8px;right:8px;visibility:hidden}
-.vcard:hover .vacts{visibility:visible}
-.vcard .vacts button{border:none;background:rgba(0,0,0,.6);color:#fff;font-size:12px;padding:3px 8px;border-radius:6px}
-.vcard .vacts button:hover{background:rgba(0,0,0,.8)}
-.docbox.vidbox{background:#000;height:auto;max-height:100%;width:min(1100px,100%)}
-.vidbox .docbar{background:var(--panel)}
-.vidstage{display:flex;align-items:center;justify-content:center;background:#000;min-height:0}
-.vidstage video{max-width:100%;max-height:calc(92vh - 52px);display:block}
 .app{display:grid;grid-template-columns:1fr 0;grid-template-rows:100%;height:100%;overflow:hidden}
 .app.reading{grid-template-columns:minmax(380px,1fr) minmax(380px,46%)}
 .app:not(.reading) .reader{display:none}
@@ -136,11 +121,13 @@ button{font:inherit;cursor:pointer}
 .send{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;flex:0 0 36px;background:var(--ink);color:var(--panel);border:none;border-radius:50%}
 .send svg{width:18px;height:18px}
 .send:disabled{opacity:.5;cursor:default}
-/* Fast answers: reads fewer library pages, so the answer starts sooner and is shorter. Off by default. */
-.fastbtn{display:inline-flex;align-items:center;gap:4px;height:36px;flex:0 0 auto;padding:0 11px;border:1px solid var(--line);border-radius:18px;background:none;color:var(--muted);font-size:13px;font-weight:600}
-.fastbtn svg{width:13px;height:13px}
-.fastbtn:hover{color:var(--ink);border-color:var(--muted)}
-.fastbtn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+/* Library on/off for this chat. On (lit) by default; off skips the library so answers start sooner. */
+.libbtn{display:inline-flex;align-items:center;gap:4px;height:36px;flex:0 0 auto;padding:0 11px;border:1px solid var(--line);border-radius:18px;background:none;color:var(--muted);font-size:13px;font-weight:600}
+.libbtn svg{width:14px;height:14px}
+.libbtn:hover{color:var(--ink);border-color:var(--muted)}
+.libbtn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.relib{background:none;border:none;padding:0;margin-left:6px;color:var(--accent);font:inherit;text-decoration:underline;cursor:pointer}
+.msg.nolib .answer .grp.model::before{content:"Library off — the AI’s own knowledge"}
 .fineprint{text-align:center;font-size:12px;color:var(--muted);padding-top:8px}
 .regions .send,.placeholder .send{width:auto;height:auto;border-radius:var(--radius);padding:10px 16px;background:var(--accent);color:#fff;font-weight:600}
 .rfoot .send{width:100%}
@@ -413,7 +400,6 @@ button{font:inherit;cursor:pointer}
  <button class="navitem" data-view="chat"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4.5h12a1.5 1.5 0 0 1 1.5 1.5v7a1.5 1.5 0 0 1-1.5 1.5H9l-4 3v-3H4A1.5 1.5 0 0 1 2.5 13V6A1.5 1.5 0 0 1 4 4.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Chat</button>
  <button class="navitem" data-view="map"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 5l5-2 5 2 5-2v12l-5 2-5-2-5 2z M7.5 3v12 M12.5 5v12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Map</button>
  <button class="navitem" data-view="library"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4.5c2.5-1 5-1 7 .5 2-1.5 4.5-1.5 7-.5v11c-2.5-1-5-1-7 .5-2-1.5-4.5-1.5-7-.5z M10 5v11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Sources</button>
- <button class="navitem" data-view="videos"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="4" width="15" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 7.5v5l4-2.5z" fill="currentColor"/></svg>Videos</button>
  <div class="side-label">Chats <span class="hint">saved on this computer</span></div>
  <div class="hlist" id="historyList"></div>
  <div class="side-foot status" id="statusBtn" role="button" tabindex="0" title="Change the AI model"><span class="dot" id="dot"></span><span id="statusText">checking…</span></div>
@@ -442,7 +428,7 @@ button{font:inherit;cursor:pointer}
   <div class="composer-wrap">
    <form class="composer" id="form">
     <textarea id="input" rows="1" placeholder="Ask a question…" autofocus></textarea>
-    <button class="fastbtn" id="fast" type="button" aria-pressed="false" title="Fast answers: reads fewer library pages, so answers start sooner and are shorter. Turn off for detailed questions."><svg viewBox="0 0 12 14" aria-hidden="true"><path d="M7 0L1 8h4l-1 6 6-8H6z" fill="currentColor"/></svg>Fast</button>
+    <button class="libbtn" id="lib" type="button" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg><span>Library</span></button>
     <button class="send" id="send" type="submit" aria-label="Send"></button>
    </form>
    <div class="fineprint">It can make mistakes. Check the sources, especially for anything medical.</div>
@@ -467,7 +453,7 @@ button{font:inherit;cursor:pointer}
   <div class="pane" id="mapPane">
    <div id="map"></div>
     <div class="msearch">
-     <input id="mapSearch" type="search" placeholder="Search places (try “hospitals near me”), coordinates, or a grid reference" autocomplete="off" spellcheck="false" aria-label="Search the map" aria-controls="mapResults">
+     <input id="mapSearch" type="search" placeholder="Search places, coordinates, or a grid reference" autocomplete="off" spellcheck="false" aria-label="Search the map" aria-controls="mapResults">
      <div class="mresults" id="mapResults" role="listbox" hidden></div>
     </div>
    <div class="mchips" id="mapChips" aria-label="Find nearby" hidden></div>
@@ -499,22 +485,6 @@ button{font:inherit;cursor:pointer}
    </div>
   </div>
  </section>
-<section class="libview" id="vidView" hidden>
- <header class="topbar">
-  <button class="iconbtn sideopen" data-side title="Open sidebar" aria-label="Open sidebar"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 3.5v13" stroke="currentColor" stroke-width="1.6"/></svg></button>
-  <h1 class="vtitle">Videos</h1>
-  <span class="spacer"></span>
-  <label class="addbtn">+ Add videos<input type="file" id="addVideos" multiple accept=".mp4,.m4v,.mov,video/mp4,video/quicktime" hidden></label>
- </header>
- <div class="libbody"><div class="liblist" id="vidList"></div></div>
- <div class="libdoc" id="vidPlayer" hidden>
-  <div class="docbox vidbox" role="dialog" aria-modal="true" aria-labelledby="vidTitle">
-   <div class="docbar"><span class="doctitle" id="vidTitle"></span><span class="spacer" style="flex:1"></span><button class="iconbtn" id="vidClose" title="Close (Esc)" aria-label="Close">✕</button></div>
-   <div class="vidstage"><video id="vidEl" controls playsinline></video></div>
-  </div>
- </div>
- <div class="dropcover" id="vidDrop" hidden><div>Drop videos to add them</div></div>
-</section>
 <section class="libview" id="libView" hidden>
  <header class="topbar">
   <button class="iconbtn sideopen" data-side title="Open sidebar" aria-label="Open sidebar"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 3.5v13" stroke="currentColor" stroke-width="1.6"/></svg></button>
@@ -565,7 +535,8 @@ window.appConfirm=({title='Are you sure?',message='',ok='OK',danger=true}={})=>n
  document.addEventListener('keydown',key,true);
  yes.onclick=()=>done(true);no.onclick=()=>done(false);w.onclick=e=>{if(e.target===w)done(false)};
 });
-const state={messages:[],turns:[],saved:[],busy:false,selected:null,activeSrc:null,chatId:null,ctrl:null};
+// opts.nolib: the user switched the library off for this chat (saved with the chat, off until they switch it back on).
+const state={messages:[],turns:[],saved:[],busy:false,selected:null,activeSrc:null,chatId:null,ctrl:null,opts:{nolib:false}};
 
 function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function inline(s){return esc(s).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/(^|[^*])\*([^*\s][^*]*)\*/g,'$1<i>$2</i>')}
@@ -723,7 +694,7 @@ function openSource(turn,n,user=false){
 }
 // ---- turns: one object per assistant answer, used for live streaming and for restored chats ----
 function makeTurn(el,data={}){
- const turn={el,text:data.content||'',sources:data.sources||[],places:data.places||[],unverified:data.unverified||[],fast:!!data.fast,done:true,stopped:!!data.stopped,stats:data.stats||null};
+ const turn={el,text:data.content||'',sources:data.sources||[],places:data.places||[],unverified:data.unverified||[],fast:!!data.fast,nolib:!!data.nolib,done:true,stopped:!!data.stopped,stats:data.stats||null};
  el.addEventListener('click',e=>{const c=e.target.closest('.cite,.srcchip');if(c&&c.dataset.m)showPlace(turn,+c.dataset.m);else if(c)openSource(turn,+c.dataset.n,true);else if(state.selected!==turn&&turn.sources.length)showSources(turn)});
  state.turns.push(turn);return turn;
 }
@@ -737,9 +708,16 @@ function paintTurn(turn){
  const head=uncited?`<div class="srchead">Sources searched</div><div class="srcnote">This answer doesn’t point to specific pages, so it may mix these with the AI’s own knowledge. Check them before relying on it.</div>`:`<div class="srchead">Sources</div>`;
  turn.el.querySelector('.srclist').innerHTML=list.length?head+list.map(s=>`<button class="srcchip" data-n="${s.n}" title="${esc(srcLabel(s))}"><b>${s.n}</b><span class="st">${esc(s.title)}${s.url?.startsWith('https://www.nhs.uk/')?' — Information from the NHS website, as at 171126':''}</span><span class="sp">${s.mine?'<span class="mine">your document</span> · ':''}${s.page?'p. '+s.page:(s.kind==='web'?'web page':s.kind==='text'?'text':'guide')}${yearText(s)?' · '+yearText(s):''}</span></button>`).join(''):'';
  if(onMap.length)turn.el.querySelector('.srclist').insertAdjacentHTML('beforeend',`<div class="srchead">On your map</div>`+onMap.map(p=>`<button class="srcchip mapchip" data-m="${p.m}" title="Show on map"><b>${PIN_SVG}${p.m}</b><span class="st">${esc(p.name)}</span><span class="sp">${esc(p.sub||'')}</span></button>`).join(''));
+ turn.el.classList.toggle('nolib',!!turn.nolib);
  turn.el.querySelector('.answer').innerHTML=turn.text?render(turn):(turn.stopped?'':'');
  const st=turn.stats||{};
- turn.el.querySelector('.meta').textContent=[turn.stopped?'Stopped.':'',turn.truncated?'Answer hit the length limit and may be cut off.':'',st.seconds?`${st.seconds}s${turn.fast?' · fast answer':''}`:''].filter(Boolean).join(' ');
+ turn.el.querySelector('.meta').textContent=[turn.stopped?'Stopped.':'',turn.truncated?'Answer hit the length limit and may be cut off.':'',st.seconds?`${st.seconds}s${turn.fast?' · fast answer':''}${turn.nolib?' · library off':''}`:''].filter(Boolean).join(' ');
+ // A library-off answer can be asked again once with the library, without switching the chat's setting.
+ if(turn.nolib&&turn.done&&turn.q){
+  const b=document.createElement('button');b.type='button';b.className='relib';b.textContent='Ask again with the library';
+  b.onclick=e=>{e.stopPropagation();if(!state.busy)ask(turn.q,{library:true})};
+  turn.el.querySelector('.meta').append(b);
+ }
 }
 
 // ---- saving: each chat is a JSON file in app/data/chats, written after every answer ----
@@ -750,25 +728,27 @@ async function saveChat(chat){
  if(!chat.id||!chat.saved.length||chat.deleted)return;
  const first=chat.saved.find(t=>t.role==='user');
  const title=first?first.content.slice(0,80):'Untitled';
- try{await fetch('/api/chats/'+chat.id,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,turns:chat.saved})})}
+ try{await fetch('/api/chats/'+chat.id,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,turns:chat.saved,nolib:!!chat.opts?.nolib})})}
  catch(e){console.warn('Could not save chat',e)}
  refreshHistory();
 }
 
-async function ask(q){
+async function ask(q,once={}){
  if(state.busy||!q.trim())return;
  if(!state.chatId){state.chatId=newId();history.replaceState(null,'','#chat='+state.chatId);$('#chatTitle').textContent=q.slice(0,80)}
  // These arrays belong to this chat. Opening another chat gives state fresh ones, so the answer keeps writing here.
- const chat={id:state.chatId,saved:state.saved,messages:state.messages,title:$('#chatTitle').textContent||q.slice(0,80)};
+ const chat={id:state.chatId,saved:state.saved,messages:state.messages,opts:state.opts,title:$('#chatTitle').textContent||q.slice(0,80)};
  const here=()=>state.chatId===chat.id;
  setBusy(true);
  addMessage('user',q);chat.messages.push({role:'user',content:q});
  const el=addMessage('assistant');const ans=el.querySelector('.answer');ans.classList.add('cursor');ans.innerHTML='<span class="meta">Searching the library…</span>';
- const turn=makeTurn(el);turn.done=false;
+ const nolib=once.library?false:chat.opts.nolib;
+ if(nolib)ans.innerHTML='<span class="meta">Answering without the library…</span>';
+ const turn=makeTurn(el);turn.done=false;turn.nolib=nolib;turn.q=q;turn.el.classList.toggle('nolib',nolib);
  const ctrl=new AbortController();state.ctrl=ctrl;
  live.set(chat.id,{chat,q,el,turn,ctrl});refreshHistory();
  try{
-  const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chat.messages,fast:fastOn}),signal:ctrl.signal});
+  const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chat.messages,library:!nolib}),signal:ctrl.signal});
   if(!r.ok)throw new Error('Server error '+r.status);
   const reader=r.body.getReader();const dec=new TextDecoder();let buf='';
   while(true){
@@ -778,9 +758,9 @@ async function ask(q){
     const line=buf.slice(0,i);buf=buf.slice(i+1);if(!line.trim())continue;
     const ev=JSON.parse(line);
     if(ev.type==='places'){turn.places=ev.places}
-    else if(ev.type==='sources'){turn.sources=ev.sources;if(here())showSources(turn);ans.innerHTML='<span class="meta">'+(ev.sources.length?`Found ${ev.sources.length} relevant sources. Writing…`:'Nothing in the library matched. Answering from model knowledge…')+'</span>'}
+    else if(ev.type==='sources'){turn.sources=ev.sources;if(here())showSources(turn);if(!nolib)ans.innerHTML='<span class="meta">'+(ev.sources.length?`Found ${ev.sources.length} relevant sources. Writing…`:'Nothing in the library matched. Answering from model knowledge…')+'</span>'}
     else if(ev.type==='token'){const stick=here()&&nearBottom();turn.text+=ev.text;ans.innerHTML=render(turn);if(stick)toBottom()}
-    else if(ev.type==='done'){if(typeof ev.text==='string')turn.text=ev.text;turn.done=true;turn.unverified=ev.unverified;turn.truncated=ev.truncated;turn.stats=ev.stats;turn.fast=ev.fast;paintTurn(turn);
+    else if(ev.type==='done'){if(typeof ev.text==='string')turn.text=ev.text;turn.done=true;turn.unverified=ev.unverified;turn.truncated=ev.truncated;turn.stats=ev.stats;turn.fast=ev.fast;turn.nolib=!!ev.nolib;paintTurn(turn);
      if(here()&&state.selected===turn)showSources(turn,state.activeSrc?.turn===turn?state.activeSrc.n:null)}
     else if(ev.type==='error'){throw new Error(ev.message)}
    }
@@ -805,7 +785,7 @@ async function ask(q){
 }
 function record(chat,q,turn){
  chat.messages.push({role:'assistant',content:turn.text||'(Stopped before answering.)'});
- chat.saved.push({role:'user',content:q},{role:'assistant',content:turn.text,sources:turn.sources,places:turn.places,unverified:turn.unverified,stopped:turn.stopped,stats:turn.stats,fast:turn.fast});
+ chat.saved.push({role:'user',content:q},{role:'assistant',content:turn.text,sources:turn.sources,places:turn.places,unverified:turn.unverified,stopped:turn.stopped,stats:turn.stats,fast:turn.fast,nolib:turn.nolib});
  saveChat(chat);
 }
 const SEND_ICON='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 16V4M4.5 9.5L10 4l5.5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -819,7 +799,7 @@ function setBusy(b){
 const EMPTY_HTML=$('#empty').outerHTML;
 function resetView(){
  // An answer being written keeps going in the background (see `live`); this view just stops showing it.
- Object.assign(state,{messages:[],turns:[],saved:[],selected:null,activeSrc:null,chatId:null,ctrl:null});setBusy(false);
+ Object.assign(state,{messages:[],turns:[],saved:[],selected:null,activeSrc:null,chatId:null,ctrl:null,opts:{nolib:false}});setBusy(false);paintLib();
  $('#messages').innerHTML=EMPTY_HTML;
  document.querySelectorAll('.suggest button').forEach(b=>b.onclick=()=>ask(b.textContent));
  $('#sources').innerHTML='<span class="nosrc">Sources for the selected answer appear here.</span>';
@@ -831,18 +811,18 @@ function newChat(){resetView();history.replaceState(null,'',location.pathname);s
 async function loadChat(id){
  // A chat with an answer still being written is shown from memory, with the live answer reattached.
  const run=live.get(id);
- let saved,title;
- if(run){saved=run.chat.saved;title=run.chat.title}
+ let saved,title,opts;
+ if(run){saved=run.chat.saved;title=run.chat.title;opts=run.chat.opts}
  else{
   const r=await fetch('/api/chats/'+encodeURIComponent(id));
   if(!r.ok){newChat();return}
-  const d=await r.json();saved=d.turns||[];title=d.title||'';
+  const d=await r.json();saved=d.turns||[];title=d.title||'';opts={nolib:d.nolib===true};
  }
- resetView();state.chatId=id;state.saved=saved;history.replaceState(null,'','#chat='+id);$('#chatTitle').textContent=title;
- let last=null;const msgs=[];
+ resetView();state.chatId=id;state.saved=saved;state.opts=opts;paintLib();history.replaceState(null,'','#chat='+id);$('#chatTitle').textContent=title;
+ let last=null,q='';const msgs=[];
  for(const t of saved){
-  if(t.role==='user'){addMessage('user',t.content);msgs.push({role:'user',content:t.content})}
-  else{const el=addMessage('assistant');last=makeTurn(el,t);paintTurn(last);msgs.push({role:'assistant',content:t.content||'(Stopped before answering.)'})}
+  if(t.role==='user'){q=t.content;addMessage('user',t.content);msgs.push({role:'user',content:t.content})}
+  else{const el=addMessage('assistant');last=makeTurn(el,t);last.q=q;paintTurn(last);msgs.push({role:'assistant',content:t.content||'(Stopped before answering.)'})}
  }
  if(run){
   state.messages=run.chat.messages;
@@ -883,11 +863,18 @@ async function refreshHistory(){
  });
 }
 
-// Fast answers on/off, remembered on this computer.
-let fastOn=false;try{fastOn=localStorage.getItem('fastAnswers')==='1'}catch{}
-function paintFast(){$('#fast').setAttribute('aria-pressed',String(fastOn))}
-$('#fast').onclick=()=>{fastOn=!fastOn;try{localStorage.setItem('fastAnswers',fastOn?'1':'0')}catch{};paintFast();$('#input').focus()};
-paintFast();
+// Library on/off for the open chat. Off stays off for that chat (saved with it); a new chat starts with it on.
+function paintLib(){
+ const off=state.opts.nolib,b=$('#lib');
+ b.setAttribute('aria-pressed',String(!off));b.querySelector('span').textContent=off?'Library off':'Library';
+ b.title=off?'Library off: answers come from the AI’s own knowledge only, so they start sooner. Click to use the library again.':'Answers use your library and cite its pages. Click to turn the library off for this chat.';
+ $('#input').placeholder=off?'Ask without the library…':'Ask a question…';
+}
+$('#lib').onclick=()=>{
+ state.opts.nolib=!state.opts.nolib;paintLib();$('#input').focus();
+ if(state.chatId&&state.saved.length)saveChat({id:state.chatId,saved:state.saved,opts:state.opts});
+};
+paintLib();
 $('#form').onsubmit=e=>{e.preventDefault();if(state.busy){state.ctrl?.abort();return}const q=$('#input').value;$('#input').value='';grow();ask(q)};
 $('#input').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();if(!state.busy)$('#form').requestSubmit()}});
 function grow(){const t=$('#input');t.style.height='auto';t.style.height=Math.min(t.scrollHeight,160)+'px'}
@@ -937,7 +924,7 @@ function paintLibrary(){
    <div class="lnote">PDFs, Word and text files you add stay on this computer. Answers can cite them like the built-in guides.</div>
    <div class="lgrid">${jobs}${lib.mine.map(d=>card(d,true)).join('')}<label class="ldoc addcard"><span class="plus">+</span>Add documents<br>or drop files here<input type="file" multiple accept=".pdf,.txt,.md,.docx" hidden class="addinput"></label></div>
    <div class="lhead">Built-in library <span class="n">${lib.builtin.length} documents</span><input class="lfilter" id="libFilter" type="search" placeholder="Search all sources" value="${esc(lib.filter)}"></div>
-   <div class="lnote">Information from the NHS website is licensed under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener">Open Government Licence v3.0</a>. NHS copies were saved 17 November 2026; UK service numbers and protocols may differ elsewhere. CDC material is available free on its original website. Inclusion does not imply endorsement by the NHS, CDC, HHS or the U.S. Government.</div>
+   <div class="lnote">CDC, FDA, National Weather Service and FoodSafety.gov material is available free on the original websites. Inclusion does not imply endorsement by any of these agencies.</div>
    ${builtinGrid}`+
   (lib.hidden.length?`<div class="lhead">Removed from the library <span class="n">${lib.hidden.length}</span></div>
    <div class="lnote">Answers don't use these. Restore one to put it back.</div>
@@ -1020,79 +1007,6 @@ $('#addFiles').onchange=e=>{addFiles(e.target.files);e.target.value=''};
  v.addEventListener('dragover',e=>{if([...e.dataTransfer.types].includes('Files'))e.preventDefault()});
  v.addEventListener('dragleave',()=>{if(--depth<=0){depth=0;cover.hidden=true}});
  v.addEventListener('drop',e=>{e.preventDefault();depth=0;cover.hidden=true;addFiles(e.dataTransfer.files)});}
-
-// ---- Videos: files the user adds, played offline ----
-const vids={list:[],jobs:[],editing:null};
-const fmtSize=b=>b>=1e9?(b/1e9).toFixed(1)+' GB':Math.max(1,Math.round(b/1e6))+' MB';
-async function loadVideos(){vids.list=await fetch('/api/videos').then(r=>r.json()).catch(()=>vids.list);paintVideos()}
-function paintVideos(){
- const url=v=>'/videos/'+v.path.split('/').map(encodeURIComponent).join('/');
- const jobs=vids.jobs.map(j=>`<div class="ldoc busy ${j.error?'failed':''}"><span class="badge mine">Adding</span><b>${esc(j.name)}</b>${j.error?'':`<div class="bar"><i style="width:${j.pct}%"></i></div>`}<span class="meta2">${esc(j.error||j.status)}</span>${j.error?`<button class="del" data-vjob="${j.key}" style="visibility:visible">✕</button>`:''}</div>`).join('');
- const cards=vids.list.map(v=>`<div class="ldoc vcard" role="button" tabindex="0" data-id="${esc(v.id)}" title="${esc(v.title)}">
-   <div class="vthumb"><video src="${url(v)}#t=1" preload="metadata" muted playsinline></video><span class="play">▶</span></div>
-   <div class="vbody">${vids.editing===v.id?`<input class="vname" value="${esc(v.title)}" maxlength="150" aria-label="Video title">`:`<b>${esc(v.title)}</b>`}<span class="meta2">${esc(fmtSize(v.bytes))} · added ${new Date(v.added*1000).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})}</span></div>
-   <div class="vacts"><button class="vren">Rename</button><button class="vdel">Delete</button></div></div>`).join('');
- $('#vidList').innerHTML=`<div class="lhead">Your videos <span class="n">${vids.list.length||''}</span></div>
-  <div class="lnote">Add MP4 or MOV videos you already have, like ones you recorded, bought or downloaded. They're kept on this computer and play without internet.</div>
-  <div class="lgrid vgrid">${jobs}${cards}<label class="ldoc addcard"><span class="plus">+</span>Add videos<br>or drop them here<input type="file" multiple accept=".mp4,.m4v,.mov,video/mp4,video/quicktime" hidden class="vaddinput"></label></div>`;
- $('#vidList').querySelector('.vaddinput').onchange=e=>{addVideos(e.target.files);e.target.value=''};
- $('#vidList').querySelectorAll('[data-vjob]').forEach(b=>b.onclick=()=>{vids.jobs=vids.jobs.filter(j=>j.key!=+b.dataset.vjob);paintVideos()});
- $('#vidList').querySelectorAll('.vcard').forEach(el=>{
-  const v=vids.list.find(x=>x.id===el.dataset.id);
-  const inp=el.querySelector('.vname');
-  if(inp){
-   inp.focus();inp.select();
-   const save=async()=>{if(vids.editing!==v.id)return;vids.editing=null;const t=inp.value.trim();
-    if(t&&t!==v.title){await fetch('/api/videos/'+encodeURIComponent(v.id),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:t})});return loadVideos()}
-    paintVideos()};
-   inp.onkeydown=e=>{if(e.key==='Enter')save();if(e.key==='Escape'){vids.editing=null;paintVideos()}};inp.onblur=save;inp.onclick=e=>e.stopPropagation();
-  }
-  el.onkeydown=e=>{if(e.key==='Enter'&&e.target===el)el.click()};
-  el.onclick=async e=>{
-   if(e.target.closest('.vren')){vids.editing=v.id;return paintVideos()}
-   if(e.target.closest('.vdel')){
-    if(!await appConfirm({title:`Delete “${v.title}”?`,message:`This removes the video (${fmtSize(v.bytes)}) from stillhere. Your original file, if you still have it, isn't touched.`,ok:'Delete'}))return;
-    await fetch('/api/videos/'+encodeURIComponent(v.id),{method:'DELETE'});return loadVideos();
-   }
-   if(e.target.closest('.vname'))return;
-   openVideo(v,url(v));
-  };
- });
-}
-function openVideo(v,src){const el=$('#vidEl');$('#vidTitle').textContent=v.title;el.src=src;$('#vidPlayer').hidden=false;el.play().catch(()=>{})}
-function closeVideo(){const el=$('#vidEl');if(!el)return;el.pause();el.removeAttribute('src');el.load();$('#vidPlayer').hidden=true}
-$('#vidClose').onclick=closeVideo;
-$('#vidPlayer').addEventListener('click',e=>{if(e.target.id==='vidPlayer')closeVideo()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#vidPlayer').hidden)closeVideo()});
-let vjobKey=0;
-function uploadVideo(j){
- // XMLHttpRequest instead of fetch: it reports upload progress, which matters for multi-GB files.
- return new Promise(resolve=>{
-  const x=new XMLHttpRequest();x.open('POST','/api/videos');x.setRequestHeader('X-Filename',encodeURIComponent(j.file.name));
-  x.upload.onprogress=e=>{if(e.lengthComputable){j.pct=Math.round(100*e.loaded/e.total);j.status=`Copying… ${j.pct}% of ${fmtSize(e.total)}`;paintVideos()}};
-  x.onload=()=>{if(x.status!==200){try{j.error=JSON.parse(x.responseText).error}catch{j.error='Could not add this video.'}}resolve()};
-  x.onerror=()=>{j.error='Could not reach the app server.';resolve()};
-  x.send(j.file);
- });
-}
-async function addVideos(files){
- const ok=/\.(mp4|m4v|mov)$/i;
- const jobs=[...files].map(f=>({key:++vjobKey,name:f.name,file:f,pct:0,status:'Waiting…',error:ok.test(f.name)?null:'Only MP4 and MOV videos can be added. Other formats need converting first.'}));
- if(!jobs.length)return;
- vids.jobs.push(...jobs);paintVideos();
- for(const j of jobs){
-  if(j.error)continue;
-  j.status='Copying…';paintVideos();await uploadVideo(j);
-  if(!j.error)vids.jobs=vids.jobs.filter(x=>x!==j);
-  await loadVideos();
- }
-}
-$('#addVideos').onchange=e=>{addVideos(e.target.files);e.target.value=''};
-{let depth=0;const v=$('#vidView'),cover=$('#vidDrop');
- v.addEventListener('dragenter',e=>{if([...e.dataTransfer.types].includes('Files')){depth++;cover.hidden=false;e.preventDefault()}});
- v.addEventListener('dragover',e=>{if([...e.dataTransfer.types].includes('Files'))e.preventDefault()});
- v.addEventListener('dragleave',()=>{if(--depth<=0){depth=0;cover.hidden=true}});
- v.addEventListener('drop',e=>{e.preventDefault();depth=0;cover.hidden=true;addVideos(e.dataTransfer.files)});}
 
 // ---- AI setup: pick a model size and download it (first run), or switch sizes later (click the status line) ----
 const gbs=b=>(b/1e9).toFixed(1)+' GB';
@@ -1215,10 +1129,9 @@ function setupDone(){
 
 // Sidebar: Chat / Map switch the main area; the chat list stays put. Open/closed is remembered on desktop.
 function showView(v){
- $('.app').hidden=v!=='chat';$('#mapView').hidden=v!=='map';$('#libView').hidden=v!=='library';$('#vidView').hidden=v!=='videos';
- if(v!=='videos')closeVideo();else loadVideos();
+ $('.app').hidden=v!=='chat';$('#mapView').hidden=v!=='map';$('#libView').hidden=v!=='library';
  // Keep the view in the address so a refresh comes back to the same place.
- const hash=v==='map'?'#map':v==='library'?'#sources':v==='videos'?'#videos':(state.chatId?'#chat='+state.chatId:'');
+ const hash=v==='map'?'#map':v==='library'?'#sources':(state.chatId?'#chat='+state.chatId:'');
  if(location.hash!==hash)history.replaceState(null,'',location.pathname+hash);
  if(v==='library'){closeDoc();loadLibrary()}
  document.querySelectorAll('.side [data-view]').forEach(b=>b.classList.toggle('on',b.dataset.view===v));
@@ -1245,7 +1158,7 @@ const startHash=location.hash;
 resetView();setBusy(false);refreshHistory();
 if(startHash==='#map')showView('map');
 else if(startHash==='#sources')showView('library');
-else if(startHash==='#videos')showView('videos');
+
 else{
  showView('chat');
  const fromHash=(startHash.match(/chat=([a-z0-9-]+)/)||[])[1];

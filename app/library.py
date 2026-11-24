@@ -6,12 +6,12 @@ import hashlib,http.client,json,math,re,sqlite3,threading
 from array import array
 from pathlib import Path
 
-from paths import RESOURCES as ROOT,LIBRARY_DB as DB,OLLAMA   # ROOT: where knowledge/ and reference-sources/ live
+from paths import RESOURCES as ROOT,LIBRARY_DB as DB,OLLAMA   # ROOT: where Final_Sources/ lives
 EMBED_MODEL='qwen3-embedding:0.6b'
 # The chat model is a buyer's choice: see models.py.
 QUERY_TEMPLATE='Instruct: Given a question from someone preparing for or dealing with an emergency, retrieve passages from survival and emergency manuals that help answer it\nQuery: {q}'
 # Folders the viewer may serve files from. Nothing outside these is reachable over HTTP.
-SERVABLE=['knowledge','reference-sources','offgrid-guides']
+SERVABLE=['Final_Sources']
 RRF_K=60
 WORDS=320;OVERLAP=60   # passage window size and overlap, in words (used by build_index.py)
 # A chunk is shown to the model only if it clears this cosine similarity (or is a very strong keyword hit).

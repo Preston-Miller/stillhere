@@ -1,9 +1,0 @@
-{
-  "selected_records": 14,
-  "excluded": [
-    "NHS child/infant CPR and choking pending current U.S. protocol review",
-    "Unselected military pages, advanced care, medication packs, tactical CPR exceptions",
-    "TC4-02.3 and ATP4-25.12 full manuals not automatically ingested"
-  ],
-  "policy": "Whole selected procedures retained as atomic evidence records; original files available for citation; no blanket folder ingestion."
-}

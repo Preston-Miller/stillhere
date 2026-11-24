@@ -1,0 +1,75 @@
+GENERATOR TROUBLESHOOTING
+=========================
+
+This guide covers common portable-generator problems. Controls, maintenance requirements, and repair procedures vary by model, so check the owner's manual for your generator before working on it.
+
+SAFETY FIRST
+============
+
+Run a generator outdoors, at least 20 feet from windows, doors, and vents, with its exhaust directed away from occupied areas. Never run it inside a home, garage, basement, or other enclosed or partially enclosed space. Use a working carbon monoxide alarm indoors.
+
+Before refueling, turn the generator off and allow it to cool. Before inspecting or servicing it, shut it down and follow the manufacturer's instructions for disconnecting power and preventing an accidental start. Don't touch hot parts or work on exposed electrical components while the machine is operating.
+
+Never plug a generator into a household wall outlet. Connections to a home's wiring require suitable transfer equipment installed by a qualified electrician.
+
+GENERATOR WON'T START
+=====================
+
+Check these common causes against your model's starting instructions:
+
+• Fuel: Make sure the tank has the correct fuel. Old or contaminated fuel can make starting difficult. Follow the manufacturer's directions for fuel storage and replacement.
+
+• Oil: Check the oil level with the generator on a level surface. If it is low, add the type and amount specified in the owner's manual. Some generators prevent starting when the oil level is low.
+
+• Start switch: Check that the engine switch is in the correct position for starting.
+
+• Choke: Check the starting position for your model. Some engines need the choke closed for a cold start and opened as they warm up; others control it differently.
+
+• Fuel valve: If the generator has a fuel shutoff valve, check that it is in the position specified for starting.
+
+• Spark plug: A worn, dirty, or damaged plug can prevent ignition. Inspect, clean, or replace it only as the manual directs.
+
+• Fuel system: Stale fuel or debris can obstruct the carburetor, filter, or fuel line. Consult the manual or a service technician before opening or cleaning fuel-system parts.
+
+• Ignition system: A faulty ignition component can prevent the engine from firing. If the other checks do not resolve the problem, have the ignition system tested by a qualified technician.
+
+ENGINE RUNS BUT THERE IS NO POWER
+=================================
+
+Check the owner's manual for the generator's output controls, circuit breaker, and GFCI outlets, if fitted. A tripped breaker, poor connection, damaged cord, faulty appliance, or overload may interrupt output. Follow the manual's instructions; if a breaker or GFCI trips again, stop and have the fault checked.
+
+Some generator designs can lose the residual magnetism needed to build voltage. This is not the only explanation for lost output and does not apply to every design. A technician can determine whether that is the problem and whether any manufacturer-approved repair is appropriate. Do not attempt to restore output by connecting a battery to generator wiring based on generic instructions.
+
+GENERATOR WON'T TURN OVER
+=========================
+
+If an electric-start generator does not crank, check the battery and its charge according to the owner's manual. If the model has a pull starter, consult the manual before using it as an alternative.
+
+A damaged recoil starter or flywheel component can also prevent proper cranking. Stop if the mechanism is jammed or damaged and consult a qualified technician. A fuel blockage may prevent an engine from starting, but does not by itself explain an engine that cannot physically crank.
+
+ENGINE SPUTTERS, STALLS, OR RUNS ROUGHLY
+=========================================
+
+Disconnect loads and follow the starting procedure in the manual. A clogged air filter, incorrect choke setting, fuel problems, or excessive load may affect how the engine runs.
+
+With the generator shut down and cool, inspect and service the air filter only as the manual directs. Filter materials and cleaning methods differ. If the engine continues to run poorly, seek service.
+
+MAINTENANCE AND STORAGE
+=======================
+
+• Follow the manufacturer's schedule for operating, inspecting, and servicing the generator.
+• Check fuel and oil before use, and use the specified fuel and oil.
+• Clean or replace the air filter and spark plug at the intervals for your model.
+• Follow the manual's instructions for preparing the fuel system for storage.
+• Store the generator in a dry, protected place when it is off and cool. Follow local rules for fuel storage and disposal.
+
+Sources
+=======
+
+General troubleshooting concepts: WebstaurantStore, Generator Troubleshooting Guide, updated February 20, 2026.
+https://www.webstaurantstore.com/guide/978/generator-troubleshooting-guide.html
+
+Outage and generator safety: Centers for Disease Control and Prevention, What to Do to Protect Yourself During a Power Outage.
+https://www.cdc.gov/natural-disasters/response/what-to-do-protect-yourself-during-a-power-outage.html
+
+This is independently written guidance; it has not been verified for every generator model or reviewed by an equipment technician.

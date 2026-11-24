@@ -1,0 +1,12 @@
+{
+ "_about": "Order and one-line descriptions of the Sources view categories. Each folder in Final_Sources is a category; a folder not listed here still shows, after these.",
+ "categories": [
+  {"name": "First Aid & Health", "blurb": "Wounds, breaks, burns, CPR and backcountry medicine."},
+  {"name": "Medicine", "blurb": "Common medicines, children's dosing charts, and drugs after a disaster."},
+  {"name": "Water", "blurb": "Finding water and making it safe to drink."},
+  {"name": "Food", "blurb": "What's still safe to eat after an outage or disaster."},
+  {"name": "Power & Home Safety", "blurb": "Power outages and generators."},
+  {"name": "Hygiene", "blurb": "Staying clean and emergency toilets."},
+  {"name": "Weather & Disasters", "blurb": "Severe weather and winter storms."}
+ ]
+}
